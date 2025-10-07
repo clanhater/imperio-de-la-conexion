@@ -2,7 +2,7 @@
 
 Un juego incremental (idle/clicker) donde construyes un imperio de telecomunicaciones desde cero, comenzando en la vibrante era de los años 80.
 
-**✨ [Enlace al Juego Desplegado en Vercel] ✨**
+**✨ https://imperio-de-la-conexion.vercel.app/ ✨**
 
 ---
 
