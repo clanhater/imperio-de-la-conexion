@@ -1,0 +1,68 @@
+/* En css/icons.css (Archivo Completo) */
+
+[class^="icon-"] {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    color: currentColor; /* Hereda el color del botón */
+}
+
+/* --- Iconos Barra Superior --- */
+/* Resetea el estilo del botón contenedor para hacerlo invisible */
+.top-shortcut-bar .shortcut-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.top-shortcut-bar .shortcut-btn i {
+    width: 38px;
+    height: 38px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #00F5D4;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal; /* Necesario para que los emojis se vean bien */
+    transition: all 0.2s ease;
+}
+
+.top-shortcut-bar .shortcut-btn:hover i {
+    background-color: #00F5D4;
+    color: #0D0221;
+    box-shadow: 0 0 10px #00F5D4;
+}
+
+.icon-store::before { content: '🛒'; font-size: 20px; }
+.icon-achievements::before { content: '🏆'; font-size: 20px; }
+.icon-missions::before { content: '📋'; font-size: 20px; }
+
+/* --- Iconos Barra Inferior --- */
+.icon-main {
+    width: 50px; height: 50px;
+    background: radial-gradient(circle, #FF00A8, #8A2BE2);
+    border-radius: 50%;
+    border: 3px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Para sacarlo del flujo */
+    top: -25px; /* Lo sube para que sobresalga */
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px #FF00A8;
+}
+.icon-main::before { content: '⚡'; font-size: 24px; color: #fff; text-shadow: 0 0 5px #fff; }
+.tab-btn.active .icon-main { transform: translateX(-50%) scale(1.1); }
+
+.icon-upgrades::before, .icon-upgrades::after { content:''; position: absolute; }
+.icon-upgrades::before { border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 16px solid currentColor; top: 4px; }
+.icon-upgrades::after { width: 8px; height: 8px; background: currentColor; border-radius: 2px; top: 11px; left: 8px; }
+
+.icon-evolution::before, .icon-evolution::after { content:''; position: absolute; border: 2px solid currentColor; border-radius: 50%; }
+.icon-evolution::before { width: 10px; height: 10px; top: 2px; left: 5px; }
+.icon-evolution::after { width: 18px; height: 18px; top: -2px; left: 1px; }

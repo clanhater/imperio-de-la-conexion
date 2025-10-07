@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imperio de la Conexión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/animations.css">
+	<link rel="stylesheet" href="css/icons.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+</head>
+<body>
+    <!-- PANTALLA DE CARGA -->
+    <div id="loading-screen" class="full-screen">
+        <div class="loading-content">
+            <p>ClanHater presenta...</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <!-- PANTALLA "TOCA PARA EMPEZAR" -->
+    <div id="tap-to-start-screen" class="full-screen menu-background hidden">
+        <div class="title-content">
+            <h1>Imperio de la Conexión</h1>
+            <p class="blink">Toca para empezar</p>
+        </div>
+    </div>
+
+    <!-- MENÚ PRINCIPAL -->
+    <div id="main-menu-screen" class="full-screen menu-background hidden">
+        <nav class="main-menu">
+            <button id="play-button" class="menu-button">Jugar</button>
+            <button id="story-button" class="menu-button">Historia</button>
+            <button id="options-button-menu" class="menu-button">Opciones</button>
+            <button id="credits-button" class="menu-button">Créditos</button>
+        </nav>
+    </div>
+
+    <!-- PANTALLA DE HISTORIA -->
+    <div id="story-screen" class="full-screen menu-background hidden">
+        <div class="panel">
+            <h2>El Amanecer de la Conexión</h2>
+            <p>Es la década de los 80. Los teléfonos son de disco y las conexiones, un lujo. En un garaje lleno de sueños y circuitos, fundas una pequeña empresa con una visión audaz: conectar al mundo. Empiezas con una simple línea de cobre, pero tu ambición es tejer una red que abarque el planeta, evolucionando con cada nueva generación tecnológica.</p>
+            <button class="back-button">Volver</button>
+        </div>
+    </div>
+    
+    <!-- PANTALLA DE OPCIONES -->
+    <div id="options-screen" class="full-screen menu-background hidden">
+        <div class="panel">
+            <h2>Opciones</h2>
+            <div class="option-item">
+                <label for="master-volume">Volumen General</label>
+                <input type="range" id="master-volume" min="0" max="1" step="0.05">
+            </div>
+            <div class="option-item">
+                <label>Borrar Progreso</label>
+                <button id="reset-save-button" class="danger-button">Borrar Guardado</button>
+            </div>
+            <button class="back-button">Volver</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE CRÉDITOS -->
+    <div id="credits-screen" class="full-screen menu-background hidden">
+        <div class="credits-container">
+            <div class="credits-content">
+                <h3>Imperio de la Conexión</h3>
+                <p>Un Juego de ClanHater</p><br>
+                <h4>-- Desarrollo Principal --</h4><p>ClanHater</p><br>
+                <h4>-- Control de Calidad y Depuración --</h4><p>ClanHater</p><br>
+                <h4>-- Activos de Sonido --</h4><p>Pixabay</p><br>
+                <h4>-- Activos Visuales --</h4><p>Nanobanana & Google Fonts</p><br>
+                <p>Gracias por jugar y por ayudar a conectar este pequeño mundo digital.</p><br>
+                <p>...Se han transmitido 0 terabytes de datos de gatitos durante la creación de este juego...</p><br>
+                <p>...Ningún teclado fue dañado en el proceso...</p>
+            </div>
+        </div>
+        <button class="back-button credits-back-button">Volver</button>
+    </div>
+
+    <!-- ===== ESTA ES LA PARTE RESTAURADA ===== -->
+    <div id="game-container" class="game-container hidden">
+
+		<!-- (1) BARRA SUPERIOR (Nueva) -->
+		<header class="top-bar">
+			<div class="resource-display">
+				<h1 id="money-display">$0</h1>
+				<p id="dps-display">+$0 / seg</p>
+			</div>
+			<div id="top-shortcut-bar" class="top-shortcut-bar"> <!-- ID y Clase Nuevos -->
+				<button class="shortcut-btn"><i class="icon-store"></i></button> <!-- Clase Nueva -->
+				<button class="shortcut-btn"><i class="icon-achievements"></i></button> <!-- Clase Nueva -->
+				<button class="shortcut-btn"><i class="icon-missions"></i></button> <!-- Clase Nueva -->
+			</div>
+		</header>
+
+		<!-- (2) CONTENIDO DE LAS PESTAÑAS (Nuevo) -->
+		<main class="tab-content">
+
+			<!-- Pestaña Principal (Juego) -->
+			<div id="main-tab" class="tab-panel active">
+				<div id="main-tab-background"></div>
+				<div class="terminal-header">
+					<p>IDC_OS v1.0 - [Imperio de la Conexión]</p>
+					<p>ESTADO DE LA RED: <span class="status-online blink">EN LÍNEA</span></p>
+				</div>
+				<div class="prestige-info-top">
+					<p id="prestige-points-display">Puntos de Innovación: 0 (+0%)</p>
+				</div>
+				<div class="main-click-area">
+					<button id="main-click-button" class="main-click-button">
+						<div class="icon">🌐</div>
+						<span>Establecer<br>Conexión</span>
+						<small id="dpc-display">Ancho de Banda: +$1/conexión</small>
+					</button>
+				</div>
+			</div>
+
+			<!-- Pestaña Mejoras -->
+			<div id="upgrades-tab" class="tab-panel">
+				<div id="upgrades-container">
+					<!-- Las mejoras se siguen generando aquí -->
+				</div>
+			</div>
+
+			<!-- Pestaña Evolución -->
+			<div id="evolution-tab" class="tab-panel">
+				<div class="evolution-content">
+					<h2>Evolución Tecnológica</h2>
+					<div class="current-era">
+						<h3>ERA ACTUAL: 1G - Los Inicios</h3>
+						<p>La era de la telefonía analógica y las conexiones conmutadas. ¡El primer paso hacia un mundo conectado!</p>
+					</div>
+					<button id="relaunch-button" class="relaunch-button-styled">Relanzar</button>
+				</div>
+			</div>
+
+		</main>
+    
+		<!-- PANTALLA "PRÓXIMAMENTE" (Nueva y oculta) -->
+		<div id="coming-soon-popup" class="panel coming-soon-panel">
+			<h2>Próximamente</h2>
+			<p>¡Esta función está en desarrollo! Vuelve más tarde para descubrir nuevas formas de expandir tu imperio.</p>
+			<button id="close-popup-button">Cerrar</button>
+		</div>
+
+
+		<!-- (3) BARRA DE NAVEGACIÓN INFERIOR (Nueva) -->
+		<nav id="game-tab-bar" class="game-tab-bar"> <!-- ID y Clase Nuevos -->
+			<button class="tab-btn" data-tab="upgrades-tab"> <!-- Clase Nueva -->
+				<i class="icon-upgrades"></i><span>Mejoras</span>
+			</button>
+			<button class="tab-btn main-nav-button active" data-tab="main-tab"> <!-- Clase Nueva -->
+				<i class="icon-main"></i>
+			</button>
+			<button class="tab-btn" data-tab="evolution-tab"> <!-- Clase Nueva -->
+				<i class="icon-evolution"></i><span>Evolución</span>
+			</button>
+		</nav>
+    
+	</div>
+
+	<script src="js/audio.js"></script>
+	<script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
