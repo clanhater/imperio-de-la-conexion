@@ -23,7 +23,7 @@ const sounds = {
     }),
     buyFail: new Howl({
         src: ['assets/audio/fail.mp3'],
-        volume: 0.2
+        volume: 0.6
     })
 };
 

@@ -1,0 +1,1351 @@
+Análisis del Proyecto: imperio-de-la-conexion
+
+========================================
+📁 Carpeta: ././
+========================================
+
+    📄 Archivo: README.md
+    ---------- CONTENIDO ----------
+    # 🌐 Imperio de la Conexión
+    
+    Un juego incremental (idle/clicker) donde construyes un imperio de telecomunicaciones desde cero, comenzando en la vibrante era de los años 80.
+    
+    **✨ https://imperio-de-la-conexion.vercel.app/ ✨**
+    
+    ---
+    
+    ## 📜 Concepto del Juego
+    
+    Es la década de los 80. Los teléfonos son de disco y las conexiones, un lujo. En un garaje lleno de sueños y circuitos, fundas una pequeña empresa con una visión audaz: conectar al mundo.
+    
+    Tu objetivo es evolucionar tu tecnología, expandir tu infraestructura y generar ingresos, avanzando a través de las diferentes eras de la revolución digital, desde las líneas de cobre y los módems de 2400 baudios hasta la fibra óptica y más allá.
+    
+    ## 🚀 Características Principales
+    
+    *   **Progresión por Eras:** Comienza en los 80 y avanza a través de décadas de innovación tecnológica.
+    *   **Mejoras Temáticas:** Todas las mejoras están basadas en tecnologías reales e icónicas de cada época.
+    *   **Mecánica de Prestigio:** Utiliza los "Puntos de Innovación" para relanzar tu imperio con bonificaciones permanentes.
+    *   **Guardado Local:** Tu progreso se guarda automáticamente en tu navegador usando `localStorage`.
+    *   **Estética Retro:** La interfaz, las fuentes y los efectos de sonido están diseñados para evocar la nostalgia de los monitores CRT y las primeras terminales.
+    
+    ## 💻 Pila Tecnológica
+    
+    Este proyecto está construido con tecnología web fundamental, sin necesidad de frameworks complejos:
+    
+    *   **HTML5:** Para la estructura del contenido.
+    *   **CSS3:** Para los estilos, animaciones y el diseño responsivo (utilizando Flexbox y Grid).
+    *   **JavaScript (ES6):** Para toda la lógica del juego, cálculos y manipulación del DOM.
+    *   **Howler.js:** Una biblioteca de audio para un manejo sencillo y robusto de los efectos de sonido y la música.
+    
+    ## ▶️ Cómo Jugar Localmente
+    
+    1.  Clona este repositorio en tu máquina local.
+    2.  Abre el archivo `index.html` directamente en tu navegador web preferido (Chrome, Firefox, etc.).
+    3.  ¡A jugar!
+    
+    ---
+    *Un proyecto de ClanHater.*
+    ---------- FIN CONTENIDO ----------
+
+    📄 Archivo: index.html
+    ---------- CONTENIDO ----------
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Imperio de la Conexión</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+    	<link rel="stylesheet" href="css/animations.css">
+    	<link rel="stylesheet" href="css/icons.css">
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    </head>
+    <body>
+        <!-- PANTALLA DE CARGA -->
+        <div id="loading-screen" class="full-screen">
+            <div class="loading-content">
+                <p>ClanHater presenta...</p>
+                <div class="loader"></div>
+            </div>
+        </div>
+    
+        <!-- PANTALLA "TOCA PARA EMPEZAR" -->
+        <div id="tap-to-start-screen" class="full-screen menu-background hidden">
+            <div class="title-content">
+                <h1>Imperio de la Conexión</h1>
+                <p class="blink">Toca para empezar</p>
+            </div>
+        </div>
+    
+        <!-- MENÚ PRINCIPAL -->
+        <div id="main-menu-screen" class="full-screen menu-background hidden">
+            <nav class="main-menu">
+                <button id="play-button" class="menu-button">Jugar</button>
+                <button id="story-button" class="menu-button">Historia</button>
+                <button id="options-button-menu" class="menu-button">Opciones</button>
+                <button id="credits-button" class="menu-button">Créditos</button>
+            </nav>
+        </div>
+    
+        <!-- PANTALLA DE HISTORIA -->
+        <div id="story-screen" class="full-screen menu-background hidden">
+            <div class="panel">
+                <h2>El Amanecer de la Conexión</h2>
+                <p>Es la década de los 80. Los teléfonos son de disco y las conexiones, un lujo. En un garaje lleno de sueños y circuitos, fundas una pequeña empresa con una visión audaz: conectar al mundo. Empiezas con una simple línea de cobre, pero tu ambición es tejer una red que abarque el planeta, evolucionando con cada nueva generación tecnológica.</p>
+                <button class="back-button">Volver</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA DE OPCIONES -->
+        <div id="options-screen" class="full-screen menu-background hidden">
+            <div class="panel">
+                <h2>Opciones</h2>
+                <div class="option-item">
+                    <label for="master-volume">Volumen General</label>
+                    <input type="range" id="master-volume" min="0" max="1" step="0.05">
+                </div>
+                <div class="option-item">
+                    <label>Borrar Progreso</label>
+                    <button id="reset-save-button" class="danger-button">Borrar Guardado</button>
+                </div>
+                <button class="back-button">Volver</button>
+            </div>
+        </div>
+    
+        <!-- PANTALLA DE CRÉDITOS -->
+        <div id="credits-screen" class="full-screen menu-background hidden">
+            <div class="credits-container">
+                <div class="credits-content">
+                    <h3>Imperio de la Conexión</h3>
+                    <p>Un Juego de ClanHater</p><br>
+                    <h4>-- Desarrollo Principal --</h4><p>ClanHater</p><br>
+                    <h4>-- Control de Calidad y Depuración --</h4><p>ClanHater</p><br>
+                    <h4>-- Activos de Sonido --</h4><p>Pixabay</p><br>
+                    <h4>-- Activos Visuales --</h4><p>Nanobanana & Google Fonts</p><br>
+                    <p>Gracias por jugar y por ayudar a conectar este pequeño mundo digital.</p><br>
+                    <p>...Se han transmitido 0 terabytes de datos de gatitos durante la creación de este juego...</p><br>
+                    <p>...Ningún teclado fue dañado en el proceso...</p>
+                </div>
+            </div>
+            <button class="back-button credits-back-button">Volver</button>
+        </div>
+    
+        <!-- ===== ESTA ES LA PARTE RESTAURADA ===== -->
+        <div id="game-container" class="game-container hidden">
+    
+    		<!-- (1) BARRA SUPERIOR (Nueva) -->
+    		<header class="top-bar">
+    			<div class="resource-display">
+    				<h1 id="money-display">$0</h1>
+    				<p id="dps-display">+$0 / seg</p>
+    			</div>
+    			<div id="top-shortcut-bar" class="top-shortcut-bar"> <!-- ID y Clase Nuevos -->
+    				<button class="shortcut-btn"><i class="icon-store"></i></button> <!-- Clase Nueva -->
+    				<button class="shortcut-btn"><i class="icon-achievements"></i></button> <!-- Clase Nueva -->
+    				<button class="shortcut-btn"><i class="icon-missions"></i></button> <!-- Clase Nueva -->
+    			</div>
+    		</header>
+    
+    		<!-- (2) CONTENIDO DE LAS PESTAÑAS (Nuevo) -->
+    		<main class="tab-content">
+    
+    			<!-- Pestaña Principal (Juego) -->
+    			<div id="main-tab" class="tab-panel active">
+    				<div id="main-tab-background"></div>
+    				<div class="terminal-header">
+    					<p>IDC_OS v1.0 - [Imperio de la Conexión]</p>
+    					<p>ESTADO DE LA RED: <span class="status-online blink">EN LÍNEA</span></p>
+    				</div>
+    				<div class="prestige-info-top">
+    					<p id="prestige-points-display">Puntos de Innovación: 0 (+0%)</p>
+    				</div>
+    				<div class="main-click-area">
+    					<button id="main-click-button" class="main-click-button">
+    						<div class="icon">🌐</div>
+    						<span>Establecer<br>Conexión</span>
+    						<small id="dpc-display">Ancho de Banda: +$1/conexión</small>
+    					</button>
+    				</div>
+    			</div>
+    
+    			<!-- Pestaña Mejoras -->
+    			<div id="upgrades-tab" class="tab-panel">
+    				<div id="upgrades-container">
+    					<!-- Las mejoras se siguen generando aquí -->
+    				</div>
+    			</div>
+    
+    			<!-- Pestaña Evolución -->
+    			<div id="evolution-tab" class="tab-panel">
+    				<div class="evolution-content">
+    					<h2>Evolución Tecnológica</h2>
+    					<div class="current-era">
+    						<h3>ERA ACTUAL: 1G - Los Inicios</h3>
+    						<p>La era de la telefonía analógica y las conexiones conmutadas. ¡El primer paso hacia un mundo conectado!</p>
+    					</div>
+    					<button id="relaunch-button" class="relaunch-button-styled">Relanzar</button>
+    				</div>
+    			</div>
+    
+    		</main>
+        
+    		<!-- PANTALLA "PRÓXIMAMENTE" (Nueva y oculta) -->
+    		<div id="coming-soon-popup" class="panel coming-soon-panel">
+    			<h2>Próximamente</h2>
+    			<p>¡Esta función está en desarrollo! Vuelve más tarde para descubrir nuevas formas de expandir tu imperio.</p>
+    			<button id="close-popup-button">Cerrar</button>
+    		</div>
+    
+    
+    		<!-- (3) BARRA DE NAVEGACIÓN INFERIOR (Nueva) -->
+    		<nav id="game-tab-bar" class="game-tab-bar"> <!-- ID y Clase Nuevos -->
+    			<button class="tab-btn" data-tab="upgrades-tab"> <!-- Clase Nueva -->
+    				<i class="icon-upgrades"></i><span>Mejoras</span>
+    			</button>
+    			<button class="tab-btn main-nav-button active" data-tab="main-tab"> <!-- Clase Nueva -->
+    				<i class="icon-main"></i>
+    			</button>
+    			<button class="tab-btn" data-tab="evolution-tab"> <!-- Clase Nueva -->
+    				<i class="icon-evolution"></i><span>Evolución</span>
+    			</button>
+    		</nav>
+        
+    	</div>
+    
+    	<script src="js/audio.js"></script>
+    	<script src="js/ui.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+    </html>
+    ---------- FIN CONTENIDO ----------
+
+
+    ========================================
+    📁 Carpeta: ./css/
+    ========================================
+
+        📄 Archivo: animations.css
+        ---------- CONTENIDO ----------
+        /* ---- ANIMACIÓN DE NÚMEROS FLOTANTES ---- */
+        
+        /* Define la animación: empieza opaco, se mueve hacia arriba y se desvanece */
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+        }
+        
+        /* Estilo para los números que crearemos con JavaScript */
+        .floating-number {
+            position: absolute; /* Permite posicionarlo donde ocurrió el clic */
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: #84FFC9; /* Color del dinero */
+            text-shadow: 0 0 5px #fff;
+            pointer-events: none; /* Asegura que el número no interfiera con los clics */
+            animation: float-up 1s ease-out forwards;
+        }
+        
+        /* ---- ANIMACIÓN DE BOTÓN DISPONIBLE ---- */
+        
+        /* Define la animación: un pulso de brillo sutil */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset;
+            }
+            50% {
+                box-shadow: 0 0 15px #00F5D4, 0 0 20px #00F5D4 inset;
+            }
+            100% {
+                box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset;
+            }
+        }
+        
+        /* Clase que aplicaremos con JavaScript a los botones de compra */
+        .can-afford-glow {
+            animation: glow 2s infinite;
+        }
+        ---------- FIN CONTENIDO ----------
+
+        📄 Archivo: icons.css
+        ---------- CONTENIDO ----------
+        /* En css/icons.css (Archivo Completo) */
+        
+        [class^="icon-"] {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            color: currentColor; /* Hereda el color del botón */
+        }
+        
+        /* --- Iconos Barra Superior --- */
+        /* Resetea el estilo del botón contenedor para hacerlo invisible */
+        .top-shortcut-bar .shortcut-btn {
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+        
+        .top-shortcut-bar .shortcut-btn i {
+            width: 38px;
+            height: 38px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #00F5D4;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-style: normal; /* Necesario para que los emojis se vean bien */
+            transition: all 0.2s ease;
+        }
+        
+        .top-shortcut-bar .shortcut-btn:hover i {
+            background-color: #00F5D4;
+            color: #0D0221;
+            box-shadow: 0 0 10px #00F5D4;
+        }
+        
+        .icon-store::before { content: '🛒'; font-size: 20px; }
+        .icon-achievements::before { content: '🏆'; font-size: 20px; }
+        .icon-missions::before { content: '📋'; font-size: 20px; }
+        
+        /* --- Iconos Barra Inferior --- */
+        .icon-main {
+            width: 50px; height: 50px;
+            background: radial-gradient(circle, #FF00A8, #8A2BE2);
+            border-radius: 50%;
+            border: 3px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute; /* Para sacarlo del flujo */
+            top: -25px; /* Lo sube para que sobresalga */
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #FF00A8;
+        }
+        .icon-main::before { content: '⚡'; font-size: 24px; color: #fff; text-shadow: 0 0 5px #fff; }
+        .tab-btn.active .icon-main { transform: translateX(-50%) scale(1.1); }
+        
+        .icon-upgrades::before, .icon-upgrades::after { content:''; position: absolute; }
+        .icon-upgrades::before { border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 16px solid currentColor; top: 4px; }
+        .icon-upgrades::after { width: 8px; height: 8px; background: currentColor; border-radius: 2px; top: 11px; left: 8px; }
+        
+        .icon-evolution::before, .icon-evolution::after { content:''; position: absolute; border: 2px solid currentColor; border-radius: 50%; }
+        .icon-evolution::before { width: 10px; height: 10px; top: 2px; left: 5px; }
+        .icon-evolution::after { width: 18px; height: 18px; top: -2px; left: 1px; }
+        ---------- FIN CONTENIDO ----------
+
+        📄 Archivo: style.css
+        ---------- CONTENIDO ----------
+        /* ---- RESET Y ESTILOS GLOBALES ---- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'VT323', monospace; background-color: #0D0221; color: #F2E9F4; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-size: 18px; user-select: none; }
+        
+        /* 
+        ==================================================================
+           ESTILOS PARA LA SECUENCIA DE INICIO Y MENÚS (PANTALLAS COMPLETAS)
+        ==================================================================
+        */
+        .full-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0D0221; z-index: 200; display: flex; justify-content: center; align-items: center; text-align: center; color: #F2E9F4; }
+        .hidden { display: none !important; }
+        .loading-content { animation: fadeIn 1.5s ease-in-out; }
+        .loading-content.fade-out { animation: fadeOut 1.5s ease-in-out forwards; }
+        .loading-content p { font-size: 1.5rem; color: #00F5D4; margin-bottom: 20px; text-shadow: 0 0 5px #00F5D4; }
+        .loader { border: 8px solid #2A1B3D; border-top: 8px solid #00F5D4; border-radius: 50%; width: 60px; height: 60px; animation: spin 1.5s linear infinite; margin: 0 auto; }
+        .menu-background { background-image: url('../assets/images/title-background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; cursor: default; }
+        .menu-background::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 1; }
+        #tap-to-start-screen { cursor: pointer; }
+        .title-content, .main-menu, .panel, .credits-container { position: relative; z-index: 2; }
+        .title-content h1 { font-family: 'Press Start 2P', cursive; font-size: 2.5rem; color: #FF00A8; text-shadow: 0 0 10px #FF00A8, 0 0 5px #fff; margin-bottom: 40px; }
+        .title-content .blink { font-size: 1.8rem; animation: blink 1.5s linear infinite; }
+        .main-menu { display: flex; flex-direction: column; gap: 20px; width: 250px; }
+        .menu-button { padding: 15px; background-color: transparent; color: #00F5D4; border: 3px solid #00F5D4; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', cursive; font-size: 1.5rem; text-shadow: 0 0 5px #00F5D4; transition: all 0.2s ease; }
+        .menu-button:hover { background-color: #00F5D4; color: #0D0221; box-shadow: 0 0 15px #00F5D4; }
+        .panel { width: 90%; max-width: 420px; background-color: rgba(13, 2, 33, 0.85); border: 3px solid #FF00A8; padding: 25px; text-align: center; }
+        .panel h2 { font-family: 'Press Start 2P', cursive; color: #00F5D4; margin-bottom: 30px; }
+        .panel p { font-size: 1.2rem; line-height: 1.5; margin-bottom: 30px; }
+        .option-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 1.3rem; }
+        input[type="range"] { width: 50%; }
+        .back-button, #close-popup-button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .danger-button { background-color: #D32F2F; color: white; border: none; padding: 10px 15px; font-size: 1.1rem; cursor: pointer; }
+        .credits-container { width: 100%; height: 80%; overflow: hidden; }
+        .credits-content { position: absolute; width: 100%; text-align: center; font-size: 1.2rem; animation: scroll-credits 20s linear infinite; }
+        .credits-content h3 { font-family: 'Press Start 2P'; font-size: 1.5rem; color: #00F5D4; margin-bottom: 20px;}
+        .credits-content h4 { color: #FF00A8; margin-top: 20px; margin-bottom: 5px; }
+        .credits-back-button { position: absolute; bottom: 20px; z-index: 5; }
+        
+        /* 
+        ==================================================================
+           ESTILOS PARA LA PANTALLA DE JUEGO PRINCIPAL (NUEVO LAYOUT)
+        ==================================================================
+        */
+        
+        .game-container { width: 100%; max-width: 480px; height: 100vh; background-color: #2A1B3D; border: 3px solid #00F5D4; box-shadow: 0 0 15px #00F5D4, 0 0 25px #00F5D4 inset; display: flex; flex-direction: column; position: relative; }
+        
+        /* --- Barra Superior del Juego --- */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-bottom: 2px solid #00F5D4; flex-shrink: 0; }
+        .resource-display {
+        	font-family: 'Press Start 2P', cursive;
+        	min-width: 0; /* <-- Esta línea es un seguro y está bien mantenerla */
+        }
+        #money-display { font-size: 1rem; color: #84FFC9; text-shadow: 0 0 5px #84FFC9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #dps-display { font-size: 0.7rem; margin-top: 5px; }
+        .top-shortcut-bar { display: flex; align-items: center; gap: 15px; }
+        .icon-button { background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; }
+        
+        /* --- Contenido de las Pestañas del Juego --- */
+        .tab-content { flex: 1; overflow: hidden; position: relative; min-height: 0; }
+        .tab-panel { display: none; padding: 15px; height: 100%; overflow-y: auto; }
+        .tab-panel.active { display: flex; flex-direction: column; } /* Cambiado a flex */
+        
+        /* Pestaña Principal */
+        .prestige-info-top { text-align: center; font-size: 1rem; color: #FF00A8; text-shadow: 0 0 3px #FF00A8; padding: 5px; flex-shrink: 0; }
+        .main-click-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; position: relative; }
+        .main-click-button { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, #FF00A8, #8A2BE2); color: white; border: 5px solid #FF00A8; box-shadow: 0 0 20px #FF00A8; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: all 0.1s ease; font-family: 'Press Start 2P', cursive; font-size: 1.2rem; }
+        .main-click-button:active { transform: scale(0.95); box-shadow: 0 0 5px #FF00A8; }
+        .main-click-button .icon { font-size: 3rem; }
+        .main-click-button small { font-size: 0.7rem; margin-top: 8px; font-family: 'VT323', monospace; }
+        .terminal-header {
+            background-color: #000;
+            color: #00F5D4; /* Color verde fósforo */
+            font-family: 'VT323', monospace;
+            padding: 8px 12px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            margin-bottom: 15px; /* Espacio antes de los puntos de prestigio */
+            text-shadow: 0 0 5px #00F5D4;
+        }
+        .terminal-header p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        .terminal-header .status-online {
+            font-weight: bold;
+        }
+        #main-tab {
+            position: relative;
+            overflow: hidden; /* Evita que la animación se desborde */
+        }
+        
+        /* El lienzo de nuestro fondo animado */
+        #main-tab-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* MUY IMPORTANTE: Lo pone detrás de todo el contenido */
+            
+            /* El efecto de rejilla o "dataspace" */
+            background-color: #0d0221; /* Color base oscuro */
+            background-image:
+                radial-gradient(circle at center, rgba(138, 43, 226, 0.2) 0%, transparent 60%), /* Brillo central sutil */
+                linear-gradient(to right, rgba(0, 245, 212, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 245, 212, 0.1) 1px, transparent 1px);
+            background-size: 1px 40px, 40px 1px, 40px 40px; /* Tamaño de la rejilla */
+            
+            /* La animación de desplazamiento */
+            animation: scroll-grid 10s linear infinite;
+        }
+        
+        /* Efecto de líneas de escaneo de monitor CRT antiguo */
+        #main-tab-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(13, 2, 33, 0.5) 50%, transparent 50%);
+            background-size: 100% 4px;
+            opacity: 0.3;
+        }
+        
+        /* Definición de la animación */
+        @keyframes scroll-grid {
+            from { background-position: 0 0; }
+            to { background-position: 0 -200px; } /* Desplaza la rejilla verticalmente */
+        }
+        
+        /* Aseguramos que el contenido principal esté por encima del fondo */
+        .terminal-header, .prestige-info-top, .main-click-area {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Pestaña Mejoras */
+        #upgrades-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px; /* Espacio reducido entre mejoras */
+        }
+        
+        /* Contenedor Principal de la Mejora */
+        .upgrade {
+            display: grid; /* <-- CAMBIO CLAVE: Usamos Grid en lugar de Flexbox */
+            grid-template-columns: auto 1fr auto; /* <-- La magia está aquí */
+            align-items: center;
+            gap: 12px; /* Espacio uniforme entre icono, texto y botón */
+            
+            background-color: rgba(13, 2, 33, 0.5);
+            padding: 8px 10px;
+            border-radius: 5px;
+            border: 1px solid #FF00A8;
+            transition: background-color 0.2s ease;
+        }
+        .upgrade:hover {
+            background-color: rgba(42, 27, 61, 0.7);
+        }
+        
+        /* Icono (ya no necesita margen) */
+        .upgrade-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0; 
+        }
+        
+        /* Sección de Información (ya no necesita crecer ni tener margen) */
+        .upgrade-info {
+            min-width: 0; /* Permite que el contenedor se encoja y el texto se ajuste */
+        }
+        .upgrade-info h4 {
+            margin: 0 0 2px 0;
+            font-size: 1rem;
+            /* Se elimina 'white-space: nowrap' para permitir que títulos largos se ajusten */
+        }
+        .upgrade-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #c0c0c0;
+            line-height: 1.2;
+        }
+        
+        /* Botón de Compra */
+        .buy-button {
+            padding: 6px 12px; /* Botón menos alto y un poco más ancho */
+            background-color: transparent;
+            color: #00F5D4;
+            border: 2px solid #00F5D4;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'VT323', monospace; /* Asegura la fuente correcta */
+            font-size: 1rem; /* Tamaño de fuente del botón reducido */
+            text-align: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0; /* Evita que el botón se encoja */
+            white-space: nowrap; /* Evita que el texto del botón se parta */
+        }
+        .buy-button:not(.is-disabled):hover {
+            background-color: #00F5D4;
+            color: #0D0221;
+            box-shadow: 0 0 10px #00F5D4;
+        }
+        .buy-button.is-disabled {
+            border-color: #555; /* Borde más visible cuando está deshabilitado */
+            background-color: transparent;
+            color: #555;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        /* Pestaña Evolución */
+        .evolution-content { text-align: center; padding-top: 20px; }
+        .evolution-content h2 { font-family: 'Press Start 2P'; color: #00F5D4; }
+        .current-era { background: rgba(0,0,0,0.2); padding: 20px; margin: 30px 0; border: 1px solid #FF00A8; }
+        .current-era h3 { margin-bottom: 10px; }
+        .relaunch-button-styled { padding: 15px; background-color: transparent; color: #00F5D4; border: 3px solid #00F5D4; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', cursive; font-size: 1.2rem; transition: all 0.2s ease; }
+        .relaunch-button-styled:not(.is-disabled):hover { background-color: #00F5D4; color: #0D0221; box-shadow: 0 0 15px #00F5D4; }
+        .relaunch-button-styled.is-disabled { border-color: #555; color: #555; cursor: not-allowed; }
+        
+        /* --- Pop-up "Próximamente" --- */
+        .coming-soon-panel {
+            display: none; 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 101; /* Z-index alto para estar por encima de todo */
+        }
+        .game-container.popup-visible .coming-soon-panel {
+            display: block;
+        }
+        
+        /* Opcional: Fondo oscuro para el pop-up */
+        .game-container.popup-visible::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+        }
+        
+        /* --- Barra de Navegación Inferior (NUEVO DISEÑO) --- */
+        .game-tab-bar { display: grid; grid-template-columns: 1fr auto 1fr; border-top: 2px solid #00F5D4; position: relative; height: 60px; flex-shrink: 0; background-color: #1c1031; }
+        .tab-btn { background: transparent; border: none; color: #aaa; padding: 5px; cursor: pointer; font-family: 'VT323'; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; height: 100%; }
+        .tab-btn.active { color: #00F5D4; text-shadow: 0 0 5px #00F5D4;}
+        
+        /* ---- ANIMACIONES GENÉRICAS ---- */
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.9); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes scroll-credits { from { top: 100%; } to { top: -100%; } }
+        .can-afford-glow:not(.is-disabled) { animation: glow 2s infinite; }
+        @keyframes glow { 0% { box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset; } 50% { box-shadow: 0 0 15px #00F5D4, 0 0 20px #00F5D4 inset; } 100% { box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset; } }
+        
+        /* --- Estilos para Categorías de Mejoras --- */
+        .category-header {
+            font-family: 'Press Start 2P', cursive;
+            color: #FF00A8; /* Color fucsia para destacar, coherente con la paleta */
+            text-shadow: 0 0 5px #FF00A8;
+            padding: 10px 5px;
+            margin-top: 20px; /* Un espacio generoso antes de una nueva categoría */
+            margin-bottom: 10px;
+            border-bottom: 2px solid #00F5D4; /* Línea separadora con el color de acento */
+            font-size: 1.1rem;
+            text-align: left; /* Alineamos a la izquierda para un look de lista más clásico */
+        }
+        
+        .category-header:first-of-type {
+            margin-top: 0; /* Elimina el margen extra sobre la primera categoría para que quede pegada arriba */
+        }
+        
+        /* --- Estilos para Mejoras Bloqueadas por Requisitos --- */
+        .upgrade.is-locked {
+            opacity: 0.45; /* Hacemos toda la fila mucho más transparente */
+            border-color: #555; /* Un borde oscuro y apagado */
+            background-color: rgba(13, 2, 33, 0.2); /* Fondo más oscuro para que no resalte */
+            transition: opacity 0.3s ease, border-color 0.3s ease; /* Transición suave */
+        }
+        
+        .upgrade.is-locked:hover {
+            background-color: rgba(13, 2, 33, 0.2); /* Evita que cambie de color al pasar el ratón */
+        }
+        
+        /* Opcional pero recomendado: añade un icono de candado al título */
+        .upgrade.is-locked .upgrade-info h4::after {
+            content: ' 🔒'; /* Espacio antes del emoji para que no se pegue al texto */
+            font-size: 0.8rem;
+            vertical-align: middle; /* Alinea mejor el candado con el texto */
+        }
+        
+        /* --- Estilos para la Lista de Requisitos Visual --- */
+        .requirements-list {
+            margin-top: 8px; /* Espacio entre la descripción y los requisitos */
+            padding-top: 6px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.2); /* Línea separadora sutil */
+            text-align: left;
+        }
+        
+        .requirements-list p {
+            font-size: 0.8rem; /* Texto más pequeño para no sobrecargar */
+            margin: 2px 0;
+            line-height: 1.3;
+        }
+        
+        /* Requisito NO cumplido: color rojo/peligro */
+        .requirements-list p.unmet {
+            color: #FF6B6B; /* Un rojo claro que contrasta bien */
+            text-shadow: 0 0 3px #FF6B6B;
+        }
+        
+        /* Requisito SÍ cumplido: color verde/éxito */
+        .requirements-list p.met {
+            color: #00F5D4; /* El color de acento principal del juego */
+            text-shadow: 0 0 3px #00F5D4;
+        }
+        
+        /* Estilos para la información de requisitos (bloqueo activo o futuro) */
+        .requirements-list.is-locked-info p.unmet {
+            font-weight: bold; /* Hace más obvio lo que falta */
+        }
+
+        ---------- FIN CONTENIDO ----------
+
+
+    ========================================
+    📁 Carpeta: ./js/
+    ========================================
+
+        📄 Archivo: audio.js
+        ---------- CONTENIDO ----------
+        // ---- MANEJADOR DE AUDIO (VERSIÓN CON ARCHIVOS LOCALES) ----
+        
+        // Estado para saber si el sonido está activado o desactivado.
+        let isMuted = false;
+        
+        // Definimos todos nuestros sonidos usando Howler.js, apuntando a nuestros archivos locales.
+        const sounds = {
+        	titleMusic: new Howl({
+                src: ['assets/audio/title-music.mp3'],
+                volume: 0.4,
+                loop: true,
+        		preload: true,
+                html5: true 
+            }),
+            click: new Howl({
+                src: ['assets/audio/click.mp3'],
+                volume: 0.7,
+                pool: 5
+            }),
+            buySuccess: new Howl({
+                src: ['assets/audio/success.mp3'],
+                volume: 0.2
+            }),
+            buyFail: new Howl({
+                src: ['assets/audio/fail.mp3'],
+                volume: 0.6
+            })
+        };
+        
+        // Función global para reproducir un sonido por su nombre.
+        function playSound(soundName) {
+            if (!isMuted && sounds[soundName]) {
+                sounds[soundName].play();
+            }
+        }
+        
+        // Función para alternar el sonido.
+        function toggleMute() {
+            isMuted = !isMuted;
+            // Actualiza el estado visual del botón de opciones
+            const optionsButton = document.getElementById('options-button');
+            optionsButton.textContent = isMuted ? '🔇' : '⚙️';
+            console.log(isMuted ? "Sonido Silenciado" : "Sonido Activado");
+        }
+        
+        // NUEVA FUNCIÓN para controlar el volumen de todos los sonidos
+        function setMasterVolume(level) {
+            Howler.volume(level);
+        }
+        ---------- FIN CONTENIDO ----------
+
+        📄 Archivo: main.js
+        ---------- CONTENIDO ----------
+        // ---- DEFINICIONES Y ESTADO DEL JUEGO ----
+        const upgrades = {
+            'infraestructura': {
+                name: 'Infraestructura y Expansión',
+                items: {
+                    'lineaCobre': {
+                        name: 'Instalar Línea de Cobre',
+                        description: 'El primer paso. Conecta clientes y genera ingresos pasivos.',
+                        type: 'dps', baseCost: 15, baseEffect: 1,
+                        requirements: [
+                            { level: 10, reqs: { 'kitHerramientas': 5 } },
+                            { level: 25, reqs: { 'marketingLocal': 1 } },
+                            { level: 50, reqs: { 'centralitaAnaloga': 5 } }
+                        ]
+                    },
+                    'antenaRepetidora': {
+                        name: 'Instalar Antena Repetidora',
+                        description: 'Amplifica la señal para llegar a las afueras de la ciudad.',
+                        type: 'dps', baseCost: 100, baseEffect: 8,
+                        requirements: [
+                            { level: 1, reqs: { 'lineaCobre': 15 } },
+                            { level: 15, reqs: { 'tecladoTonos': 10 } },
+                            { level: 30, reqs: { 'centralitaAnaloga': 1 } }
+                        ]
+                    },
+                    'centralitaAnaloga': {
+                        name: 'Construir Centralita Analógica',
+                        description: 'Un conmutador que gestiona docenas de líneas automáticamente.',
+                        type: 'dps', baseCost: 1100, baseEffect: 45,
+                        requirements: [
+                            { level: 1, reqs: { 'lineaCobre': 40 } },
+                            { level: 10, reqs: { 'modem2400': 5, 'softwareTerminal': 15 } },
+                            { level: 25, reqs: { 'servidorBBS': 1 } }
+                        ]
+                    },
+                    'centralitaDigital': {
+                        name: 'Actualizar a Centralita Digital',
+                        description: 'Reemplaza relés por microchips para una eficiencia sin precedentes.',
+                        type: 'dps', baseCost: 25000, baseEffect: 400,
+                        requirements: [
+                            { level: 1, reqs: { 'centralitaAnaloga': 20, 'servidorBBS': 5 } },
+                            { level: 15, reqs: { 'protocoloTCPIP': 1 } }
+                        ]
+                    },
+                    'fibraOptica': {
+                        name: 'Red de Fibra Óptica',
+                        description: 'Tecnología experimental que usa pulsos de luz. Un salto cuántico.',
+                        type: 'dps', baseCost: 85000, baseEffect: 900,
+                        requirements: [
+                            { level: 1, reqs: { 'centralitaDigital': 10, 'protocoloTCPIP': 5 } },
+                            { level: 20, reqs: { 'tarjetaRed': 50 } } // Requiere hardware de cliente muy avanzado
+                        ]
+                    }
+                }
+            },
+            'equipamiento': {
+                name: 'Equipamiento y Terminales',
+                items: {
+                    'kitHerramientas': {
+                        name: 'Kit de Herramientas Básico',
+                        description: 'Un buen soldador y alicates. Cada conexión manual es más limpia.',
+                        type: 'dpc', baseCost: 10, baseEffect: 1,
+                        requirements: [] // Sin requisitos, siempre disponible
+                    },
+                    'tecladoTonos': {
+                        name: 'Teclado de Tonos DTMF',
+                        description: 'Reemplaza el dial rotatorio, optimizando cada clic.',
+                        type: 'dpc', baseCost: 75, baseEffect: 4,
+                        requirements: [
+                            { level: 5, reqs: { 'kitHerramientas': 10 } },
+                            { level: 20, reqs: { 'lineaCobre': 20 } }
+                        ]
+                    },
+                    'modem2400': {
+                        name: 'Módem 2400 baudios',
+                        description: 'Permite a los ordenadores comunicarse por vía telefónica.',
+                        type: 'dps', baseCost: 550, baseEffect: 25,
+                        requirements: [
+                            { level: 1, reqs: { 'antenaRepetidora': 5 } },
+                            { level: 15, reqs: { 'softwareTerminal': 10 } }
+                        ]
+                    },
+                    'tarjetaRed': {
+                        name: 'Tarjeta de Red ISA',
+                        description: 'Una placa para PCs que permite conexiones directas y eficientes.',
+                        type: 'dpc', baseCost: 8000, baseEffect: 40,
+                        requirements: [
+                            { level: 1, reqs: { 'softwareTerminal': 30 } },
+                            { level: 10, reqs: { 'protocoloTCPIP': 1 } },
+                            { level: 30, reqs: { 'centralitaDigital': 5 } }
+                        ]
+                    }
+                }
+            },
+            'software': {
+                name: 'Software y Protocolos',
+                items: {
+                    'marketingLocal': {
+                        name: 'Campaña de Marketing Local',
+                        description: 'Anuncios en periódicos. Atrae demanda para tu red de cobre.',
+                        type: 'dps', baseCost: 200, baseEffect: 5, // Cambiado a DPS directo
+                        requirements: [
+                            { level: 1, reqs: { 'lineaCobre': 5 } }
+                        ]
+                    },
+                    'softwareTerminal': {
+                        name: 'Software de Terminal',
+                        description: 'Un código más limpio para procesar datos más rápido en cada clic.',
+                        type: 'dpc', baseCost: 120, baseEffect: 8,
+                        requirements: [
+                            { level: 1, reqs: { 'tecladoTonos': 5 } },
+                            { level: 15, reqs: { 'lineaCobre': 30 } },
+                            { level: 35, reqs: { 'modem2400': 20 } }
+                        ]
+                    },
+                    'servidorBBS': {
+                        name: 'Servidor BBS "El Eco Digital"',
+                        description: 'Crea una comunidad online. Los usuarios pagan una cuota por acceso.',
+                        type: 'dps', baseCost: 6000, baseEffect: 140,
+                        requirements: [
+                            { level: 1, reqs: { 'centralitaAnaloga': 1 } },
+                            { level: 10, reqs: { 'softwareTerminal': 25 } }
+                        ]
+                    },
+                    'protocoloTCPIP': {
+                        name: 'Implementar Protocolo TCP/IP',
+                        description: 'Estandariza tu red para un tráfico masivo. La base de Internet.',
+                        type: 'dpc', baseCost: 35000, baseEffect: 110,
+                        requirements: [
+                            { level: 1, reqs: { 'servidorBBS': 15, 'centralitaDigital': 1 } },
+                            { level: 10, reqs: { 'tarjetaRed': 5 } }
+                        ]
+                    }
+                }
+            }
+        };
+        
+        // AHORA, REEMPLAZA EL OBJETO "gameState" CON ESTE, NOTA LA NUEVA LISTA EN "upgradeLevels"
+        let gameState = {
+            money: 0,
+            moneyPerClick: 1,
+            moneyPerSecond: 0,
+            totalMoneyEver: 0,
+            prestigePoints: 0,
+            upgradeLevels: {
+                // Infraestructura
+                'lineaCobre': 0,
+                'antenaRepetidora': 0,
+                'centralitaAnaloga': 0,
+                'centralitaDigital': 0,
+                'fibraOptica': 0,
+                // Equipamiento
+                'kitHerramientas': 0,
+                'tecladoTonos': 0,
+                'modem2400': 0,
+                'tarjetaRed': 0,
+                // Software
+                'marketingLocal': 0,
+                'softwareTerminal': 0,
+                'servidorBBS': 0,
+                'protocoloTCPIP': 0
+            },
+        };
+        
+        // ---- LÓGICA DE GUARDADO, CÁLCULO Y PRINCIPAL (SIN CAMBIOS) ----
+        const SAVE_KEY = 'imperioConexionSave_v1'; 
+        let isResetting = false; 
+        function saveGame() { 
+        	if (isResetting) 
+        		return; 
+        	try { 
+        		localStorage.setItem(SAVE_KEY, JSON.stringify(gameState)); 
+        	} catch(e) {} 
+        } 
+        function loadGame() { 
+        	try { 
+        		const saved = localStorage.getItem(SAVE_KEY); 
+        		if (saved) { 
+        			gameState = Object.assign(gameState, JSON.parse(saved)); 
+        		} 
+        	} catch(e) {} 
+        } 
+        function resetSave() { 
+        	if (confirm("¿Borrar progreso?")) { 
+        		isResetting = true; 
+        		localStorage.removeItem(SAVE_KEY); 
+        		window.location.reload(); 
+        	} 
+        }
+        
+        function findUpgradeById(upgradeId) {
+            for (const categoryId in upgrades) {
+                if (upgrades[categoryId].items[upgradeId]) {
+                    return upgrades[categoryId].items[upgradeId];
+                }
+            }
+            return null; // No se encontró la mejora
+        }
+        
+        function findNextRequirementHurdle(upgradeId) {
+            const upgrade = findUpgradeById(upgradeId);
+            if (!upgrade || !upgrade.requirements || upgrade.requirements.length === 0) {
+                return null; // Si una mejora no tiene requisitos, nunca se bloquea.
+            }
+        
+            const currentUpgradeLevel = gameState.upgradeLevels[upgradeId] || 0;
+            
+            // Iteramos sobre los requisitos para encontrar el PRIMER hito que NO hemos cumplido aún
+            for (const hurdle of upgrade.requirements) {
+                // Si el nivel actual de la mejora es MENOR que el nivel requerido para este hito,
+                // entonces este hito es un POTENCIAL BLOQUEO.
+                if (currentUpgradeLevel < hurdle.level) {
+                    let allDependenciesMet = true;
+                    for (const reqId in hurdle.reqs) {
+                        const requiredLevel = hurdle.reqs[reqId];
+                        const currentReqLevel = gameState.upgradeLevels[reqId] || 0;
+                        
+                        if (currentReqLevel < requiredLevel) {
+                            allDependenciesMet = false;
+                            break; // Una dependencia no se cumple, este hito está bloqueando.
+                        }
+                    }
+        
+                    if (!allDependenciesMet) {
+                        // Si este hito es el primero que aún no hemos alcanzado (porque currentUpgradeLevel < hurdle.level)
+                        // Y sus dependencias NO están cumplidas, entonces este es el hito que nos bloquea.
+                        return hurdle;
+                    }
+                    // Si las dependencias SÍ están cumplidas, seguimos buscando el siguiente hito,
+                    // ya que este no nos bloquea más allá del nivel de la mejora.
+                }
+            }
+        
+            // Si hemos revisado todos los requisitos y no encontramos ningún hito bloqueante,
+            // significa que todos los requisitos previos han sido superados o sus dependencias están OK.
+            return null;
+        }
+        
+        function areRequirementsMet(upgradeId) {
+            return findNextRequirementHurdle(upgradeId) === null;
+        }
+        
+        function calculateUpgradeCost(upgradeId) {
+            const upgrade = findUpgradeById(upgradeId);
+            const level = gameState.upgradeLevels[upgradeId] || 0;
+            return Math.floor(upgrade.baseCost * Math.pow(1.12, level));
+        }
+        
+        function calculatePrestigePointsToGain() {
+            const f = 100000;
+            const p = Math.floor(Math.pow(gameState.totalMoneyEver / f, 0.4));
+            return p > 0 ? p : 0;
+        }
+        
+        function recalculateGains() {
+            let baseDpc = 1;
+            let baseDps = 0;
+            let dpcMultiplier = 1;
+            let dpsMultiplier = 1;
+        
+            // Bucle anidado para recorrer la nueva estructura
+            for (const categoryId in upgrades) {
+                for (const id in upgrades[categoryId].items) {
+                    const u = upgrades[categoryId].items[id];
+                    const l = gameState.upgradeLevels[id] || 0;
+                    
+                    if (l > 0) {
+                        switch (u.type) {
+                            case 'dpc':
+                                baseDpc += u.baseEffect * l;
+                                break;
+                            case 'dps':
+                                baseDps += u.baseEffect * l;
+                                break;
+                            case 'dpc_multiplier':
+                                dpcMultiplier += u.baseEffect * l;
+                                break;
+                            case 'dps_multiplier':
+                                dpsMultiplier += u.baseEffect * l;
+                                break;
+                        }
+                    }
+                }
+            }
+        
+            const prestigeMultiplier = 1 + (gameState.prestigePoints * 0.02);
+            
+            gameState.moneyPerClick = (baseDpc * dpcMultiplier) * prestigeMultiplier;
+            gameState.moneyPerSecond = (baseDps * dpsMultiplier) * prestigeMultiplier;
+        }
+        
+        function buyUpgrade(upgradeId) {
+            // Primero, verificamos que la mejora no esté bloqueada por un hito de requisitos.
+            if (!areRequirementsMet(upgradeId)) {
+                playSound('buyFail'); // El jugador está chocando contra un muro de requisitos.
+                return;
+            }
+            
+            const cost = calculateUpgradeCost(upgradeId);
+            
+            // Si no está bloqueada, entonces verificamos si tiene el dinero.
+            if (gameState.money >= cost) {
+                gameState.money -= cost;
+                gameState.upgradeLevels[upgradeId]++;
+                recalculateGains();
+                updateUI(); // Actualizamos la UI inmediatamente para que el cambio sea visible.
+                playSound('buySuccess');
+            } else {
+                playSound('buyFail'); // No tiene suficiente dinero.
+            }
+        }
+        function addMoney(amount) { 
+        	if(typeof amount === 'number' && !isNaN(amount)) { 
+        		gameState.money += amount; 
+        		gameState.totalMoneyEver += amount; 
+        	} 
+        } 
+        function generateMoneyOnClick() { 
+        	addMoney(gameState.moneyPerClick); 
+        } 
+        function prestigeReset() { 
+        	const points = calculatePrestigePointsToGain(); 
+        	if (points > 0) { 
+        		if (confirm(`¿Relanzar para ganar ${points} Puntos?`)) { 
+        			gameState.prestigePoints += points; 
+        			gameState.money = 0; 
+        			gameState.totalMoneyEver = 0; 
+        			gameState.upgradeLevels = { 'tecladoTonos': 0, 'lineaCobre': 0, 'antenaRepetidora': 0, 'centralitaTelefonica': 0 }; 
+        			recalculateGains(); 
+        			saveGame(); 
+        		} 
+        	} 
+        }
+        
+        // ---- BUCLE DEL JUEGO ----
+        let gameLoopInterval = null; function gameLoop() { addMoney(gameState.moneyPerSecond / 10); updateUI(); }
+        
+        // ---- GESTOR DE PANTALLAS Y PESTAÑAS ----
+        const allScreens = document.querySelectorAll('.full-screen, .game-container');
+        const allTabPanels = document.querySelectorAll('.tab-panel');
+        function showScreen(screenId) { allScreens.forEach(s => s.classList.add('hidden')); document.getElementById(screenId).classList.remove('hidden'); }
+        function showTab(tabId) {
+            allTabPanels.forEach(p => p.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.tab === tabId);
+            });
+        }
+        
+        // ---- LÓGICA DE INICIALIZACIÓN ----
+        let inGameListenersInitialized = false; // Bandera para asegurar que solo se ejecuta una vez
+        
+        function initializeInGameEventListeners() {
+            if (inGameListenersInitialized) return; // Si ya está inicializado, no hace nada
+        
+            // Listener para la BARRA DE PESTAÑAS INFERIOR
+            document.getElementById('game-tab-bar').addEventListener('click', (event) => {
+                const navButton = event.target.closest('.tab-btn');
+                if (navButton) showTab(navButton.dataset.tab);
+            });
+        
+            // Listener para la BARRA DE ATAJOS SUPERIOR
+            const gameContainer = document.getElementById('game-container'); // Referencia al contenedor principal
+        
+        	// Listener para la BARRA DE ATAJOS SUPERIOR
+        	document.getElementById('top-shortcut-bar').addEventListener('click', (event) => {
+        		const shortcutButton = event.target.closest('.shortcut-btn');
+        		if (shortcutButton) {
+        			// Añadimos la clase al contenedor principal para mostrar el pop-up y el fondo
+        			gameContainer.classList.add('popup-visible');
+        		}
+        	});
+        
+        	// Listener para el BOTÓN DE CERRAR
+        	document.getElementById('close-popup-button').addEventListener('click', (event) => {
+        		event.stopPropagation();
+        		gameContainer.classList.remove('popup-visible');
+        	});
+        
+            // Listeners para los botones de acción del juego
+            document.getElementById('main-click-button').addEventListener('click', (event) => {
+                generateMoneyOnClick();
+                showFloatingNumber(event);
+                playSound('click');
+            });
+        
+            document.getElementById('upgrades-container').addEventListener('click', (event) => {
+                const button = event.target.closest('.buy-button');
+                if (!button) return;
+                if (button.classList.contains('is-disabled')) { playSound('buyFail'); return; }
+                buyUpgrade(button.dataset.upgradeId);
+            });
+            
+            document.getElementById('relaunch-button').addEventListener('click', (event) => {
+                const button = event.target.closest('button');
+                if (button.classList.contains('is-disabled')) { playSound('buyFail'); } else { prestigeReset(); }
+            });
+        
+            inGameListenersInitialized = true; // Marca como inicializado
+        }
+        
+        function startGame() {
+            // 1. Muestra la pantalla del juego. AHORA los botones son visibles en el DOM.
+            showScreen('game-container');
+            showTab('main-tab');
+            
+            // 2. INICIALIZA LOS LISTENERS DEL JUEGO. Ahora sí encontrará los botones.
+            initializeInGameEventListeners();
+        
+            // 3. Carga datos y arranca el bucle.
+            loadGame();
+            recalculateGains();
+            renderUpgrades();
+            if(gameLoopInterval) clearInterval(gameLoopInterval);
+            gameLoopInterval = setInterval(gameLoop, 100);
+        }
+        
+        // ---- SECUENCIA DE ARRANQUE GENERAL ----
+        window.addEventListener('load', () => {
+            // ---- Listeners para Menús y Navegación General (Fuera del juego) ----
+            const loadingScreen = document.getElementById('loading-screen');
+            const tapToStartScreen = document.getElementById('tap-to-start-screen');
+            const volumeSlider = document.getElementById('master-volume');
+            showScreen('loading-screen');
+            setTimeout(() => { showScreen('tap-to-start-screen'); }, 2500);
+            tapToStartScreen.addEventListener('click', () => { showScreen('main-menu-screen'); sounds.titleMusic.play(); sounds.titleMusic.fade(0, 0.4, 2000); }, { once: true });
+            document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.fade(0.4, 0, 1000); setTimeout(() => sounds.titleMusic.stop(), 1000); startGame(); });
+            document.getElementById('story-button').addEventListener('click', () => showScreen('story-screen'));
+            document.getElementById('options-button-menu').addEventListener('click', () => showScreen('options-screen'));
+            document.getElementById('credits-button').addEventListener('click', () => showScreen('credits-screen'));
+            document.querySelectorAll('.back-button').forEach(button => button.addEventListener('click', () => showScreen('main-menu-screen')));
+            document.getElementById('reset-save-button').addEventListener('click', resetSave);
+            volumeSlider.addEventListener('input', (event) => { setMasterVolume(event.target.value); localStorage.setItem('masterVolume', event.target.value); });
+            const savedVolume = localStorage.getItem('masterVolume');
+            if (savedVolume !== null) { volumeSlider.value = savedVolume; setMasterVolume(savedVolume); } else { volumeSlider.value = 1; }
+            
+            // Listener para el guardado al cerrar la página
+            window.addEventListener('beforeunload', saveGame);
+        });
+        ---------- FIN CONTENIDO ----------
+
+        📄 Archivo: ui.js
+        ---------- CONTENIDO ----------
+        // ---- ELEMENTOS DE LA INTERFAZ (UI ELEMENTS) ----
+        const moneyDisplay = document.getElementById('money-display');
+        const dpsDisplay = document.getElementById('dps-display');
+        const dpcDisplay = document.getElementById('dpc-display');
+        const upgradesContainer = document.getElementById('upgrades-container');
+        const interactionArea = document.querySelector('.interaction-area');
+        const prestigePointsDisplay = document.getElementById('prestige-points-display');
+        const relaunchButton = document.getElementById('relaunch-button'); // CONSTANTE NUEVA
+        
+        // ... (La función formatNumber y showFloatingNumber no cambian) ...
+        function formatNumber(number) { if (Math.abs(number) < 1000) return number.toFixed(0); const suffixes = ["", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc"]; const tier = Math.floor(Math.log10(Math.abs(number)) / 3); if (tier >= suffixes.length) return number.toExponential(2).replace('+', ''); const suffix = suffixes[tier]; const scale = Math.pow(10, tier * 3); const scaled = number / scale; return scaled.toFixed(2) + suffix; }
+        function showFloatingNumber(event) {
+            const container = document.querySelector('.main-click-area');
+            if (!container) return; // Si no encuentra el contenedor, no hace nada para evitar errores.
+        
+            const floatingNumber = document.createElement('span');
+            floatingNumber.className = 'floating-number';
+            floatingNumber.textContent = `+$${formatNumber(gameState.moneyPerClick)}`;
+            floatingNumber.style.left = `${event.pageX - container.getBoundingClientRect().left}px`;
+            floatingNumber.style.top = `${event.pageY - container.getBoundingClientRect().top}px`;
+            container.appendChild(floatingNumber);
+            setTimeout(() => {
+                floatingNumber.remove();
+            }, 1000);
+        }
+        
+        function renderUpgrades() {
+            // Los iconos ahora incluyen las nuevas mejoras que hemos añadido.
+            const icons = {
+                'lineaCobre': '🔗',
+                'antenaRepetidora': '📡',
+                'centralitaAnaloga': '🏢',
+                'centralitaDigital': '🤖',
+                'fibraOptica': '✨',
+                'kitHerramientas': '🛠️',
+                'tecladoTonos': '⌨️',
+                'modem2400': '📠',
+                'tarjetaRed': '🔌',
+                'softwareTerminal': '👨‍💻',
+                'servidorBBS': '💾',
+                'protocoloTCPIP': '🌐',
+                'tecnicoJunior': '👷',
+                'marketingLocal': '📰',
+                'capacitacion': '🎓'
+            };
+        
+            let html = '';
+            // El primer bucle itera sobre las CATEGORÍAS (ej. 'infraestructura', 'equipamiento').
+            for (const categoryId in upgrades) {
+                const category = upgrades[categoryId];
+                
+                // Añadimos un encabezado H3 para cada categoría.
+                html += `<h3 class="category-header">${category.name}</h3>`;
+        
+                // El segundo bucle (anidado) itera sobre las MEJORAS dentro de esa categoría.
+                for (const upgradeId in category.items) {
+                    const upgrade = category.items[upgradeId];
+                    // Generamos el HTML para cada mejora, igual que antes.
+                    // Hemos añadido un ID al div contenedor principal para poder seleccionarlo más tarde.
+                    html += `
+                        <div class="upgrade" id="upgrade-container-${upgradeId}">
+                            <div class="upgrade-icon">${icons[upgradeId] || '⚙️'}</div>
+                            <div class="upgrade-info">
+                                <h4>${upgrade.name} (Nivel <span id="level-${upgradeId}">0</span>)</h4>
+                                <p>${upgrade.description}</p>
+                            </div>
+                            <button id="buy-${upgradeId}" class="buy-button" data-upgrade-id="${upgradeId}">
+                                Comprar: $<span id="cost-${upgradeId}">0</span>
+                            </button>
+                        </div>`;
+                }
+            }
+            // Finalmente, inyectamos todo el HTML generado en el contenedor.
+            upgradesContainer.innerHTML = html;
+        }
+        
+        // ---- FUNCIÓN PRINCIPAL DE ACTUALIZACIÓN DE UI ----
+        function updateUI() {
+            moneyDisplay.textContent = `Capital: $${formatNumber(gameState.money)}`;
+            dpsDisplay.textContent = `Flujo de Red: +$${formatNumber(gameState.moneyPerSecond)}/s`;
+            dpcDisplay.textContent = `Ancho de Banda: +$${formatNumber(gameState.moneyPerClick)}/conexión`;
+        
+            const bonus = gameState.prestigePoints * 2;
+            prestigePointsDisplay.textContent = `Puntos de Innovación: ${gameState.prestigePoints} (+${bonus}%)`;
+            
+            // LÓGICA NUEVA PARA EL BOTÓN 'relaunch-button'
+            const pointsToGain = calculatePrestigePointsToGain();
+            if (pointsToGain > 0) {
+                relaunchButton.classList.remove('is-disabled');
+                relaunchButton.textContent = `Relanzar por ${pointsToGain} Puntos`;
+                relaunchButton.classList.add('can-afford-glow');
+            } else {
+                relaunchButton.classList.add('is-disabled');
+                relaunchButton.textContent = 'Relanzar';
+                relaunchButton.classList.remove('can-afford-glow');
+            }
+        
+            for (const categoryId in upgrades) {
+        		for (const upgradeId in upgrades[categoryId].items) {
+        			const cost = calculateUpgradeCost(upgradeId);
+        			const buyButton = document.getElementById(`buy-${upgradeId}`);
+        			const upgradeContainer = document.getElementById(`upgrade-container-${upgradeId}`);
+        			const upgradeInfoDiv = upgradeContainer.querySelector('.upgrade-info');
+        
+        			if (!buyButton || !upgradeContainer || !upgradeInfoDiv) continue;
+        
+        			const levelSpan = document.getElementById(`level-${upgradeId}`);
+        			if(levelSpan) levelSpan.textContent = gameState.upgradeLevels[upgradeId] || 0;
+                
+        			const costSpan = document.getElementById(`cost-${upgradeId}`);
+        			if(costSpan) costSpan.textContent = formatNumber(cost);
+        
+        			// Eliminamos el div de requisitos anterior para evitar duplicados
+        			const oldReqsDiv = upgradeInfoDiv.querySelector('.requirements-list');
+        			if (oldReqsDiv) oldReqsDiv.remove();
+        
+        			const hurdle = findNextRequirementHurdle(upgradeId);
+                
+        			if (hurdle) {
+        				// --- HAY UN BLOQUEO ACTIVO: Mostramos los requisitos ---
+        				upgradeContainer.classList.add('is-locked');
+        				buyButton.classList.add('is-disabled');
+        				buyButton.classList.remove('can-afford-glow');
+        
+        				let requirementsHtml = `<div class="requirements-list is-locked-info">`;
+        				requirementsHtml += `<p class="unmet">Bloqueado en Nivel ${hurdle.level}</p>`;
+        
+        				for (const reqId in hurdle.reqs) {
+        					// --- LA CORRECCIÓN ESTÁ AQUÍ ---
+        					// ANTES: findById(reqId) --> INCORRECTO
+        					// AHORA: findUpgradeById(reqId) --> CORRECTO
+        					const requiredUpgrade = findUpgradeById(reqId); 
+        					const requiredLevel = hurdle.reqs[reqId];
+        					const currentReqLevel = gameState.upgradeLevels[reqId] || 0;
+        					const isMet = currentReqLevel >= requiredLevel;
+        					const statusClass = isMet ? 'met' : 'unmet';
+                        
+        					// Aseguramos que 'requiredUpgrade' no sea nulo antes de intentar acceder a su nombre
+        					if(requiredUpgrade) {
+        						requirementsHtml += `
+        							<p class="${statusClass}">
+        								- ${requiredUpgrade.name} (${currentReqLevel}/${requiredLevel})
+        							</p>`;
+        					}
+        				}
+        				requirementsHtml += '</div>';
+        				upgradeInfoDiv.insertAdjacentHTML('beforeend', requirementsHtml);
+        				buyButton.title = 'Requisitos no cumplidos';
+        
+        			} else {
+        				// --- NO HAY BLOQUEO ACTIVO: La mejora se ve normal ---
+        				upgradeContainer.classList.remove('is-locked');
+        				const canAfford = gameState.money >= cost;
+        				buyButton.classList.toggle('is-disabled', !canAfford);
+        				buyButton.classList.toggle('can-afford-glow', canAfford);
+        				buyButton.title = '';
+        			}
+        		}
+        	}
+        }
+        ---------- FIN CONTENIDO ----------
+

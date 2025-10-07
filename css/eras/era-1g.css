@@ -1,0 +1,298 @@
+/* ==================================================================
+   ESTILOS DE ERA: 1G - Años 80 (Terminal CRT Fósforo Verde)
+   ================================================================== */
+
+/* 1. ESTILOS GLOBALES DE LA VENTANA DE JUEGO */
+.game-container { 
+    background-color: #020A02; /* Fondo de pantalla de terminal oscuro */
+    border: 5px solid #666; /* Borde grueso para simular el bisel del monitor */
+    border-radius: 8px; 
+    box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.3), /* Brillo externo */
+        0 0 10px rgba(0, 255, 0, 0.2) inset; /* Brillo interno */
+    padding: 0;
+}
+
+/* Aplicamos el color de texto y la sombra de fósforo a todo el contenido del juego */
+.game-container, .tab-panel {
+    color: #00FF00; /* Verde Fósforo Puro */
+    text-shadow: 0 0 3px rgba(0, 255, 0, 0.8), 0 0 8px rgba(0, 255, 0, 0.5);
+}
+
+
+/* 2. BARRA SUPERIOR */
+.top-bar { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px; /* Reducimos el padding para ser más compactos */
+    border-bottom: 2px solid #00AA00; /* Separador de línea verde */
+    background-color: #000; /* Fondo negro puro para el panel */
+    flex-shrink: 0; 
+    color: #00FF00; /* Color de texto base: Fósforo Verde */
+    text-shadow: 0 0 3px rgba(0, 255, 0, 0.8); /* Sombra de fósforo */
+    font-family: 'VT323', monospace; /* Fuente monoespacio para mejor legibilidad de números */
+}
+
+/* Contenedores de Recurso */
+.resource-display {
+	/* Quitamos el Press Start 2P y usamos VT323 para ser más legible en la barra */
+	font-family: 'VT323', monospace; 
+	min-width: 0;
+}
+
+/* Display de Dinero (Capital) */
+#money-display { 
+    font-size: 1.2rem; /* Ligeramente más grande para que el número destaque */
+    color: #00FF00; /* Verde Fósforo Puro */
+    text-shadow: 0 0 8px #00FF00; /* Más brillo para el recurso principal */
+    font-weight: bold; /* El texto no tiene font-weight, pero la sombra lo simula */
+}
+
+/* Display de DPS (Flujo de Red) */
+#dps-display { 
+    font-size: 0.8rem; 
+    margin-top: 2px;
+    color: #FFFF00; /* Amarillo para el flujo de red (acción/alerta sutil) */
+    text-shadow: 0 0 5px #FFFF00; 
+}
+
+/* Barra de Atajos (Accesos a Tienda, Logros, etc.) */
+.top-shortcut-bar { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; /* Reducimos el espacio entre los botones */
+}
+
+
+/* 3. PESTAÑA PRINCIPAL */
+/* Fondo Animado (CRT Grid) */
+#main-tab-background {
+    background-color: #020A02;
+    background-image:
+        radial-gradient(circle at center, rgba(0, 255, 0, 0.2) 0%, transparent 60%),
+        linear-gradient(to right, rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    background-size: 1px 40px, 40px 1px, 40px 40px; 
+}
+/* Efecto de líneas de escaneo */
+#main-tab-background::after {
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 50%, transparent 50%); 
+    background-size: 100% 4px;
+    opacity: 0.3;
+}
+.terminal-header {
+    background-color: #000;
+    color: #00FF00;
+    border: 1px solid #00AA00; 
+    text-shadow: 0 0 5px #00FF00;
+}
+.terminal-header .status-online {
+    color: #FFFF00; /* Amarillo para el estatus online */
+    text-shadow: 0 0 5px #FFFF00;
+}
+.prestige-info-top { 
+    color: #FF00FF; /* Fucsia para el prestigio */
+    text-shadow: 0 0 5px #FF00FF; 
+}
+/* Botón Principal (El Núcleo CRT) */
+.main-click-button { 
+    width: 200px; 
+    height: 200px;
+    background: radial-gradient(circle, #00FF00, #008800); 
+    border: 5px solid #00FF00; 
+    box-shadow: 0 0 30px #00FF00, inset 0 0 15px rgba(255, 255, 255, 0.5); 
+}
+.main-click-button:active { box-shadow: 0 0 5px #00FF00; }
+.main-click-button small { color: #FFFF00; }
+
+
+/* 4. PESTAÑA MEJORAS */
+
+/* Encabezados de Categoría */
+.category-header {
+    color: #FF00FF; /* Fucsia */
+    text-shadow: 0 0 5px #FF00FF;
+    border-bottom: 2px solid #00AA00; /* Línea separadora verde */
+}
+/* Contenedor de Mejora (Tarjeta de Circuito) */
+.upgrade {
+    padding: 5px 8px; 
+    grid-template-columns: auto 1fr 105px; 
+    align-items: center;
+    gap: 8px; /* Espacio reducido */
+    
+    background-color: rgba(0, 100, 0, 0.1); 
+    border: 1px solid #00AA00; 
+    border-radius: 0;
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.1); 
+}
+.upgrade:hover {
+    background-color: rgba(0, 100, 0, 0.3);
+}
+
+/* Icono */
+.upgrade-icon {
+    font-size: 1.4rem; /* Reducción ligera del tamaño de icono */
+}
+
+/* Sección de Información */
+.upgrade-info h4 {
+    margin: 0 0 1px 0; /* Espacio muy reducido después del título */
+    font-size: 1.05rem; /* Fuente del título un poco más compacta */
+    line-height: 1.1;
+}
+.upgrade-info p {
+    color: #99FF99; 
+    font-size: 0.8rem; /* Fuente de la descripción más pequeña */
+    line-height: 1.2;
+}
+
+/* Botón de Compra */
+.buy-button {
+    padding: 8px 5px; /* Padding muy reducido */
+    font-size: 0.65rem; /* Fuente más pequeña */
+    
+    color: #FFFF00; 
+    border: 2px solid #FFFF00;
+    border-radius: 0;
+    font-family: 'Press Start 2P', cursive;
+    text-shadow: 0 0 5px #FFFF00; 
+}
+.buy-button:not(.is-disabled):hover {
+    background-color: #FFFF00;
+    color: #000;
+    box-shadow: 0 0 15px #FFFF00;
+}
+.buy-button.is-disabled {
+    border-color: #666; 
+    color: #666;
+    text-shadow: none;
+}
+
+/* Mejoras Bloqueadas (Mantenemos los estilos de era) */
+.upgrade.is-locked {
+    border-color: #003300; 
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+/* Requisitos Visuales */
+.requirements-list {
+    margin-top: 5px; /* Espacio reducido */
+    padding-top: 4px; /* Padding reducido */
+    border-top: 1px dashed rgba(0, 255, 0, 0.3);
+}
+.requirements-list p.unmet {
+    color: #FF0000; 
+    text-shadow: 0 0 3px #FF0000;
+}
+.requirements-list p.met {
+    color: #00FF00; 
+    text-shadow: 0 0 3px #00FF00;
+}
+
+
+/* 5. PESTAÑA EVOLUCIÓN */
+.evolution-content h2 { 
+    color: #FF00FF; 
+    text-shadow: 0 0 5px #FF00FF; 
+}
+.current-era { 
+    background: rgba(0,0,0,0.5); 
+    border: 1px solid #FF00FF; 
+    color: #00FF00;
+    text-shadow: 0 0 3px rgba(0, 255, 0, 0.8);
+}
+/* Botón Relanzar (Prestigio) */
+.relaunch-button-styled { 
+    color: #FF00FF; 
+    border: 3px solid #FF00FF; 
+    border-radius: 0; 
+    text-shadow: 0 0 10px #FF00FF;
+}
+.relaunch-button-styled:not(.is-disabled):hover { 
+    background-color: #FF00FF; 
+    color: #000; 
+    box-shadow: 0 0 20px #FF00FF; 
+}
+.relaunch-button-styled.is-disabled { 
+    border-color: #444; 
+    color: #444; 
+    text-shadow: none;
+}
+
+
+/* 6. BARRA DE NAVEGACIÓN INFERIOR */
+.game-tab-bar { 
+    border-top: 3px solid #00FF00; 
+    height: 70px;
+    background-color: #1A1A1A; /* Panel oscuro */
+}
+.tab-btn { 
+    background: #252525; /* Fondo de tecla */
+    border-right: 1px solid #00AA00; 
+    color: #00FF00; 
+    font-family: 'Press Start 2P', cursive; 
+    font-size: 0.8rem; 
+    text-shadow: 0 0 3px rgba(0, 255, 0, 0.5);
+}
+.tab-btn:hover:not(.active) {
+    background: #303030;
+    color: #FFFF00;
+    text-shadow: 0 0 5px #FFFF00;
+}
+.tab-btn.active { 
+    background: #00FF00; 
+    color: #000; 
+    text-shadow: none;
+}
+.tab-btn:first-child { border-left: none; }
+.tab-btn:last-child { border-right: none; }
+
+
+/* 7. ANIMACIONES DE RESPLANDOR (ESPECÍFICAS DE LA ERA) */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px #FFFF00, 0 0 10px #FFFF00 inset;
+    }
+    50% {
+        box-shadow: 0 0 15px #FFFF00, 0 0 20px #FFFF00 inset;
+    }
+    100% {
+        box-shadow: 0 0 5px #FFFF00, 0 0 10px #FFFF00 inset;
+    }
+}
+.can-afford-glow:not(.is-disabled) { animation: glow 2s infinite; }
+
+/* Animación específica para el botón de prestigio (Fucsia) */
+@keyframes glow-prestige {
+    0% {
+        box-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF inset;
+    }
+    50% {
+        box-shadow: 0 0 15px #FF00FF, 0 0 20px #FF00FF inset;
+    }
+    100% {
+        box-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF inset;
+    }
+}
+.relaunch-button-styled.can-afford-glow { animation: glow-prestige 2s infinite; }
+
+/* 8. ESTILOS DE ATAJO (SHORTCUTS) - MOVIDOS DE icons.css */
+
+.top-shortcut-bar .shortcut-btn i {
+    width: 30px; /* Tamaño más pequeño y compacto */
+    height: 30px;
+    background: #1A1A1A; /* Fondo de panel oscuro */
+    border: 1px solid #00AA00; /* Borde de verde intermedio */
+    border-radius: 2px; /* Ligeramente cuadrado para la terminal */
+    color: #FFFF00; /* Color de icono: Amarillo Fósforo para acción */
+    text-shadow: 0 0 5px #FFFF00;
+    transition: all 0.2s ease;
+}
+
+.top-shortcut-bar .shortcut-btn:hover i {
+    background-color: #00FF00; /* Fondo activo en verde puro */
+    color: #000; /* Texto oscuro en fondo brillante */
+    box-shadow: 0 0 10px #00FF00;
+    text-shadow: none;
+}
