@@ -1116,20 +1116,47 @@ Análisis del Proyecto: imperio-de-la-conexion
 
         📄 Archivo: audio.js
         ---------- CONTENIDO ----------
-        // ---- MANEJADOR DE AUDIO (VERSIÓN CON ARCHIVOS LOCALES) ----
+        // --- NUEVO: Bandera para controlar la reproducción de clips ---
+        // Evita que se dispare un nuevo clip si otro ya está sonando.
+        let isClipPlaying = false;
         
-        // Estado para saber si el sonido está activado o desactivado.
-        let isMuted = false;
+        // --- NUEVO: Volumen base para la música durante el juego ---
+        // Lo definimos aquí para que sea fácil de ajustar y reutilizar.
+        const GAME_MUSIC_VOLUME = 0.2;
+        const TITLE_MUSIC_VOLUME = 0.4;
         
-        // Definimos todos nuestros sonidos usando Howler.js, apuntando a nuestros archivos locales.
+        // Definimos todos nuestros sonidos usando Howler.js
         const sounds = {
-        	titleMusic: new Howl({
+            // La música de fondo no cambia
+            titleMusic: new Howl({
                 src: ['assets/audio/title-music.mp3'],
-                volume: 0.4,
+                volume: TITLE_MUSIC_VOLUME,
                 loop: true,
-        		preload: true,
-                html5: true 
+                preload: true,
+                html5: true
             }),
+            
+            // --- NUEVO: Array para tus clips de audio aleatorios ---
+            randomClips: [
+                new Howl({
+                    src: ['assets/audio/clips/Rikisisisimo.wav'],
+                    volume: 0.7
+                }),
+                new Howl({
+                    src: ['assets/audio/clips/Corazon_de_zeda.wav'],
+                    volume: 0.7
+                }),
+                new Howl({
+                    src: ['assets/audio/clips/bebesita.mp3'],
+                    volume: 0.7
+                }),
+        		new Howl({
+                    src: ['assets/audio/clips/shakira.mp3'],
+                    volume: 0.7
+                })
+            ],
+        
+            // Los sonidos de la UI no cambian
             click: new Howl({
                 src: ['assets/audio/click.mp3'],
                 volume: 0.7,
@@ -1145,20 +1172,43 @@ Análisis del Proyecto: imperio-de-la-conexion
             })
         };
         
-        // Función global para reproducir un sonido por su nombre.
+        // Función global para reproducir un sonido por su nombre (sin cambios).
         function playSound(soundName) {
-            if (!isMuted && sounds[soundName]) {
+            if (sounds[soundName]) {
                 sounds[soundName].play();
             }
         }
         
-        // Función para alternar el sonido.
-        function toggleMute() {
-            isMuted = !isMuted;
-            // Actualiza el estado visual del botón de opciones
-            const optionsButton = document.getElementById('options-button');
-            optionsButton.textContent = isMuted ? '🔇' : '⚙️';
-            console.log(isMuted ? "Sonido Silenciado" : "Sonido Activado");
+        // --- NUEVA FUNCIÓN PRINCIPAL ---
+        // Esta es la función que orquesta todo el efecto de "audio ducking".
+        function playRandomSoundClip() {
+            // 1. Si ya hay un clip sonando o si no hay clips definidos, no hacemos nada.
+            if (isClipPlaying || sounds.randomClips.length === 0) {
+                return;
+            }
+            
+            // 2. Activamos la bandera para bloquear otros clips.
+            isClipPlaying = true;
+        
+            // 3. Elegimos un clip de audio al azar del array.
+            const clip = sounds.randomClips[Math.floor(Math.random() * sounds.randomClips.length)];
+        
+            // 4. Bajamos suavemente el volumen de la música de fondo.
+            //    El método .fade() va de un volumen a otro en un tiempo determinado (en milisegundos).
+            sounds.titleMusic.fade(GAME_MUSIC_VOLUME, 0.05, 800); // Baja a 5% de volumen en 0.8s
+        
+            // 5. Escuchamos el evento 'end' del clip. Esto es clave.
+            //    .once() se asegura de que esta función solo se ejecute una vez, cuando el clip termine.
+            clip.once('end', () => {
+                // Cuando el clip ha terminado, subimos el volumen de la música de vuelta a su nivel original.
+                sounds.titleMusic.fade(0.05, GAME_MUSIC_VOLUME, 1200); // Sube de vuelta al volumen de juego en 1.2s
+                
+                // Liberamos la bandera para que otro clip pueda sonar en el futuro.
+                isClipPlaying = false;
+            });
+        
+            // 6. ¡Reproducimos el clip elegido!
+            clip.play();
         }
         
         // NUEVA FUNCIÓN para controlar el volumen de todos los sonidos
@@ -1177,72 +1227,60 @@ Análisis del Proyecto: imperio-de-la-conexion
                     'lineaCobre': {
                         name: 'Instalar Línea de Cobre',
                         description: 'El primer paso. Conecta clientes y genera ingresos pasivos.',
-                        type: 'dps', 
-                        baseCost: 20,         // Coste Alto
-                        baseEffect: 0.5,      // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 20,
+                        baseEffect: 0.5,
                         requirements: [
-                            // Nivel 10: Requisitos iniciales de sinergia para obligar a diversificar
-                            { level: 10, reqs: { 'kitHerramientas': 5, 'marketingLocal': 1 } }, 
-                            // Nivel 30: El negocio crece, se necesita más equipamiento de cliente
-                            { level: 30, reqs: { 'tecladoTonos': 15 } }, 
-                            // Nivel 75: Cierre del capítulo analógico. Requiere un gran despliegue de software y hardware.
-                            { level: 75, reqs: { 'centralitaAnaloga': 10, 'softwareTerminal': 40 } } 
+                            // CORREGIDO: Ahora requiere marketing para crecer, pero el marketing no lo requiere a él en un bucle.
+                            { level: 10, reqs: { 'kitHerramientas': 5, 'marketingLocal': 1 } },
+                            { level: 30, reqs: { 'tecladoTonos': 15 } },
+                            { level: 75, reqs: { 'centralitaAnaloga': 10, 'softwareTerminal': 40 } }
                         ]
                     },
                     'antenaRepetidora': {
                         name: 'Instalar Antena Repetidora',
                         description: 'Amplifica la señal para llegar a las afueras de la ciudad.',
-                        type: 'dps', 
-                        baseCost: 180,        // Coste Alto
-                        baseEffect: 5,        // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 180,
+                        baseEffect: 5,
                         requirements: [
-                            // Nivel 1: Infraestructura base para poder repetir
                             { level: 1, reqs: { 'lineaCobre': 25 } },
-                            // Nivel 15: Requiere software de gestión de nodos para ser eficiente
-                            { level: 15, reqs: { 'softwareTerminal': 10 } }, 
-                            // Nivel 35: Requiere la centralita como hub de gestión y modems para el alcance
-                            { level: 35, reqs: { 'centralitaAnaloga': 5, 'modem2400': 15 } } 
+                            { level: 15, reqs: { 'softwareTerminal': 10 } },
+                            { level: 35, reqs: { 'centralitaAnaloga': 5 } }
                         ]
                     },
                     'centralitaAnaloga': {
                         name: 'Construir Centralita Analógica',
                         description: 'Un conmutador que gestiona docenas de líneas automáticamente.',
-                        type: 'dps', 
-                        baseCost: 1800,       // Coste Alto
-                        baseEffect: 30,       // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 1800,
+                        baseEffect: 30,
                         requirements: [
-                            // Nivel 1: BLOQUEO PRINCIPAL - Requiere red, modems y software de gestión. TRIPLE REQUISITO.
-                            { level: 1, reqs: { 'lineaCobre': 50, 'modem2400': 5, 'softwareTerminal': 20 } }, 
-                            // Nivel 15: La Centralita requiere contenido (BBS) para generar tráfico masivo
+                            { level: 1, reqs: { 'lineaCobre': 50, 'softwareTerminal': 20 } },
                             { level: 15, reqs: { 'servidorBBS': 5 } },
-                            // Nivel 40: Requiere despliegue avanzado de red y hardware de cliente de alta calidad
-                            { level: 40, reqs: { 'tarjetaRed': 5, 'antenaRepetidora': 25 } } 
+                            { level: 40, reqs: { 'antenaRepetidora': 25, 'modem2400': 15 } }
                         ]
                     },
                     'centralitaDigital': {
                         name: 'Actualizar a Centralita Digital',
                         description: 'Reemplaza relés por microchips para una eficiencia sin precedentes.',
-                        type: 'dps', 
-                        baseCost: 50000,      // Coste Muy Alto
-                        baseEffect: 220,      // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 50000,
+                        baseEffect: 220,
                         requirements: [
-                            // Nivel 1: BLOQUEO DE ERA - Requiere la base de la red antigua, el protocolo y el contenido. TRIPLE REQUISITO.
-                            { level: 1, reqs: { 'centralitaAnaloga': 35, 'protocoloTCPIP': 5, 'servidorBBS': 15 } }, 
-                            // Nivel 25: Exige una base masiva de clientes con hardware digital (tarjeta de red)
-                            { level: 25, reqs: { 'tarjetaRed': 50 } } 
+                            { level: 1, reqs: { 'centralitaAnaloga': 35, 'servidorBBS': 15 } },
+                            { level: 25, reqs: { 'modem2400': 50 } }
                         ]
                     },
                     'fibraOptica': {
                         name: 'Red de Fibra Óptica',
                         description: 'Tecnología experimental que usa pulsos de luz. Un salto cuántico.',
-                        type: 'dps', 
-                        baseCost: 250000,     // Coste Extremo
-                        baseEffect: 500,      // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 250000,
+                        baseEffect: 500,
                         requirements: [
-                            // Nivel 1: Exige el dominio completo de la red digital (Centralita Digital) y el estándar (TCP/IP)
-                            { level: 1, reqs: { 'centralitaDigital': 15, 'protocoloTCPIP': 20 } }, 
-                            // Nivel 20: Requiere la cobertura total (Antenas) y la adopción de hardware extremo (Tarjeta de Red)
-                            { level: 20, reqs: { 'tarjetaRed': 100, 'antenaRepetidora': 50 } }
+                            { level: 1, reqs: { 'centralitaDigital': 15, 'protocoloTCPIP': 20 } },
+                            { level: 20, reqs: { 'tarjetaRed': 100 } }
                         ]
                     }
                 }
@@ -1253,49 +1291,42 @@ Análisis del Proyecto: imperio-de-la-conexion
                     'kitHerramientas': {
                         name: 'Kit de Herramientas Básico',
                         description: 'Un buen soldador y alicates. Cada conexión manual es más limpia.',
-                        type: 'dpc', 
+                        type: 'dpc',
                         baseCost: 15,
                         baseEffect: 1,
-                        requirements: [] // El DPC inicial no tiene requisitos
+                        requirements: []
                     },
                     'tecladoTonos': {
                         name: 'Teclado de Tonos DTMF',
                         description: 'Reemplaza el dial rotatorio, optimizando cada clic.',
-                        type: 'dpc', 
+                        type: 'dpc',
                         baseCost: 100,
                         baseEffect: 3,
                         requirements: [
-                            // Nivel 5: Necesitas más que las herramientas, necesitas la red básica
                             { level: 5, reqs: { 'kitHerramientas': 10, 'lineaCobre': 5 } },
-                            // Nivel 25: Necesitas gestión de línea para manejar el tráfico DPC optimizado
-                            { level: 25, reqs: { 'centralitaAnaloga': 1, 'softwareTerminal': 10 } } 
+                            { level: 25, reqs: { 'centralitaAnaloga': 1, 'softwareTerminal': 10 } }
                         ]
                     },
                     'modem2400': {
                         name: 'Módem 2400 baudios',
                         description: 'Permite a los ordenadores comunicarse por vía telefónica.',
-                        type: 'dps', 
-                        baseCost: 800,        // Coste Alto
-                        baseEffect: 12,       // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 800,
+                        baseEffect: 12,
                         requirements: [
-                            // Nivel 1: Requiere alcance de red para que los modems sean útiles
-                            { level: 1, reqs: { 'antenaRepetidora': 15 } }, 
-                            // Nivel 20: Exige software de terminal para un uso eficiente de los datos
-                            { level: 20, reqs: { 'softwareTerminal': 25 } }, 
-                            // Nivel 40: Requiere la centralita analógica para manejar múltiples conexiones
+                            { level: 1, reqs: { 'antenaRepetidora': 10 } },
+                            { level: 20, reqs: { 'softwareTerminal': 25 } },
                             { level: 40, reqs: { 'centralitaAnaloga': 10 } }
                         ]
                     },
                     'tarjetaRed': {
                         name: 'Tarjeta de Red ISA',
                         description: 'Una placa para PCs que permite conexiones directas y eficientes.',
-                        type: 'dpc', 
-                        baseCost: 15000,      // Coste Alto
-                        baseEffect: 25,       // Efecto Bajo
+                        type: 'dpc',
+                        baseCost: 15000,
+                        baseEffect: 25,
                         requirements: [
-                            // Nivel 1: BLOQUEO - Necesitas el protocolo digital y un software de terminal muy maduro
-                            { level: 1, reqs: { 'softwareTerminal': 50, 'protocoloTCPIP': 1 } }, 
-                            // Nivel 15: Requiere una centralita digital para que el hardware se conecte a alta velocidad
+                            { level: 1, reqs: { 'protocoloTCPIP': 1, 'softwareTerminal': 50 } },
                             { level: 15, reqs: { 'centralitaDigital': 5 } }
                         ]
                     }
@@ -1307,56 +1338,48 @@ Análisis del Proyecto: imperio-de-la-conexion
                     'marketingLocal': {
                         name: 'Campaña de Marketing Local',
                         description: 'Anuncios en periódicos. Atrae demanda para tu red de cobre.',
-                        type: 'dps', 
-                        baseCost: 300,        // Coste Alto
-                        baseEffect: 3,        // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 300,
+                        baseEffect: 3,
                         requirements: [
-                            // Nivel 1: Requiere tener una red mínima antes de publicitar
-                            { level: 1, reqs: { 'lineaCobre': 10 } }, 
-                            // Nivel 15: Necesita un equipo de cliente mejor (DPC) para manejar la afluencia
+                            // CORREGIDO: Ahora solo requiere una PEQUEÑA base de cobre para empezar. Esto rompe el deadlock.
+                            { level: 1, reqs: { 'lineaCobre': 5 } },
                             { level: 15, reqs: { 'tecladoTonos': 10 } }
                         ]
                     },
                     'softwareTerminal': {
                         name: 'Software de Terminal',
                         description: 'Un código más limpio para procesar datos más rápido en cada clic.',
-                        type: 'dpc', 
+                        type: 'dpc',
                         baseCost: 180,
                         baseEffect: 5,
                         requirements: [
-                            // Nivel 1: Software inicial requiere hardware de cliente (Teclados de Tonos)
                             { level: 1, reqs: { 'tecladoTonos': 5 } },
-                            // Nivel 20: Se necesita una red de cobre extensa para justificar el software avanzado
-                            { level: 20, reqs: { 'lineaCobre': 30 } }, 
-                            // Nivel 40: Requiere el módem para la transferencia de datos y la centralita para el proceso
-                            { level: 40, reqs: { 'modem2400': 10, 'centralitaAnaloga': 5 } } 
+                            { level: 20, reqs: { 'lineaCobre': 30 } },
+                            { level: 40, reqs: { 'modem2400': 10, 'centralitaAnaloga': 5 } }
                         ]
                     },
                     'servidorBBS': {
                         name: 'Servidor BBS "El Eco Digital"',
                         description: 'Crea una comunidad online. Los usuarios pagan una cuota por acceso.',
-                        type: 'dps', 
-                        baseCost: 9000,        // Coste Alto
-                        baseEffect: 80,       // Efecto Bajo
+                        type: 'dps',
+                        baseCost: 9000,
+                        baseEffect: 80,
                         requirements: [
-                            // Nivel 1: Requiere la Centralita Analógica como base de hosting
-                            { level: 1, reqs: { 'centralitaAnaloga': 5 } }, 
-                            // Nivel 10: Requiere un software de terminal muy depurado para su gestión
+                            { level: 1, reqs: { 'centralitaAnaloga': 5 } },
                             { level: 10, reqs: { 'softwareTerminal': 30 } },
-                            // Nivel 25: Necesita la base de la red digital (TCP/IP) para escalar su contenido
-                            { level: 25, reqs: { 'protocoloTCPIP': 5 } } 
+                            // LÓGICA CORREGIDA: Para escalar, un BBS necesita una base masiva de usuarios con módems, no una tecnología futura.
+                            { level: 25, reqs: { 'modem2400': 30 } }
                         ]
                     },
                     'protocoloTCPIP': {
                         name: 'Implementar Protocolo TCP/IP',
                         description: 'Estandariza tu red para un tráfico masivo. La base de Internet.',
-                        type: 'dpc', 
-                        baseCost: 65000,      // Coste Muy Alto
-                        baseEffect: 60,       // Efecto Bajo
+                        type: 'dpc',
+                        baseCost: 65000,
+                        baseEffect: 60,
                         requirements: [
-                            // Nivel 1: BLOQUEO DE ERA - Requiere contenido (BBS), red digital (Centralita Digital) y hardware de cliente (Tarjeta de Red). TRIPLE REQUISITO.
-                            { level: 1, reqs: { 'servidorBBS': 15, 'centralitaDigital': 1, 'tarjetaRed': 5 } }, 
-                            // Nivel 10: Requiere una base masiva de la red antigua que el nuevo protocolo va a reemplazar
+                            { level: 1, reqs: { 'centralitaDigital': 1, 'servidorBBS': 10 } },
                             { level: 10, reqs: { 'centralitaAnaloga': 50 } }
                         ]
                     }
@@ -1364,8 +1387,12 @@ Análisis del Proyecto: imperio-de-la-conexion
             }
         };
         
+        const GAME_VERSION = "1.1"; // Puedes usar el número que quieras. Súbelo cada vez que cambies la estructura de guardado.
+        const SAVE_KEY = 'imperioConexionSave_v2'; // Cambiamos el nombre para invalidar guardados muy antiguos y evitar errores complejos.
+        
         // AHORA, REEMPLAZA EL OBJETO "gameState" CON ESTE, NOTA LA NUEVA LISTA EN "upgradeLevels"
         let gameState = {
+        	version: GAME_VERSION,
             money: 0,
             moneyPerClick: 1,
             moneyPerSecond: 0,
@@ -1392,7 +1419,6 @@ Análisis del Proyecto: imperio-de-la-conexion
         };
         
         // ---- LÓGICA DE GUARDADO, CÁLCULO Y PRINCIPAL (SIN CAMBIOS) ----
-        const SAVE_KEY = 'imperioConexionSave_v1'; 
         let isResetting = false; 
         function saveGame() { 
         	if (isResetting) 
@@ -1401,14 +1427,58 @@ Análisis del Proyecto: imperio-de-la-conexion
         		localStorage.setItem(SAVE_KEY, JSON.stringify(gameState)); 
         	} catch(e) {} 
         } 
-        function loadGame() { 
-        	try { 
-        		const saved = localStorage.getItem(SAVE_KEY); 
-        		if (saved) { 
-        			gameState = Object.assign(gameState, JSON.parse(saved)); 
-        		} 
-        	} catch(e) {} 
-        } 
+        function loadGame() {
+            try {
+                const savedJSON = localStorage.getItem(SAVE_KEY);
+                if (!savedJSON) {
+                    // No hay partida guardada, se usa el gameState por defecto.
+                    return;
+                }
+        
+                const savedState = JSON.parse(savedJSON);
+        
+                // Si la versión es la misma, simplemente cargamos el estado y listo.
+                if (savedState.version === GAME_VERSION) {
+                    gameState = savedState;
+                    return;
+                }
+        
+                // --- INICIO DE LA MIGRACIÓN ---
+                // La versión del guardado es diferente (o no existe), así que migramos los datos.
+                console.warn(`Migrando partida guardada desde la versión ${savedState.version || 'antigua'} a ${GAME_VERSION}`);
+        
+                // 1. Empezamos con la estructura por defecto de la nueva versión del juego.
+                const migratedState = JSON.parse(JSON.stringify(gameState)); // Copia profunda del estado por defecto.
+        
+                // 2. Transferimos las propiedades simples (dinero, prestigio, etc.).
+                migratedState.money = savedState.money || 0;
+                migratedState.totalMoneyEver = savedState.totalMoneyEver || 0;
+                migratedState.prestigePoints = savedState.prestigePoints || 0;
+        
+                // 3. Fusionamos los niveles de las mejoras de forma segura.
+                //    Iteramos sobre las mejoras de la NUEVA versión del juego.
+                for (const upgradeId in migratedState.upgradeLevels) {
+                    // Si la mejora existía en la partida GUARDADA, transferimos su nivel.
+                    if (savedState.upgradeLevels && savedState.upgradeLevels.hasOwnProperty(upgradeId)) {
+                        migratedState.upgradeLevels[upgradeId] = savedState.upgradeLevels[upgradeId];
+                    }
+                    // Si no existía (porque es una mejora nueva), se quedará en 0 (su valor por defecto).
+                }
+                
+                // 4. Actualizamos la versión en el objeto de estado y lo asignamos al juego.
+                migratedState.version = GAME_VERSION;
+                gameState = migratedState;
+        
+                // 5. Guardamos inmediatamente el estado migrado para la próxima vez.
+                saveGame();
+                console.log("Migración completada con éxito.");
+        
+            } catch (e) {
+                console.error("Error al cargar o migrar la partida guardada:", e);
+                // Opcional: en caso de error crítico, se puede resetear el guardado.
+                // resetSave(); 
+            }
+        }
         function resetSave() { 
         	if (confirm("¿Borrar progreso?")) { 
         		isResetting = true; 
@@ -1563,22 +1633,50 @@ Análisis del Proyecto: imperio-de-la-conexion
         function generateMoneyOnClick() { 
         	addMoney(gameState.moneyPerClick); 
         } 
-        function prestigeReset() { 
-        	const points = calculatePrestigePointsToGain(); 
-        	if (points > 0) { 
-        		if (confirm(`¿Relanzar para ganar ${points} Puntos?`)) { 
-        			gameState.prestigePoints += points; 
-        			gameState.money = 0; 
-        			gameState.totalMoneyEver = 0; 
-        			gameState.upgradeLevels = { 'tecladoTonos': 0, 'lineaCobre': 0, 'antenaRepetidora': 0, 'centralitaTelefonica': 0 }; 
-        			recalculateGains(); 
-        			saveGame(); 
-        		} 
-        	} 
+        function prestigeReset() {
+            const points = calculatePrestigePointsToGain();
+            if (points > 0) {
+                if (confirm(`¿Relanzar para ganar ${points} Puntos?`)) {
+                    gameState.prestigePoints += points;
+                    gameState.money = 0;
+                    gameState.totalMoneyEver = 0;
+                    
+                    // --- CAMBIO AQUÍ ---
+                    // En lugar de una lista manual, resetea todos los niveles a 0.
+                    for (const key in gameState.upgradeLevels) {
+                        gameState.upgradeLevels[key] = 0;
+                    }
+                    // --- FIN DEL CAMBIO ---
+        
+                    recalculateGains();
+                    saveGame();
+                    updateUI(); // Actualiza la UI para reflejar el reseteo
+                }
+            }
         }
         
         // ---- BUCLE DEL JUEGO ----
-        let gameLoopInterval = null; function gameLoop() { addMoney(gameState.moneyPerSecond / 10); updateUI(); }
+        let gameLoopInterval = null; 
+        function gameLoop() { 
+        	addMoney(gameState.moneyPerSecond / 10); 
+        	updateUI(); 
+        	
+        	randomClipTimer += 100; // El bucle se ejecuta cada 100ms
+            if (randomClipTimer >= nextClipTime) {
+                playRandomSoundClip(); // ¡Llamamos a nuestra nueva función de audio.js!
+                randomClipTimer = 0; // Reseteamos el contador
+                nextClipTime = calculateNextClipTime(); // Calculamos el próximo intervalo aleatorio
+            }
+        }
+        
+        // --- NUEVAS VARIABLES PARA EL TEMPORIZADOR DE CLIPS ---
+        let randomClipTimer = 0; // Acumula el tiempo transcurrido.
+        let nextClipTime = calculateNextClipTime(); // Almacena el tiempo aleatorio para el siguiente clip.
+        
+        // Función para calcular un intervalo aleatorio (ej. entre 15 y 35 segundos)
+        function calculateNextClipTime() {
+            return 15000 + (Math.random() * 20000); // 15s de base + hasta 20s aleatorios
+        }
         
         // ---- GESTOR DE PANTALLAS Y PESTAÑAS ----
         const allScreens = document.querySelectorAll('.full-screen, .game-container');
@@ -1605,7 +1703,7 @@ Análisis del Proyecto: imperio-de-la-conexion
             showScreen('main-menu-screen');
             
             // 4. Reiniciar la música (subir volumen si se bajó antes)
-            sounds.titleMusic.volume(parseFloat(localStorage.getItem('masterVolume')) || 1.0);
+            sounds.titleMusic.fade(GAME_MUSIC_VOLUME, TITLE_MUSIC_VOLUME, 1000);
             
             // Opcional: Pausar la música si quieres que se reanude en el menú, 
             // pero si está en bucle, solo nos aseguramos del volumen.
@@ -1703,7 +1801,7 @@ Análisis del Proyecto: imperio-de-la-conexion
             showScreen('loading-screen');
             setTimeout(() => { showScreen('tap-to-start-screen'); }, 2500);
             tapToStartScreen.addEventListener('click', () => { showScreen('main-menu-screen'); sounds.titleMusic.play(); sounds.titleMusic.fade(0, 0.4, 2000); }, { once: true });
-            document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.volume(0.2); startGame(); });
+            document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.fade(TITLE_MUSIC_VOLUME, GAME_MUSIC_VOLUME, 1000); startGame(); });
             document.getElementById('story-button').addEventListener('click', () => showScreen('story-screen'));
             document.getElementById('options-button-menu').addEventListener('click', () => showScreen('options-screen'));
             document.getElementById('credits-button').addEventListener('click', () => showScreen('credits-screen'));

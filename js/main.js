@@ -6,72 +6,60 @@ const upgrades = {
             'lineaCobre': {
                 name: 'Instalar Línea de Cobre',
                 description: 'El primer paso. Conecta clientes y genera ingresos pasivos.',
-                type: 'dps', 
-                baseCost: 20,         // Coste Alto
-                baseEffect: 0.5,      // Efecto Bajo
+                type: 'dps',
+                baseCost: 20,
+                baseEffect: 0.5,
                 requirements: [
-                    // Nivel 10: Requisitos iniciales de sinergia para obligar a diversificar
-                    { level: 10, reqs: { 'kitHerramientas': 5, 'marketingLocal': 1 } }, 
-                    // Nivel 30: El negocio crece, se necesita más equipamiento de cliente
-                    { level: 30, reqs: { 'tecladoTonos': 15 } }, 
-                    // Nivel 75: Cierre del capítulo analógico. Requiere un gran despliegue de software y hardware.
-                    { level: 75, reqs: { 'centralitaAnaloga': 10, 'softwareTerminal': 40 } } 
+                    // CORREGIDO: Ahora requiere marketing para crecer, pero el marketing no lo requiere a él en un bucle.
+                    { level: 10, reqs: { 'kitHerramientas': 5, 'marketingLocal': 1 } },
+                    { level: 30, reqs: { 'tecladoTonos': 15 } },
+                    { level: 75, reqs: { 'centralitaAnaloga': 10, 'softwareTerminal': 40 } }
                 ]
             },
             'antenaRepetidora': {
                 name: 'Instalar Antena Repetidora',
                 description: 'Amplifica la señal para llegar a las afueras de la ciudad.',
-                type: 'dps', 
-                baseCost: 180,        // Coste Alto
-                baseEffect: 5,        // Efecto Bajo
+                type: 'dps',
+                baseCost: 180,
+                baseEffect: 5,
                 requirements: [
-                    // Nivel 1: Infraestructura base para poder repetir
                     { level: 1, reqs: { 'lineaCobre': 25 } },
-                    // Nivel 15: Requiere software de gestión de nodos para ser eficiente
-                    { level: 15, reqs: { 'softwareTerminal': 10 } }, 
-                    // Nivel 35: Requiere la centralita como hub de gestión y modems para el alcance
-                    { level: 35, reqs: { 'centralitaAnaloga': 5, 'modem2400': 15 } } 
+                    { level: 15, reqs: { 'softwareTerminal': 10 } },
+                    { level: 35, reqs: { 'centralitaAnaloga': 5 } }
                 ]
             },
             'centralitaAnaloga': {
                 name: 'Construir Centralita Analógica',
                 description: 'Un conmutador que gestiona docenas de líneas automáticamente.',
-                type: 'dps', 
-                baseCost: 1800,       // Coste Alto
-                baseEffect: 30,       // Efecto Bajo
+                type: 'dps',
+                baseCost: 1800,
+                baseEffect: 30,
                 requirements: [
-                    // Nivel 1: BLOQUEO PRINCIPAL - Requiere red, modems y software de gestión. TRIPLE REQUISITO.
-                    { level: 1, reqs: { 'lineaCobre': 50, 'modem2400': 5, 'softwareTerminal': 20 } }, 
-                    // Nivel 15: La Centralita requiere contenido (BBS) para generar tráfico masivo
+                    { level: 1, reqs: { 'lineaCobre': 50, 'softwareTerminal': 20 } },
                     { level: 15, reqs: { 'servidorBBS': 5 } },
-                    // Nivel 40: Requiere despliegue avanzado de red y hardware de cliente de alta calidad
-                    { level: 40, reqs: { 'tarjetaRed': 5, 'antenaRepetidora': 25 } } 
+                    { level: 40, reqs: { 'antenaRepetidora': 25, 'modem2400': 15 } }
                 ]
             },
             'centralitaDigital': {
                 name: 'Actualizar a Centralita Digital',
                 description: 'Reemplaza relés por microchips para una eficiencia sin precedentes.',
-                type: 'dps', 
-                baseCost: 50000,      // Coste Muy Alto
-                baseEffect: 220,      // Efecto Bajo
+                type: 'dps',
+                baseCost: 50000,
+                baseEffect: 220,
                 requirements: [
-                    // Nivel 1: BLOQUEO DE ERA - Requiere la base de la red antigua, el protocolo y el contenido. TRIPLE REQUISITO.
-                    { level: 1, reqs: { 'centralitaAnaloga': 35, 'protocoloTCPIP': 5, 'servidorBBS': 15 } }, 
-                    // Nivel 25: Exige una base masiva de clientes con hardware digital (tarjeta de red)
-                    { level: 25, reqs: { 'tarjetaRed': 50 } } 
+                    { level: 1, reqs: { 'centralitaAnaloga': 35, 'servidorBBS': 15 } },
+                    { level: 25, reqs: { 'modem2400': 50 } }
                 ]
             },
             'fibraOptica': {
                 name: 'Red de Fibra Óptica',
                 description: 'Tecnología experimental que usa pulsos de luz. Un salto cuántico.',
-                type: 'dps', 
-                baseCost: 250000,     // Coste Extremo
-                baseEffect: 500,      // Efecto Bajo
+                type: 'dps',
+                baseCost: 250000,
+                baseEffect: 500,
                 requirements: [
-                    // Nivel 1: Exige el dominio completo de la red digital (Centralita Digital) y el estándar (TCP/IP)
-                    { level: 1, reqs: { 'centralitaDigital': 15, 'protocoloTCPIP': 20 } }, 
-                    // Nivel 20: Requiere la cobertura total (Antenas) y la adopción de hardware extremo (Tarjeta de Red)
-                    { level: 20, reqs: { 'tarjetaRed': 100, 'antenaRepetidora': 50 } }
+                    { level: 1, reqs: { 'centralitaDigital': 15, 'protocoloTCPIP': 20 } },
+                    { level: 20, reqs: { 'tarjetaRed': 100 } }
                 ]
             }
         }
@@ -82,49 +70,42 @@ const upgrades = {
             'kitHerramientas': {
                 name: 'Kit de Herramientas Básico',
                 description: 'Un buen soldador y alicates. Cada conexión manual es más limpia.',
-                type: 'dpc', 
+                type: 'dpc',
                 baseCost: 15,
                 baseEffect: 1,
-                requirements: [] // El DPC inicial no tiene requisitos
+                requirements: []
             },
             'tecladoTonos': {
                 name: 'Teclado de Tonos DTMF',
                 description: 'Reemplaza el dial rotatorio, optimizando cada clic.',
-                type: 'dpc', 
+                type: 'dpc',
                 baseCost: 100,
                 baseEffect: 3,
                 requirements: [
-                    // Nivel 5: Necesitas más que las herramientas, necesitas la red básica
                     { level: 5, reqs: { 'kitHerramientas': 10, 'lineaCobre': 5 } },
-                    // Nivel 25: Necesitas gestión de línea para manejar el tráfico DPC optimizado
-                    { level: 25, reqs: { 'centralitaAnaloga': 1, 'softwareTerminal': 10 } } 
+                    { level: 25, reqs: { 'centralitaAnaloga': 1, 'softwareTerminal': 10 } }
                 ]
             },
             'modem2400': {
                 name: 'Módem 2400 baudios',
                 description: 'Permite a los ordenadores comunicarse por vía telefónica.',
-                type: 'dps', 
-                baseCost: 800,        // Coste Alto
-                baseEffect: 12,       // Efecto Bajo
+                type: 'dps',
+                baseCost: 800,
+                baseEffect: 12,
                 requirements: [
-                    // Nivel 1: Requiere alcance de red para que los modems sean útiles
-                    { level: 1, reqs: { 'antenaRepetidora': 15 } }, 
-                    // Nivel 20: Exige software de terminal para un uso eficiente de los datos
-                    { level: 20, reqs: { 'softwareTerminal': 25 } }, 
-                    // Nivel 40: Requiere la centralita analógica para manejar múltiples conexiones
+                    { level: 1, reqs: { 'antenaRepetidora': 10 } },
+                    { level: 20, reqs: { 'softwareTerminal': 25 } },
                     { level: 40, reqs: { 'centralitaAnaloga': 10 } }
                 ]
             },
             'tarjetaRed': {
                 name: 'Tarjeta de Red ISA',
                 description: 'Una placa para PCs que permite conexiones directas y eficientes.',
-                type: 'dpc', 
-                baseCost: 15000,      // Coste Alto
-                baseEffect: 25,       // Efecto Bajo
+                type: 'dpc',
+                baseCost: 15000,
+                baseEffect: 25,
                 requirements: [
-                    // Nivel 1: BLOQUEO - Necesitas el protocolo digital y un software de terminal muy maduro
-                    { level: 1, reqs: { 'softwareTerminal': 50, 'protocoloTCPIP': 1 } }, 
-                    // Nivel 15: Requiere una centralita digital para que el hardware se conecte a alta velocidad
+                    { level: 1, reqs: { 'protocoloTCPIP': 1, 'softwareTerminal': 50 } },
                     { level: 15, reqs: { 'centralitaDigital': 5 } }
                 ]
             }
@@ -136,56 +117,48 @@ const upgrades = {
             'marketingLocal': {
                 name: 'Campaña de Marketing Local',
                 description: 'Anuncios en periódicos. Atrae demanda para tu red de cobre.',
-                type: 'dps', 
-                baseCost: 300,        // Coste Alto
-                baseEffect: 3,        // Efecto Bajo
+                type: 'dps',
+                baseCost: 300,
+                baseEffect: 3,
                 requirements: [
-                    // Nivel 1: Requiere tener una red mínima antes de publicitar
-                    { level: 1, reqs: { 'lineaCobre': 10 } }, 
-                    // Nivel 15: Necesita un equipo de cliente mejor (DPC) para manejar la afluencia
+                    // CORREGIDO: Ahora solo requiere una PEQUEÑA base de cobre para empezar. Esto rompe el deadlock.
+                    { level: 1, reqs: { 'lineaCobre': 5 } },
                     { level: 15, reqs: { 'tecladoTonos': 10 } }
                 ]
             },
             'softwareTerminal': {
                 name: 'Software de Terminal',
                 description: 'Un código más limpio para procesar datos más rápido en cada clic.',
-                type: 'dpc', 
+                type: 'dpc',
                 baseCost: 180,
                 baseEffect: 5,
                 requirements: [
-                    // Nivel 1: Software inicial requiere hardware de cliente (Teclados de Tonos)
                     { level: 1, reqs: { 'tecladoTonos': 5 } },
-                    // Nivel 20: Se necesita una red de cobre extensa para justificar el software avanzado
-                    { level: 20, reqs: { 'lineaCobre': 30 } }, 
-                    // Nivel 40: Requiere el módem para la transferencia de datos y la centralita para el proceso
-                    { level: 40, reqs: { 'modem2400': 10, 'centralitaAnaloga': 5 } } 
+                    { level: 20, reqs: { 'lineaCobre': 30 } },
+                    { level: 40, reqs: { 'modem2400': 10, 'centralitaAnaloga': 5 } }
                 ]
             },
             'servidorBBS': {
                 name: 'Servidor BBS "El Eco Digital"',
                 description: 'Crea una comunidad online. Los usuarios pagan una cuota por acceso.',
-                type: 'dps', 
-                baseCost: 9000,        // Coste Alto
-                baseEffect: 80,       // Efecto Bajo
+                type: 'dps',
+                baseCost: 9000,
+                baseEffect: 80,
                 requirements: [
-                    // Nivel 1: Requiere la Centralita Analógica como base de hosting
-                    { level: 1, reqs: { 'centralitaAnaloga': 5 } }, 
-                    // Nivel 10: Requiere un software de terminal muy depurado para su gestión
+                    { level: 1, reqs: { 'centralitaAnaloga': 5 } },
                     { level: 10, reqs: { 'softwareTerminal': 30 } },
-                    // Nivel 25: Necesita la base de la red digital (TCP/IP) para escalar su contenido
-                    { level: 25, reqs: { 'protocoloTCPIP': 5 } } 
+                    // LÓGICA CORREGIDA: Para escalar, un BBS necesita una base masiva de usuarios con módems, no una tecnología futura.
+                    { level: 25, reqs: { 'modem2400': 30 } }
                 ]
             },
             'protocoloTCPIP': {
                 name: 'Implementar Protocolo TCP/IP',
                 description: 'Estandariza tu red para un tráfico masivo. La base de Internet.',
-                type: 'dpc', 
-                baseCost: 65000,      // Coste Muy Alto
-                baseEffect: 60,       // Efecto Bajo
+                type: 'dpc',
+                baseCost: 65000,
+                baseEffect: 60,
                 requirements: [
-                    // Nivel 1: BLOQUEO DE ERA - Requiere contenido (BBS), red digital (Centralita Digital) y hardware de cliente (Tarjeta de Red). TRIPLE REQUISITO.
-                    { level: 1, reqs: { 'servidorBBS': 15, 'centralitaDigital': 1, 'tarjetaRed': 5 } }, 
-                    // Nivel 10: Requiere una base masiva de la red antigua que el nuevo protocolo va a reemplazar
+                    { level: 1, reqs: { 'centralitaDigital': 1, 'servidorBBS': 10 } },
                     { level: 10, reqs: { 'centralitaAnaloga': 50 } }
                 ]
             }
