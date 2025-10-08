@@ -193,8 +193,12 @@ const upgrades = {
     }
 };
 
+const GAME_VERSION = "1.1"; // Puedes usar el número que quieras. Súbelo cada vez que cambies la estructura de guardado.
+const SAVE_KEY = 'imperioConexionSave_v2'; // Cambiamos el nombre para invalidar guardados muy antiguos y evitar errores complejos.
+
 // AHORA, REEMPLAZA EL OBJETO "gameState" CON ESTE, NOTA LA NUEVA LISTA EN "upgradeLevels"
 let gameState = {
+	version: GAME_VERSION,
     money: 0,
     moneyPerClick: 1,
     moneyPerSecond: 0,
@@ -221,7 +225,6 @@ let gameState = {
 };
 
 // ---- LÓGICA DE GUARDADO, CÁLCULO Y PRINCIPAL (SIN CAMBIOS) ----
-const SAVE_KEY = 'imperioConexionSave_v1'; 
 let isResetting = false; 
 function saveGame() { 
 	if (isResetting) 
@@ -230,14 +233,58 @@ function saveGame() {
 		localStorage.setItem(SAVE_KEY, JSON.stringify(gameState)); 
 	} catch(e) {} 
 } 
-function loadGame() { 
-	try { 
-		const saved = localStorage.getItem(SAVE_KEY); 
-		if (saved) { 
-			gameState = Object.assign(gameState, JSON.parse(saved)); 
-		} 
-	} catch(e) {} 
-} 
+function loadGame() {
+    try {
+        const savedJSON = localStorage.getItem(SAVE_KEY);
+        if (!savedJSON) {
+            // No hay partida guardada, se usa el gameState por defecto.
+            return;
+        }
+
+        const savedState = JSON.parse(savedJSON);
+
+        // Si la versión es la misma, simplemente cargamos el estado y listo.
+        if (savedState.version === GAME_VERSION) {
+            gameState = savedState;
+            return;
+        }
+
+        // --- INICIO DE LA MIGRACIÓN ---
+        // La versión del guardado es diferente (o no existe), así que migramos los datos.
+        console.warn(`Migrando partida guardada desde la versión ${savedState.version || 'antigua'} a ${GAME_VERSION}`);
+
+        // 1. Empezamos con la estructura por defecto de la nueva versión del juego.
+        const migratedState = JSON.parse(JSON.stringify(gameState)); // Copia profunda del estado por defecto.
+
+        // 2. Transferimos las propiedades simples (dinero, prestigio, etc.).
+        migratedState.money = savedState.money || 0;
+        migratedState.totalMoneyEver = savedState.totalMoneyEver || 0;
+        migratedState.prestigePoints = savedState.prestigePoints || 0;
+
+        // 3. Fusionamos los niveles de las mejoras de forma segura.
+        //    Iteramos sobre las mejoras de la NUEVA versión del juego.
+        for (const upgradeId in migratedState.upgradeLevels) {
+            // Si la mejora existía en la partida GUARDADA, transferimos su nivel.
+            if (savedState.upgradeLevels && savedState.upgradeLevels.hasOwnProperty(upgradeId)) {
+                migratedState.upgradeLevels[upgradeId] = savedState.upgradeLevels[upgradeId];
+            }
+            // Si no existía (porque es una mejora nueva), se quedará en 0 (su valor por defecto).
+        }
+        
+        // 4. Actualizamos la versión en el objeto de estado y lo asignamos al juego.
+        migratedState.version = GAME_VERSION;
+        gameState = migratedState;
+
+        // 5. Guardamos inmediatamente el estado migrado para la próxima vez.
+        saveGame();
+        console.log("Migración completada con éxito.");
+
+    } catch (e) {
+        console.error("Error al cargar o migrar la partida guardada:", e);
+        // Opcional: en caso de error crítico, se puede resetear el guardado.
+        // resetSave(); 
+    }
+}
 function resetSave() { 
 	if (confirm("¿Borrar progreso?")) { 
 		isResetting = true; 
@@ -392,22 +439,50 @@ function addMoney(amount) {
 function generateMoneyOnClick() { 
 	addMoney(gameState.moneyPerClick); 
 } 
-function prestigeReset() { 
-	const points = calculatePrestigePointsToGain(); 
-	if (points > 0) { 
-		if (confirm(`¿Relanzar para ganar ${points} Puntos?`)) { 
-			gameState.prestigePoints += points; 
-			gameState.money = 0; 
-			gameState.totalMoneyEver = 0; 
-			gameState.upgradeLevels = { 'tecladoTonos': 0, 'lineaCobre': 0, 'antenaRepetidora': 0, 'centralitaTelefonica': 0 }; 
-			recalculateGains(); 
-			saveGame(); 
-		} 
-	} 
+function prestigeReset() {
+    const points = calculatePrestigePointsToGain();
+    if (points > 0) {
+        if (confirm(`¿Relanzar para ganar ${points} Puntos?`)) {
+            gameState.prestigePoints += points;
+            gameState.money = 0;
+            gameState.totalMoneyEver = 0;
+            
+            // --- CAMBIO AQUÍ ---
+            // En lugar de una lista manual, resetea todos los niveles a 0.
+            for (const key in gameState.upgradeLevels) {
+                gameState.upgradeLevels[key] = 0;
+            }
+            // --- FIN DEL CAMBIO ---
+
+            recalculateGains();
+            saveGame();
+            updateUI(); // Actualiza la UI para reflejar el reseteo
+        }
+    }
 }
 
 // ---- BUCLE DEL JUEGO ----
-let gameLoopInterval = null; function gameLoop() { addMoney(gameState.moneyPerSecond / 10); updateUI(); }
+let gameLoopInterval = null; 
+function gameLoop() { 
+	addMoney(gameState.moneyPerSecond / 10); 
+	updateUI(); 
+	
+	randomClipTimer += 100; // El bucle se ejecuta cada 100ms
+    if (randomClipTimer >= nextClipTime) {
+        playRandomSoundClip(); // ¡Llamamos a nuestra nueva función de audio.js!
+        randomClipTimer = 0; // Reseteamos el contador
+        nextClipTime = calculateNextClipTime(); // Calculamos el próximo intervalo aleatorio
+    }
+}
+
+// --- NUEVAS VARIABLES PARA EL TEMPORIZADOR DE CLIPS ---
+let randomClipTimer = 0; // Acumula el tiempo transcurrido.
+let nextClipTime = calculateNextClipTime(); // Almacena el tiempo aleatorio para el siguiente clip.
+
+// Función para calcular un intervalo aleatorio (ej. entre 15 y 35 segundos)
+function calculateNextClipTime() {
+    return 15000 + (Math.random() * 20000); // 15s de base + hasta 20s aleatorios
+}
 
 // ---- GESTOR DE PANTALLAS Y PESTAÑAS ----
 const allScreens = document.querySelectorAll('.full-screen, .game-container');
@@ -434,7 +509,7 @@ function returnToMainMenu() {
     showScreen('main-menu-screen');
     
     // 4. Reiniciar la música (subir volumen si se bajó antes)
-    sounds.titleMusic.volume(parseFloat(localStorage.getItem('masterVolume')) || 1.0);
+    sounds.titleMusic.fade(GAME_MUSIC_VOLUME, TITLE_MUSIC_VOLUME, 1000);
     
     // Opcional: Pausar la música si quieres que se reanude en el menú, 
     // pero si está en bucle, solo nos aseguramos del volumen.
@@ -532,7 +607,7 @@ window.addEventListener('load', () => {
     showScreen('loading-screen');
     setTimeout(() => { showScreen('tap-to-start-screen'); }, 2500);
     tapToStartScreen.addEventListener('click', () => { showScreen('main-menu-screen'); sounds.titleMusic.play(); sounds.titleMusic.fade(0, 0.4, 2000); }, { once: true });
-    document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.volume(0.2); startGame(); });
+    document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.fade(TITLE_MUSIC_VOLUME, GAME_MUSIC_VOLUME, 1000); startGame(); });
     document.getElementById('story-button').addEventListener('click', () => showScreen('story-screen'));
     document.getElementById('options-button-menu').addEventListener('click', () => showScreen('options-screen'));
     document.getElementById('credits-button').addEventListener('click', () => showScreen('credits-screen'));

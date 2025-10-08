@@ -47,13 +47,18 @@ Análisis del Proyecto: imperio-de-la-conexion
     *Un proyecto de ClanHater.*
     ---------- FIN CONTENIDO ----------
 
+    📄 Archivo: git
+    ---------- CONTENIDO ----------
+
+    ---------- FIN CONTENIDO ----------
+
     📄 Archivo: index.html
     ---------- CONTENIDO ----------
     <!DOCTYPE html>
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>Imperio de la Conexión</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +66,7 @@ Análisis del Proyecto: imperio-de-la-conexion
         <link rel="stylesheet" href="css/style.css">
     	<link rel="stylesheet" href="css/animations.css">
     	<link rel="stylesheet" href="css/icons.css">
+    	<link rel="stylesheet" id="era-style" href="css/eras/era-1g.css"> 
     	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
     </head>
     <body>
@@ -143,6 +149,7 @@ Análisis del Proyecto: imperio-de-la-conexion
     				<p id="dps-display">+$0 / seg</p>
     			</div>
     			<div id="top-shortcut-bar" class="top-shortcut-bar"> <!-- ID y Clase Nuevos -->
+    				<button id="menu-button-shortcut" class="shortcut-btn"><i class="icon-menu-back"></i></button> 
     				<button class="shortcut-btn"><i class="icon-store"></i></button> <!-- Clase Nueva -->
     				<button class="shortcut-btn"><i class="icon-achievements"></i></button> <!-- Clase Nueva -->
     				<button class="shortcut-btn"><i class="icon-missions"></i></button> <!-- Clase Nueva -->
@@ -298,27 +305,16 @@ Análisis del Proyecto: imperio-de-la-conexion
         }
         
         .top-shortcut-bar .shortcut-btn i {
-            width: 38px;
-            height: 38px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #00F5D4;
-            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-style: normal; /* Necesario para que los emojis se vean bien */
-            transition: all 0.2s ease;
-        }
-        
-        .top-shortcut-bar .shortcut-btn:hover i {
-            background-color: #00F5D4;
-            color: #0D0221;
-            box-shadow: 0 0 10px #00F5D4;
         }
         
         .icon-store::before { content: '🛒'; font-size: 20px; }
         .icon-achievements::before { content: '🏆'; font-size: 20px; }
         .icon-missions::before { content: '📋'; font-size: 20px; }
+        .icon-menu-back::before { content: '🏠'; font-size: 20px; }
         
         /* --- Iconos Barra Inferior --- */
         .icon-main {
@@ -351,7 +347,17 @@ Análisis del Proyecto: imperio-de-la-conexion
         ---------- CONTENIDO ----------
         /* ---- RESET Y ESTILOS GLOBALES ---- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'VT323', monospace; background-color: #0D0221; color: #F2E9F4; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-size: 18px; user-select: none; }
+        body { 
+            font-family: 'VT323', monospace; 
+            background-color: #0D0221; 
+            color: #F2E9F4; /* Color de fallback */
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            font-size: 18px; 
+            user-select: none; 
+        }
         
         /* 
         ==================================================================
@@ -395,44 +401,99 @@ Análisis del Proyecto: imperio-de-la-conexion
         
         /* 
         ==================================================================
-           ESTILOS PARA LA PANTALLA DE JUEGO PRINCIPAL (NUEVO LAYOUT)
+           ESTRUCTURA BASE DE LA PANTALLA DE JUEGO (SIN ESTILOS DE ERA)
         ==================================================================
         */
         
-        .game-container { width: 100%; max-width: 480px; height: 100vh; background-color: #2A1B3D; border: 3px solid #00F5D4; box-shadow: 0 0 15px #00F5D4, 0 0 25px #00F5D4 inset; display: flex; flex-direction: column; position: relative; }
+        .game-container { 
+            width: 100%; 
+            max-width: 480px; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
+            /* Todos los estilos de color, borde y sombra han sido eliminados */
+        }
         
         /* --- Barra Superior del Juego --- */
-        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-bottom: 2px solid #00F5D4; flex-shrink: 0; }
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 15px; 
+            flex-shrink: 0; 
+            /* Estilos de era eliminados */
+        }
         .resource-display {
         	font-family: 'Press Start 2P', cursive;
-        	min-width: 0; /* <-- Esta línea es un seguro y está bien mantenerla */
+        	min-width: 0; 
+            /* Estilos de era eliminados */
         }
-        #money-display { font-size: 1rem; color: #84FFC9; text-shadow: 0 0 5px #84FFC9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        #dps-display { font-size: 0.7rem; margin-top: 5px; }
+        #money-display { 
+            font-size: 1rem; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            /* Estilos de era eliminados */
+        }
+        #dps-display { 
+            font-size: 0.7rem; 
+            margin-top: 5px; 
+            /* Estilos de era eliminados */
+        }
         .top-shortcut-bar { display: flex; align-items: center; gap: 15px; }
         .icon-button { background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; }
         
         /* --- Contenido de las Pestañas del Juego --- */
         .tab-content { flex: 1; overflow: hidden; position: relative; min-height: 0; }
-        .tab-panel { display: none; padding: 15px; height: 100%; overflow-y: auto; }
-        .tab-panel.active { display: flex; flex-direction: column; } /* Cambiado a flex */
+        .tab-panel { 
+            display: none; 
+            padding: 15px; 
+            height: 100%; 
+            overflow-y: auto; 
+            /* Estilos de era eliminados */
+        }
+        .tab-panel.active { display: flex; flex-direction: column; } 
         
         /* Pestaña Principal */
-        .prestige-info-top { text-align: center; font-size: 1rem; color: #FF00A8; text-shadow: 0 0 3px #FF00A8; padding: 5px; flex-shrink: 0; }
-        .main-click-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; position: relative; }
-        .main-click-button { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, #FF00A8, #8A2BE2); color: white; border: 5px solid #FF00A8; box-shadow: 0 0 20px #FF00A8; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: all 0.1s ease; font-family: 'Press Start 2P', cursive; font-size: 1.2rem; }
-        .main-click-button:active { transform: scale(0.95); box-shadow: 0 0 5px #FF00A8; }
+        .prestige-info-top { 
+            text-align: center; 
+            font-size: 1rem; 
+            padding: 5px; 
+            flex-shrink: 0; 
+            /* Estilos de era eliminados */
+        }
+        .main-click-area { 
+            flex-grow: 1; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative; 
+        }
+        .main-click-button { 
+            width: 180px; 
+            height: 180px; 
+            border-radius: 50%; 
+            color: white; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            transition: all 0.1s ease; 
+            font-family: 'Press Start 2P', cursive; 
+            font-size: 1.2rem; 
+            /* Estilos de era eliminados */
+        }
+        .main-click-button:active { transform: scale(0.95); /* Estilos de era eliminados */ }
         .main-click-button .icon { font-size: 3rem; }
-        .main-click-button small { font-size: 0.7rem; margin-top: 8px; font-family: 'VT323', monospace; }
+        .main-click-button small { font-size: 0.7rem; margin-top: 8px; font-family: 'VT323', monospace; /* Estilos de era eliminados */ }
         .terminal-header {
-            background-color: #000;
-            color: #00F5D4; /* Color verde fósforo */
             font-family: 'VT323', monospace;
             padding: 8px 12px;
-            border: 1px solid #333;
             border-radius: 4px;
-            margin-bottom: 15px; /* Espacio antes de los puntos de prestigio */
-            text-shadow: 0 0 5px #00F5D4;
+            margin-bottom: 15px; 
+            /* Estilos de era eliminados */
         }
         .terminal-header p {
             margin: 0;
@@ -441,34 +502,25 @@ Análisis del Proyecto: imperio-de-la-conexion
         }
         .terminal-header .status-online {
             font-weight: bold;
+            /* Estilos de era eliminados */
         }
         #main-tab {
             position: relative;
-            overflow: hidden; /* Evita que la animación se desborde */
+            overflow: hidden; 
         }
         
-        /* El lienzo de nuestro fondo animado */
+        /* El lienzo de nuestro fondo animado (SOLO ESTRUCTURA) */
         #main-tab-background {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0; /* MUY IMPORTANTE: Lo pone detrás de todo el contenido */
-            
-            /* El efecto de rejilla o "dataspace" */
-            background-color: #0d0221; /* Color base oscuro */
-            background-image:
-                radial-gradient(circle at center, rgba(138, 43, 226, 0.2) 0%, transparent 60%), /* Brillo central sutil */
-                linear-gradient(to right, rgba(0, 245, 212, 0.1) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 245, 212, 0.1) 1px, transparent 1px);
-            background-size: 1px 40px, 40px 1px, 40px 40px; /* Tamaño de la rejilla */
-            
-            /* La animación de desplazamiento */
-            animation: scroll-grid 10s linear infinite;
+            z-index: 0; 
+            /* Estilos de era (color, imagen, animación) eliminados */
         }
         
-        /* Efecto de líneas de escaneo de monitor CRT antiguo */
+        /* Efecto de líneas de escaneo de monitor CRT antiguo (SOLO ESTRUCTURA) */
         #main-tab-background::after {
             content: '';
             position: absolute;
@@ -476,15 +528,13 @@ Análisis del Proyecto: imperio-de-la-conexion
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(to bottom, rgba(13, 2, 33, 0.5) 50%, transparent 50%);
-            background-size: 100% 4px;
-            opacity: 0.3;
+            /* Estilos de era (background-image, opacity) eliminados */
         }
         
         /* Definición de la animación */
         @keyframes scroll-grid {
             from { background-position: 0 0; }
-            to { background-position: 0 -200px; } /* Desplaza la rejilla verticalmente */
+            to { background-position: 0 -200px; } 
         }
         
         /* Aseguramos que el contenido principal esté por encima del fondo */
@@ -497,24 +547,20 @@ Análisis del Proyecto: imperio-de-la-conexion
         #upgrades-container {
             display: flex;
             flex-direction: column;
-            gap: 6px; /* Espacio reducido entre mejoras */
+            gap: 6px; 
         }
         
         /* Contenedor Principal de la Mejora */
         .upgrade {
-            display: grid; /* <-- CAMBIO CLAVE: Usamos Grid en lugar de Flexbox */
-            grid-template-columns: auto 1fr auto; /* <-- La magia está aquí */
+            display: grid; 
+            grid-template-columns: auto 1fr auto; 
             align-items: center;
-            gap: 12px; /* Espacio uniforme entre icono, texto y botón */
-            
-            background-color: rgba(13, 2, 33, 0.5);
-            padding: 8px 10px;
-            border-radius: 5px;
-            border: 1px solid #FF00A8;
+            gap: 12px; 
+            /* Estilos de era eliminados */
             transition: background-color 0.2s ease;
         }
         .upgrade:hover {
-            background-color: rgba(42, 27, 61, 0.7);
+            /* Estilos de era eliminados */
         }
         
         /* Icono (ya no necesita margen) */
@@ -523,58 +569,68 @@ Análisis del Proyecto: imperio-de-la-conexion
             flex-shrink: 0; 
         }
         
-        /* Sección de Información (ya no necesita crecer ni tener margen) */
+        /* Sección de Información */
         .upgrade-info {
-            min-width: 0; /* Permite que el contenedor se encoja y el texto se ajuste */
+            min-width: 0; 
         }
         .upgrade-info h4 {
             margin: 0 0 2px 0;
             font-size: 1rem;
-            /* Se elimina 'white-space: nowrap' para permitir que títulos largos se ajusten */
         }
         .upgrade-info p {
             margin: 0;
             font-size: 0.85rem;
-            color: #c0c0c0;
             line-height: 1.2;
+            /* Estilos de era eliminados */
         }
         
         /* Botón de Compra */
         .buy-button {
-            padding: 6px 12px; /* Botón menos alto y un poco más ancho */
+            padding: 10px 12px; 
             background-color: transparent;
-            color: #00F5D4;
-            border: 2px solid #00F5D4;
-            border-radius: 5px;
             cursor: pointer;
-            font-family: 'VT323', monospace; /* Asegura la fuente correcta */
-            font-size: 1rem; /* Tamaño de fuente del botón reducido */
+            font-family: 'VT323', monospace; 
+            font-size: 1rem; 
             text-align: center;
             transition: all 0.2s ease;
-            flex-shrink: 0; /* Evita que el botón se encoja */
-            white-space: nowrap; /* Evita que el texto del botón se parta */
+            flex-shrink: 0; 
+            white-space: nowrap; 
+            /* Estilos de era eliminados */
         }
         .buy-button:not(.is-disabled):hover {
-            background-color: #00F5D4;
-            color: #0D0221;
-            box-shadow: 0 0 10px #00F5D4;
+            /* Estilos de era eliminados */
         }
         .buy-button.is-disabled {
-            border-color: #555; /* Borde más visible cuando está deshabilitado */
-            background-color: transparent;
-            color: #555;
             cursor: not-allowed;
             opacity: 0.6;
+            /* Estilos de era eliminados */
         }
         
         /* Pestaña Evolución */
         .evolution-content { text-align: center; padding-top: 20px; }
-        .evolution-content h2 { font-family: 'Press Start 2P'; color: #00F5D4; }
-        .current-era { background: rgba(0,0,0,0.2); padding: 20px; margin: 30px 0; border: 1px solid #FF00A8; }
+        .evolution-content h2 { font-family: 'Press Start 2P'; /* Estilos de era eliminados */ }
+        .current-era { 
+            padding: 20px; 
+            margin: 30px 0; 
+            /* Estilos de era eliminados */
+        }
         .current-era h3 { margin-bottom: 10px; }
-        .relaunch-button-styled { padding: 15px; background-color: transparent; color: #00F5D4; border: 3px solid #00F5D4; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', cursive; font-size: 1.2rem; transition: all 0.2s ease; }
-        .relaunch-button-styled:not(.is-disabled):hover { background-color: #00F5D4; color: #0D0221; box-shadow: 0 0 15px #00F5D4; }
-        .relaunch-button-styled.is-disabled { border-color: #555; color: #555; cursor: not-allowed; }
+        .relaunch-button-styled { 
+            padding: 15px; 
+            background-color: transparent; 
+            cursor: pointer; 
+            font-family: 'Press Start 2P', cursive; 
+            font-size: 1.2rem; 
+            transition: all 0.2s ease; 
+            /* Estilos de era eliminados */
+        }
+        .relaunch-button-styled:not(.is-disabled):hover { 
+            /* Estilos de era eliminados */
+        }
+        .relaunch-button-styled.is-disabled { 
+            cursor: not-allowed; 
+            /* Estilos de era eliminados */
+        }
         
         /* --- Pop-up "Próximamente" --- */
         .coming-soon-panel {
@@ -583,7 +639,7 @@ Análisis del Proyecto: imperio-de-la-conexion
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 101; /* Z-index alto para estar por encima de todo */
+            z-index: 101; 
         }
         .game-container.popup-visible .coming-soon-panel {
             display: block;
@@ -602,87 +658,456 @@ Análisis del Proyecto: imperio-de-la-conexion
         }
         
         /* --- Barra de Navegación Inferior (NUEVO DISEÑO) --- */
-        .game-tab-bar { display: grid; grid-template-columns: 1fr auto 1fr; border-top: 2px solid #00F5D4; position: relative; height: 60px; flex-shrink: 0; background-color: #1c1031; }
-        .tab-btn { background: transparent; border: none; color: #aaa; padding: 5px; cursor: pointer; font-family: 'VT323'; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; height: 100%; }
-        .tab-btn.active { color: #00F5D4; text-shadow: 0 0 5px #00F5D4;}
+        .game-tab-bar { 
+            display: grid; 
+            grid-template-columns: 1fr auto 1fr; 
+            position: relative; 
+            height: 60px; 
+            flex-shrink: 0; 
+            /* Estilos de era eliminados */
+        }
+        .tab-btn { 
+            background: transparent; 
+            border: none; 
+            padding: 5px; 
+            cursor: pointer; 
+            font-family: 'VT323'; 
+            font-size: 0.9rem; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 4px; 
+            height: 100%; 
+            /* Estilos de era eliminados */
+        }
+        .tab-btn.active { 
+            /* Estilos de era eliminados */
+        }
         
-        /* ---- ANIMACIONES GENÉRICAS ---- */
+        /* ---- ANIMACIONES GENÉRICAS (MANTENEMOS ESTAS) ---- */
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         @keyframes fadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.9); } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes scroll-credits { from { top: 100%; } to { top: -100%; } }
-        .can-afford-glow:not(.is-disabled) { animation: glow 2s infinite; }
-        @keyframes glow { 0% { box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset; } 50% { box-shadow: 0 0 15px #00F5D4, 0 0 20px #00F5D4 inset; } 100% { box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset; } }
+        /* La animación 'glow' se define en cada archivo de era, aquí la dejamos vacía */
+        @keyframes glow { 0% { box-shadow: none; } 100% { box-shadow: none; } }
+        .can-afford-glow:not(.is-disabled) { /* La animación se aplica en el CSS de era */ }
         
-        /* --- Estilos para Categorías de Mejoras --- */
+        
+        /* --- Estilos para Categorías de Mejoras (SOLO ESTRUCTURA) --- */
         .category-header {
             font-family: 'Press Start 2P', cursive;
-            color: #FF00A8; /* Color fucsia para destacar, coherente con la paleta */
-            text-shadow: 0 0 5px #FF00A8;
             padding: 10px 5px;
-            margin-top: 20px; /* Un espacio generoso antes de una nueva categoría */
+            margin-top: 20px; 
             margin-bottom: 10px;
-            border-bottom: 2px solid #00F5D4; /* Línea separadora con el color de acento */
             font-size: 1.1rem;
-            text-align: left; /* Alineamos a la izquierda para un look de lista más clásico */
+            text-align: left; 
+            /* Estilos de era eliminados */
         }
         
         .category-header:first-of-type {
-            margin-top: 0; /* Elimina el margen extra sobre la primera categoría para que quede pegada arriba */
+            margin-top: 0; 
         }
         
-        /* --- Estilos para Mejoras Bloqueadas por Requisitos --- */
+        /* --- Estilos para Mejoras Bloqueadas por Requisitos (SOLO ESTRUCTURA) --- */
         .upgrade.is-locked {
-            opacity: 0.45; /* Hacemos toda la fila mucho más transparente */
-            border-color: #555; /* Un borde oscuro y apagado */
-            background-color: rgba(13, 2, 33, 0.2); /* Fondo más oscuro para que no resalte */
-            transition: opacity 0.3s ease, border-color 0.3s ease; /* Transición suave */
+        	opacity: 0.45;
+            transition: opacity 0.3s ease, border-color 0.3s ease; 
+            /* Estilos de era eliminados */
         }
         
         .upgrade.is-locked:hover {
-            background-color: rgba(13, 2, 33, 0.2); /* Evita que cambie de color al pasar el ratón */
+            /* Estilos de era eliminados */
         }
         
         /* Opcional pero recomendado: añade un icono de candado al título */
         .upgrade.is-locked .upgrade-info h4::after {
-            content: ' 🔒'; /* Espacio antes del emoji para que no se pegue al texto */
+            content: ' 🔒'; 
             font-size: 0.8rem;
-            vertical-align: middle; /* Alinea mejor el candado con el texto */
+            vertical-align: middle; 
         }
         
-        /* --- Estilos para la Lista de Requisitos Visual --- */
+        /* --- Estilos para la Lista de Requisitos Visual (SOLO ESTRUCTURA) --- */
         .requirements-list {
-            margin-top: 8px; /* Espacio entre la descripción y los requisitos */
+            margin-top: 8px; 
             padding-top: 6px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.2); /* Línea separadora sutil */
+            /* Estilos de era eliminados */
             text-align: left;
         }
         
         .requirements-list p {
-            font-size: 0.8rem; /* Texto más pequeño para no sobrecargar */
+            font-size: 0.8rem; 
             margin: 2px 0;
             line-height: 1.3;
+            /* Estilos de era eliminados */
         }
         
         /* Requisito NO cumplido: color rojo/peligro */
         .requirements-list p.unmet {
-            color: #FF6B6B; /* Un rojo claro que contrasta bien */
-            text-shadow: 0 0 3px #FF6B6B;
+            /* Estilos de era eliminados */
         }
         
         /* Requisito SÍ cumplido: color verde/éxito */
         .requirements-list p.met {
-            color: #00F5D4; /* El color de acento principal del juego */
-            text-shadow: 0 0 3px #00F5D4;
+            /* Estilos de era eliminados */
         }
         
         /* Estilos para la información de requisitos (bloqueo activo o futuro) */
         .requirements-list.is-locked-info p.unmet {
-            font-weight: bold; /* Hace más obvio lo que falta */
+            font-weight: bold; 
         }
-
+        
+        /* ---- CORRECCIÓN DE USABILIDAD Y ESTÉTICA (Elimina el molesto recuadro de enfoque) ---- */
+        
+        /* 1. Elimina el 'outline' que aparece al hacer focus/click en desktop/touch */
+        button:focus, 
+        .buy-button:focus,
+        .tab-btn:focus,
+        .menu-button:focus {
+            outline: none !important;
+        }
+        
+        /* 2. Elimina el molesto 'highlight' azul/gris que aparece al tocar en móviles (iOS/Android) */
+        button,
+        .main-click-button,
+        .tab-btn,
+        .shortcut-btn {
+            /* Esta propiedad CSS previene que el navegador aplique un fondo de color al ser tocado */
+            -webkit-tap-highlight-color: transparent;
+            /* Para navegadores viejos o específicos, aunque -webkit es el más común */
+            -moz-user-focus: none;
+            -moz-user-select: none;
+        }
         ---------- FIN CONTENIDO ----------
+
+
+        ========================================
+        📁 Carpeta: ./css\eras/
+        ========================================
+
+            📄 Archivo: era-1g.css
+            ---------- CONTENIDO ----------
+            /* ==================================================================
+               ESTILOS DE ERA: 1G - Años 80 (Terminal CRT Fósforo Verde)
+               ================================================================== */
+            
+            /* 1. ESTILOS GLOBALES DE LA VENTANA DE JUEGO */
+            .game-container { 
+                background-color: #020A02; /* Fondo de pantalla de terminal oscuro */
+                border: 5px solid #666; /* Borde grueso para simular el bisel del monitor */
+                border-radius: 8px; 
+                box-shadow: 
+                    0 0 20px rgba(0, 255, 0, 0.3), /* Brillo externo */
+                    0 0 10px rgba(0, 255, 0, 0.2) inset; /* Brillo interno */
+                padding: 0;
+            }
+            
+            /* Aplicamos el color de texto y la sombra de fósforo a todo el contenido del juego */
+            .game-container, .tab-panel {
+                color: #00FF00; /* Verde Fósforo Puro */
+                text-shadow: 0 0 3px rgba(0, 255, 0, 0.8), 0 0 8px rgba(0, 255, 0, 0.5);
+            }
+            
+            
+            /* 2. BARRA SUPERIOR */
+            .top-bar { 
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 12px; /* Reducimos el padding para ser más compactos */
+                border-bottom: 2px solid #00AA00; /* Separador de línea verde */
+                background-color: #000; /* Fondo negro puro para el panel */
+                flex-shrink: 0; 
+                color: #00FF00; /* Color de texto base: Fósforo Verde */
+                text-shadow: 0 0 3px rgba(0, 255, 0, 0.8); /* Sombra de fósforo */
+                font-family: 'VT323', monospace; /* Fuente monoespacio para mejor legibilidad de números */
+            }
+            
+            /* Contenedores de Recurso */
+            .resource-display {
+            	/* Quitamos el Press Start 2P y usamos VT323 para ser más legible en la barra */
+            	font-family: 'VT323', monospace; 
+            	min-width: 0;
+            }
+            
+            /* Display de Dinero (Capital) */
+            #money-display { 
+                font-size: 1.2rem; /* Ligeramente más grande para que el número destaque */
+                color: #00FF00; /* Verde Fósforo Puro */
+                text-shadow: 0 0 8px #00FF00; /* Más brillo para el recurso principal */
+                font-weight: bold; /* El texto no tiene font-weight, pero la sombra lo simula */
+            }
+            
+            /* Display de DPS (Flujo de Red) */
+            #dps-display { 
+                font-size: 0.8rem; 
+                margin-top: 2px;
+                color: #FFFF00; /* Amarillo para el flujo de red (acción/alerta sutil) */
+                text-shadow: 0 0 5px #FFFF00; 
+            }
+            
+            /* Barra de Atajos (Accesos a Tienda, Logros, etc.) */
+            .top-shortcut-bar { 
+                display: flex; 
+                align-items: center; 
+                gap: 10px; /* Reducimos el espacio entre los botones */
+            }
+            
+            
+            /* 3. PESTAÑA PRINCIPAL */
+            /* Fondo Animado (CRT Grid) */
+            #main-tab-background {
+                background-color: #020A02;
+                background-image:
+                    radial-gradient(circle at center, rgba(0, 255, 0, 0.2) 0%, transparent 60%),
+                    linear-gradient(to right, rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+                background-size: 1px 40px, 40px 1px, 40px 40px; 
+            }
+            /* Efecto de líneas de escaneo */
+            #main-tab-background::after {
+                background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 50%, transparent 50%); 
+                background-size: 100% 4px;
+                opacity: 0.3;
+            }
+            .terminal-header {
+                background-color: #000;
+                color: #00FF00;
+                border: 1px solid #00AA00; 
+                text-shadow: 0 0 5px #00FF00;
+            }
+            .terminal-header .status-online {
+                color: #FFFF00; /* Amarillo para el estatus online */
+                text-shadow: 0 0 5px #FFFF00;
+            }
+            .prestige-info-top { 
+                color: #FF00FF; /* Fucsia para el prestigio */
+                text-shadow: 0 0 5px #FF00FF; 
+            }
+            /* Botón Principal (El Núcleo CRT) */
+            .main-click-button { 
+                width: 200px; 
+                height: 200px;
+                background: radial-gradient(circle, #00FF00, #008800); 
+                border: 5px solid #00FF00; 
+                box-shadow: 0 0 30px #00FF00, inset 0 0 15px rgba(255, 255, 255, 0.5); 
+            }
+            .main-click-button:active { box-shadow: 0 0 5px #00FF00; }
+            .main-click-button small { color: #FFFF00; }
+            
+            
+            /* 4. PESTAÑA MEJORAS */
+            
+            /* Encabezados de Categoría */
+            .category-header {
+                color: #FF00FF; /* Fucsia */
+                text-shadow: 0 0 5px #FF00FF;
+                border-bottom: 2px solid #00AA00; /* Línea separadora verde */
+            }
+            /* Contenedor de Mejora (Tarjeta de Circuito) */
+            .upgrade {
+                padding: 5px 8px; 
+                grid-template-columns: auto 1fr 105px; 
+                align-items: center;
+                gap: 8px; /* Espacio reducido */
+                
+                background-color: rgba(0, 100, 0, 0.1); 
+                border: 1px solid #00AA00; 
+                border-radius: 0;
+                box-shadow: 0 0 5px rgba(0, 255, 0, 0.1); 
+            }
+            .upgrade:hover {
+                background-color: rgba(0, 100, 0, 0.3);
+            }
+            
+            /* Icono */
+            .upgrade-icon {
+                font-size: 1.4rem; /* Reducción ligera del tamaño de icono */
+            }
+            
+            /* Sección de Información */
+            .upgrade-info h4 {
+                margin: 0 0 1px 0; /* Espacio muy reducido después del título */
+                font-size: 1.05rem; /* Fuente del título un poco más compacta */
+                line-height: 1.1;
+            }
+            .upgrade-info p {
+                color: #99FF99; 
+                font-size: 0.8rem; /* Fuente de la descripción más pequeña */
+                line-height: 1.2;
+            }
+            
+            /* Botón de Compra */
+            .buy-button {
+                padding: 8px 5px; /* Padding muy reducido */
+                font-size: 0.65rem; /* Fuente más pequeña */
+                
+                color: #FFFF00; 
+                border: 2px solid #FFFF00;
+                border-radius: 0;
+                font-family: 'Press Start 2P', cursive;
+                text-shadow: 0 0 5px #FFFF00; 
+            }
+            .buy-button:not(.is-disabled):hover {
+                background-color: #FFFF00;
+                color: #000;
+                box-shadow: 0 0 15px #FFFF00;
+            }
+            .buy-button.is-disabled {
+                border-color: #666; 
+                color: #666;
+                text-shadow: none;
+            }
+            
+            /* Mejoras Bloqueadas (Mantenemos los estilos de era) */
+            .upgrade.is-locked {
+                border-color: #003300; 
+                background-color: rgba(0, 0, 0, 0.5); 
+            }
+            /* Requisitos Visuales */
+            .requirements-list {
+                margin-top: 5px; /* Espacio reducido */
+                padding-top: 4px; /* Padding reducido */
+                border-top: 1px dashed rgba(0, 255, 0, 0.3);
+            }
+            .requirements-list p.unmet {
+                color: #FF0000; 
+                text-shadow: 0 0 3px #FF0000;
+            }
+            .requirements-list p.met {
+                color: #00FF00; 
+                text-shadow: 0 0 3px #00FF00;
+            }
+            
+            
+            /* 5. PESTAÑA EVOLUCIÓN */
+            .evolution-content h2 { 
+                color: #FF00FF; 
+                text-shadow: 0 0 5px #FF00FF; 
+            }
+            .current-era { 
+                background: rgba(0,0,0,0.5); 
+                border: 1px solid #FF00FF; 
+                color: #00FF00;
+                text-shadow: 0 0 3px rgba(0, 255, 0, 0.8);
+            }
+            /* Botón Relanzar (Prestigio) */
+            .relaunch-button-styled { 
+                color: #FF00FF; 
+                border: 3px solid #FF00FF; 
+                border-radius: 0; 
+                text-shadow: 0 0 10px #FF00FF;
+            }
+            .relaunch-button-styled:not(.is-disabled):hover { 
+                background-color: #FF00FF; 
+                color: #000; 
+                box-shadow: 0 0 20px #FF00FF; 
+            }
+            .relaunch-button-styled.is-disabled { 
+                border-color: #444; 
+                color: #444; 
+                text-shadow: none;
+            }
+            
+            
+            /* 6. BARRA DE NAVEGACIÓN INFERIOR */
+            .game-tab-bar { 
+                border-top: 3px solid #00FF00; 
+                height: 70px;
+                background-color: #1A1A1A; /* Panel oscuro */
+            }
+            .tab-btn { 
+                background: #252525; /* Fondo de tecla */
+                border-right: 1px solid #00AA00; 
+                color: #00FF00; 
+                font-family: 'Press Start 2P', cursive; 
+                font-size: 0.8rem; 
+                text-shadow: 0 0 3px rgba(0, 255, 0, 0.5);
+            }
+            .tab-btn:hover:not(.active) {
+                background: #303030;
+                color: #FFFF00;
+                text-shadow: 0 0 5px #FFFF00;
+            }
+            .tab-btn.active { 
+                background: #00FF00; 
+                color: #000; 
+                text-shadow: none;
+            }
+            .tab-btn:first-child { border-left: none; }
+            .tab-btn:last-child { border-right: none; }
+            
+            
+            /* 7. ANIMACIONES DE RESPLANDOR (ESPECÍFICAS DE LA ERA) */
+            @keyframes glow {
+                0% {
+                    box-shadow: 0 0 5px #FFFF00, 0 0 10px #FFFF00 inset;
+                }
+                50% {
+                    box-shadow: 0 0 15px #FFFF00, 0 0 20px #FFFF00 inset;
+                }
+                100% {
+                    box-shadow: 0 0 5px #FFFF00, 0 0 10px #FFFF00 inset;
+                }
+            }
+            .can-afford-glow:not(.is-disabled) { animation: glow 2s infinite; }
+            
+            /* Animación específica para el botón de prestigio (Fucsia) */
+            @keyframes glow-prestige {
+                0% {
+                    box-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF inset;
+                }
+                50% {
+                    box-shadow: 0 0 15px #FF00FF, 0 0 20px #FF00FF inset;
+                }
+                100% {
+                    box-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF inset;
+                }
+            }
+            .relaunch-button-styled.can-afford-glow { animation: glow-prestige 2s infinite; }
+            
+            /* 8. ESTILOS DE ATAJO (SHORTCUTS) - MOVIDOS DE icons.css */
+            
+            .top-shortcut-bar .shortcut-btn i {
+                width: 30px; /* Tamaño más pequeño y compacto */
+                height: 30px;
+                background: #1A1A1A; /* Fondo de panel oscuro */
+                border: 1px solid #00AA00; /* Borde de verde intermedio */
+                border-radius: 2px; /* Ligeramente cuadrado para la terminal */
+                color: #FFFF00; /* Color de icono: Amarillo Fósforo para acción */
+                text-shadow: 0 0 5px #FFFF00;
+                transition: all 0.2s ease;
+            }
+            
+            .top-shortcut-bar .shortcut-btn:hover i {
+                background-color: #00FF00; /* Fondo activo en verde puro */
+                color: #000; /* Texto oscuro en fondo brillante */
+                box-shadow: 0 0 10px #00FF00;
+                text-shadow: none;
+            }
+            ---------- FIN CONTENIDO ----------
+
+            📄 Archivo: era-2g.css
+            ---------- CONTENIDO ----------
+
+            ---------- FIN CONTENIDO ----------
+
+            📄 Archivo: era-3g.css
+            ---------- CONTENIDO ----------
+
+            ---------- FIN CONTENIDO ----------
+
+            📄 Archivo: era-4g.css
+            ---------- CONTENIDO ----------
+
+            ---------- FIN CONTENIDO ----------
+
+            📄 Archivo: era-5g.css
+            ---------- CONTENIDO ----------
+
+            ---------- FIN CONTENIDO ----------
 
 
     ========================================
@@ -744,7 +1169,7 @@ Análisis del Proyecto: imperio-de-la-conexion
 
         📄 Archivo: main.js
         ---------- CONTENIDO ----------
-        // ---- DEFINICIONES Y ESTADO DEL JUEGO ----
+        // ---- DEFINICIONES Y ESTADO DEL JUEGO (ESTRUCTURA BALANCEADA Y SINEÉRGICA) ----
         const upgrades = {
             'infraestructura': {
                 name: 'Infraestructura y Expansión',
@@ -752,49 +1177,72 @@ Análisis del Proyecto: imperio-de-la-conexion
                     'lineaCobre': {
                         name: 'Instalar Línea de Cobre',
                         description: 'El primer paso. Conecta clientes y genera ingresos pasivos.',
-                        type: 'dps', baseCost: 15, baseEffect: 1,
+                        type: 'dps', 
+                        baseCost: 20,         // Coste Alto
+                        baseEffect: 0.5,      // Efecto Bajo
                         requirements: [
-                            { level: 10, reqs: { 'kitHerramientas': 5 } },
-                            { level: 25, reqs: { 'marketingLocal': 1 } },
-                            { level: 50, reqs: { 'centralitaAnaloga': 5 } }
+                            // Nivel 10: Requisitos iniciales de sinergia para obligar a diversificar
+                            { level: 10, reqs: { 'kitHerramientas': 5, 'marketingLocal': 1 } }, 
+                            // Nivel 30: El negocio crece, se necesita más equipamiento de cliente
+                            { level: 30, reqs: { 'tecladoTonos': 15 } }, 
+                            // Nivel 75: Cierre del capítulo analógico. Requiere un gran despliegue de software y hardware.
+                            { level: 75, reqs: { 'centralitaAnaloga': 10, 'softwareTerminal': 40 } } 
                         ]
                     },
                     'antenaRepetidora': {
                         name: 'Instalar Antena Repetidora',
                         description: 'Amplifica la señal para llegar a las afueras de la ciudad.',
-                        type: 'dps', baseCost: 100, baseEffect: 8,
+                        type: 'dps', 
+                        baseCost: 180,        // Coste Alto
+                        baseEffect: 5,        // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'lineaCobre': 15 } },
-                            { level: 15, reqs: { 'tecladoTonos': 10 } },
-                            { level: 30, reqs: { 'centralitaAnaloga': 1 } }
+                            // Nivel 1: Infraestructura base para poder repetir
+                            { level: 1, reqs: { 'lineaCobre': 25 } },
+                            // Nivel 15: Requiere software de gestión de nodos para ser eficiente
+                            { level: 15, reqs: { 'softwareTerminal': 10 } }, 
+                            // Nivel 35: Requiere la centralita como hub de gestión y modems para el alcance
+                            { level: 35, reqs: { 'centralitaAnaloga': 5, 'modem2400': 15 } } 
                         ]
                     },
                     'centralitaAnaloga': {
                         name: 'Construir Centralita Analógica',
                         description: 'Un conmutador que gestiona docenas de líneas automáticamente.',
-                        type: 'dps', baseCost: 1100, baseEffect: 45,
+                        type: 'dps', 
+                        baseCost: 1800,       // Coste Alto
+                        baseEffect: 30,       // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'lineaCobre': 40 } },
-                            { level: 10, reqs: { 'modem2400': 5, 'softwareTerminal': 15 } },
-                            { level: 25, reqs: { 'servidorBBS': 1 } }
+                            // Nivel 1: BLOQUEO PRINCIPAL - Requiere red, modems y software de gestión. TRIPLE REQUISITO.
+                            { level: 1, reqs: { 'lineaCobre': 50, 'modem2400': 5, 'softwareTerminal': 20 } }, 
+                            // Nivel 15: La Centralita requiere contenido (BBS) para generar tráfico masivo
+                            { level: 15, reqs: { 'servidorBBS': 5 } },
+                            // Nivel 40: Requiere despliegue avanzado de red y hardware de cliente de alta calidad
+                            { level: 40, reqs: { 'tarjetaRed': 5, 'antenaRepetidora': 25 } } 
                         ]
                     },
                     'centralitaDigital': {
                         name: 'Actualizar a Centralita Digital',
                         description: 'Reemplaza relés por microchips para una eficiencia sin precedentes.',
-                        type: 'dps', baseCost: 25000, baseEffect: 400,
+                        type: 'dps', 
+                        baseCost: 50000,      // Coste Muy Alto
+                        baseEffect: 220,      // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'centralitaAnaloga': 20, 'servidorBBS': 5 } },
-                            { level: 15, reqs: { 'protocoloTCPIP': 1 } }
+                            // Nivel 1: BLOQUEO DE ERA - Requiere la base de la red antigua, el protocolo y el contenido. TRIPLE REQUISITO.
+                            { level: 1, reqs: { 'centralitaAnaloga': 35, 'protocoloTCPIP': 5, 'servidorBBS': 15 } }, 
+                            // Nivel 25: Exige una base masiva de clientes con hardware digital (tarjeta de red)
+                            { level: 25, reqs: { 'tarjetaRed': 50 } } 
                         ]
                     },
                     'fibraOptica': {
                         name: 'Red de Fibra Óptica',
                         description: 'Tecnología experimental que usa pulsos de luz. Un salto cuántico.',
-                        type: 'dps', baseCost: 85000, baseEffect: 900,
+                        type: 'dps', 
+                        baseCost: 250000,     // Coste Extremo
+                        baseEffect: 500,      // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'centralitaDigital': 10, 'protocoloTCPIP': 5 } },
-                            { level: 20, reqs: { 'tarjetaRed': 50 } } // Requiere hardware de cliente muy avanzado
+                            // Nivel 1: Exige el dominio completo de la red digital (Centralita Digital) y el estándar (TCP/IP)
+                            { level: 1, reqs: { 'centralitaDigital': 15, 'protocoloTCPIP': 20 } }, 
+                            // Nivel 20: Requiere la cobertura total (Antenas) y la adopción de hardware extremo (Tarjeta de Red)
+                            { level: 20, reqs: { 'tarjetaRed': 100, 'antenaRepetidora': 50 } }
                         ]
                     }
                 }
@@ -805,35 +1253,50 @@ Análisis del Proyecto: imperio-de-la-conexion
                     'kitHerramientas': {
                         name: 'Kit de Herramientas Básico',
                         description: 'Un buen soldador y alicates. Cada conexión manual es más limpia.',
-                        type: 'dpc', baseCost: 10, baseEffect: 1,
-                        requirements: [] // Sin requisitos, siempre disponible
+                        type: 'dpc', 
+                        baseCost: 15,
+                        baseEffect: 1,
+                        requirements: [] // El DPC inicial no tiene requisitos
                     },
                     'tecladoTonos': {
                         name: 'Teclado de Tonos DTMF',
                         description: 'Reemplaza el dial rotatorio, optimizando cada clic.',
-                        type: 'dpc', baseCost: 75, baseEffect: 4,
+                        type: 'dpc', 
+                        baseCost: 100,
+                        baseEffect: 3,
                         requirements: [
-                            { level: 5, reqs: { 'kitHerramientas': 10 } },
-                            { level: 20, reqs: { 'lineaCobre': 20 } }
+                            // Nivel 5: Necesitas más que las herramientas, necesitas la red básica
+                            { level: 5, reqs: { 'kitHerramientas': 10, 'lineaCobre': 5 } },
+                            // Nivel 25: Necesitas gestión de línea para manejar el tráfico DPC optimizado
+                            { level: 25, reqs: { 'centralitaAnaloga': 1, 'softwareTerminal': 10 } } 
                         ]
                     },
                     'modem2400': {
                         name: 'Módem 2400 baudios',
                         description: 'Permite a los ordenadores comunicarse por vía telefónica.',
-                        type: 'dps', baseCost: 550, baseEffect: 25,
+                        type: 'dps', 
+                        baseCost: 800,        // Coste Alto
+                        baseEffect: 12,       // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'antenaRepetidora': 5 } },
-                            { level: 15, reqs: { 'softwareTerminal': 10 } }
+                            // Nivel 1: Requiere alcance de red para que los modems sean útiles
+                            { level: 1, reqs: { 'antenaRepetidora': 15 } }, 
+                            // Nivel 20: Exige software de terminal para un uso eficiente de los datos
+                            { level: 20, reqs: { 'softwareTerminal': 25 } }, 
+                            // Nivel 40: Requiere la centralita analógica para manejar múltiples conexiones
+                            { level: 40, reqs: { 'centralitaAnaloga': 10 } }
                         ]
                     },
                     'tarjetaRed': {
                         name: 'Tarjeta de Red ISA',
                         description: 'Una placa para PCs que permite conexiones directas y eficientes.',
-                        type: 'dpc', baseCost: 8000, baseEffect: 40,
+                        type: 'dpc', 
+                        baseCost: 15000,      // Coste Alto
+                        baseEffect: 25,       // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'softwareTerminal': 30 } },
-                            { level: 10, reqs: { 'protocoloTCPIP': 1 } },
-                            { level: 30, reqs: { 'centralitaDigital': 5 } }
+                            // Nivel 1: BLOQUEO - Necesitas el protocolo digital y un software de terminal muy maduro
+                            { level: 1, reqs: { 'softwareTerminal': 50, 'protocoloTCPIP': 1 } }, 
+                            // Nivel 15: Requiere una centralita digital para que el hardware se conecte a alta velocidad
+                            { level: 15, reqs: { 'centralitaDigital': 5 } }
                         ]
                     }
                 }
@@ -844,37 +1307,57 @@ Análisis del Proyecto: imperio-de-la-conexion
                     'marketingLocal': {
                         name: 'Campaña de Marketing Local',
                         description: 'Anuncios en periódicos. Atrae demanda para tu red de cobre.',
-                        type: 'dps', baseCost: 200, baseEffect: 5, // Cambiado a DPS directo
+                        type: 'dps', 
+                        baseCost: 300,        // Coste Alto
+                        baseEffect: 3,        // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'lineaCobre': 5 } }
+                            // Nivel 1: Requiere tener una red mínima antes de publicitar
+                            { level: 1, reqs: { 'lineaCobre': 10 } }, 
+                            // Nivel 15: Necesita un equipo de cliente mejor (DPC) para manejar la afluencia
+                            { level: 15, reqs: { 'tecladoTonos': 10 } }
                         ]
                     },
                     'softwareTerminal': {
                         name: 'Software de Terminal',
                         description: 'Un código más limpio para procesar datos más rápido en cada clic.',
-                        type: 'dpc', baseCost: 120, baseEffect: 8,
+                        type: 'dpc', 
+                        baseCost: 180,
+                        baseEffect: 5,
                         requirements: [
+                            // Nivel 1: Software inicial requiere hardware de cliente (Teclados de Tonos)
                             { level: 1, reqs: { 'tecladoTonos': 5 } },
-                            { level: 15, reqs: { 'lineaCobre': 30 } },
-                            { level: 35, reqs: { 'modem2400': 20 } }
+                            // Nivel 20: Se necesita una red de cobre extensa para justificar el software avanzado
+                            { level: 20, reqs: { 'lineaCobre': 30 } }, 
+                            // Nivel 40: Requiere el módem para la transferencia de datos y la centralita para el proceso
+                            { level: 40, reqs: { 'modem2400': 10, 'centralitaAnaloga': 5 } } 
                         ]
                     },
                     'servidorBBS': {
                         name: 'Servidor BBS "El Eco Digital"',
                         description: 'Crea una comunidad online. Los usuarios pagan una cuota por acceso.',
-                        type: 'dps', baseCost: 6000, baseEffect: 140,
+                        type: 'dps', 
+                        baseCost: 9000,        // Coste Alto
+                        baseEffect: 80,       // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'centralitaAnaloga': 1 } },
-                            { level: 10, reqs: { 'softwareTerminal': 25 } }
+                            // Nivel 1: Requiere la Centralita Analógica como base de hosting
+                            { level: 1, reqs: { 'centralitaAnaloga': 5 } }, 
+                            // Nivel 10: Requiere un software de terminal muy depurado para su gestión
+                            { level: 10, reqs: { 'softwareTerminal': 30 } },
+                            // Nivel 25: Necesita la base de la red digital (TCP/IP) para escalar su contenido
+                            { level: 25, reqs: { 'protocoloTCPIP': 5 } } 
                         ]
                     },
                     'protocoloTCPIP': {
                         name: 'Implementar Protocolo TCP/IP',
                         description: 'Estandariza tu red para un tráfico masivo. La base de Internet.',
-                        type: 'dpc', baseCost: 35000, baseEffect: 110,
+                        type: 'dpc', 
+                        baseCost: 65000,      // Coste Muy Alto
+                        baseEffect: 60,       // Efecto Bajo
                         requirements: [
-                            { level: 1, reqs: { 'servidorBBS': 15, 'centralitaDigital': 1 } },
-                            { level: 10, reqs: { 'tarjetaRed': 5 } }
+                            // Nivel 1: BLOQUEO DE ERA - Requiere contenido (BBS), red digital (Centralita Digital) y hardware de cliente (Tarjeta de Red). TRIPLE REQUISITO.
+                            { level: 1, reqs: { 'servidorBBS': 15, 'centralitaDigital': 1, 'tarjetaRed': 5 } }, 
+                            // Nivel 10: Requiere una base masiva de la red antigua que el nuevo protocolo va a reemplazar
+                            { level: 10, reqs: { 'centralitaAnaloga': 50 } }
                         ]
                     }
                 }
@@ -951,6 +1434,9 @@ Análisis del Proyecto: imperio-de-la-conexion
         
             const currentUpgradeLevel = gameState.upgradeLevels[upgradeId] || 0;
             
+            // [NUEVA LÍNEA CLAVE] Calculamos el nivel al que el jugador quiere llegar con su próxima compra.
+            const nextLevelToBuy = currentUpgradeLevel + 1;
+            
             // Iteramos sobre los requisitos para encontrar el PRIMER hito que NO hemos cumplido aún
             for (const hurdle of upgrade.requirements) {
                 // Si el nivel actual de la mejora es MENOR que el nivel requerido para este hito,
@@ -968,8 +1454,21 @@ Análisis del Proyecto: imperio-de-la-conexion
                     }
         
                     if (!allDependenciesMet) {
+                        // Hemos encontrado el PRIMER hito futuro con dependencias NO cumplidas.
+                        
+                        // --- INICIO DE LA CORRECCIÓN DE LÓGICA ---
+                        // Solo bloqueamos si el próximo nivel a comprar (nextLevelToBuy) alcanza el nivel del hito.
+                        if (nextLevelToBuy < hurdle.level) {
+                            // El bloqueo es lejano (ej. estamos en L1 y el bloqueo es en L25).
+                            // Esto significa que las compras no están bloqueadas AHORA,
+                            // ya que los hitos anteriores (L10) debieron cumplirse para llegar hasta aquí.
+                            // Por lo tanto, devolvemos null para que la compra sea permitida.
+                            return null; 
+                        }
+                        // --- FIN DE LA CORRECCIÓN DE LÓGICA ---
+                        
                         // Si este hito es el primero que aún no hemos alcanzado (porque currentUpgradeLevel < hurdle.level)
-                        // Y sus dependencias NO están cumplidas, entonces este es el hito que nos bloquea.
+                        // Y sus dependencias NO están cumplidas, y la próxima compra lo alcanza, este es el hito que nos bloquea.
                         return hurdle;
                     }
                     // Si las dependencias SÍ están cumplidas, seguimos buscando el siguiente hito,
@@ -1092,6 +1591,25 @@ Análisis del Proyecto: imperio-de-la-conexion
                 b.classList.toggle('active', b.dataset.tab === tabId);
             });
         }
+        function returnToMainMenu() {
+            // 1. Detener el bucle del juego (DPS)
+            if (gameLoopInterval) {
+                clearInterval(gameLoopInterval);
+                gameLoopInterval = null;
+            }
+            
+            // 2. Guardar el progreso
+            saveGame();
+            
+            // 3. Mostrar la pantalla principal del menú
+            showScreen('main-menu-screen');
+            
+            // 4. Reiniciar la música (subir volumen si se bajó antes)
+            sounds.titleMusic.volume(parseFloat(localStorage.getItem('masterVolume')) || 1.0);
+            
+            // Opcional: Pausar la música si quieres que se reanude en el menú, 
+            // pero si está en bucle, solo nos aseguramos del volumen.
+        }
         
         // ---- LÓGICA DE INICIALIZACIÓN ----
         let inGameListenersInitialized = false; // Bandera para asegurar que solo se ejecuta una vez
@@ -1141,6 +1659,21 @@ Análisis del Proyecto: imperio-de-la-conexion
                 const button = event.target.closest('button');
                 if (button.classList.contains('is-disabled')) { playSound('buyFail'); } else { prestigeReset(); }
             });
+        	
+        	document.getElementById('top-shortcut-bar').addEventListener('click', (event) => {
+                const shortcutButton = event.target.closest('.shortcut-btn');
+                const shortcutId = shortcutButton ? shortcutButton.id : null;
+        
+                if (shortcutId === 'menu-button-shortcut') {
+                    returnToMainMenu(); // Llama a la nueva función
+                    return; // Sale de la función para no activar el pop-up de "Próximamente"
+                }
+                
+                if (shortcutButton) {
+                    // Añadimos la clase al contenedor principal para mostrar el pop-up y el fondo
+                    gameContainer.classList.add('popup-visible');
+                }
+            });
         
             inGameListenersInitialized = true; // Marca como inicializado
         }
@@ -1170,7 +1703,7 @@ Análisis del Proyecto: imperio-de-la-conexion
             showScreen('loading-screen');
             setTimeout(() => { showScreen('tap-to-start-screen'); }, 2500);
             tapToStartScreen.addEventListener('click', () => { showScreen('main-menu-screen'); sounds.titleMusic.play(); sounds.titleMusic.fade(0, 0.4, 2000); }, { once: true });
-            document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.fade(0.4, 0, 1000); setTimeout(() => sounds.titleMusic.stop(), 1000); startGame(); });
+            document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.volume(0.2); startGame(); });
             document.getElementById('story-button').addEventListener('click', () => showScreen('story-screen'));
             document.getElementById('options-button-menu').addEventListener('click', () => showScreen('options-screen'));
             document.getElementById('credits-button').addEventListener('click', () => showScreen('credits-screen'));
@@ -1254,7 +1787,7 @@ Análisis del Proyecto: imperio-de-la-conexion
                                 <p>${upgrade.description}</p>
                             </div>
                             <button id="buy-${upgradeId}" class="buy-button" data-upgrade-id="${upgradeId}">
-                                Comprar: $<span id="cost-${upgradeId}">0</span>
+                                $<span id="cost-${upgradeId}">0</span>
                             </button>
                         </div>`;
                 }
