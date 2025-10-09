@@ -22,7 +22,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-style: normal; /* Necesario para que los emojis se vean bien */
+    font-style: normal; /* Para que los emojis se vean bien */
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    transition: all 0.2s ease;
 }
 
 .icon-store::before { content: '🛒'; font-size: 20px; }

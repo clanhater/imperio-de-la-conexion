@@ -1,0 +1,76 @@
+{
+    "era1": {
+        "GET_STARTED": {
+            "name": "Primeros Pasos",
+            "description": "Compra tu primer \"Kit de Herramientas Básico\".",
+            "reward": { "gems": 3 },
+            "phase": 1
+        },
+        "FIRST_LINE": {
+            "name": "La Primera Conexión",
+            "description": "Instala 5 \"Líneas de Cobre\".",
+            "reward": { "gems": 5 },
+            "requires": "GET_STARTED",
+            "phase": 1
+        },
+        "ESTABLISH_NETWORK": {
+            "name": "Estableciendo la Red",
+            "description": "Alcanza un Flujo de Red de +$10/s.",
+            "reward": { "gems": 8 },
+            "requires": "FIRST_LINE",
+            "phase": 1
+        },
+
+        "AUTOMATE_CALLS": {
+            "name": "Llamadas Automatizadas",
+            "description": "Construye tu primera \"Centralita Analógica\".",
+            "reward": { "gems": 15 },
+            "requires": "ESTABLISH_NETWORK",
+            "phase": 2
+        },
+        "GO_ONLINE": {
+            "name": "Conectándose a la Red",
+            "description": "Compra 5 \"Módems 2400 baudios\".",
+            "reward": { "gems": 20 },
+            "requires": "AUTOMATE_CALLS",
+            "phase": 2
+        },
+        "COMMUNITY_BUILDER": {
+            "name": "Constructor de Comunidades",
+            "description": "Lanza tu primer servidor BBS \"El Eco Digital\".",
+            "reward": { "gems": 30 },
+            "requires": "GO_ONLINE",
+            "phase": 2
+        },
+
+        "DIGITAL_SWITCH": {
+            "name": "El Salto Digital",
+            "description": "Actualiza a una \"Centralita Digital\".",
+            "reward": { "gems": 40 },
+            "requires": "COMMUNITY_BUILDER",
+            "phase": 3
+        },
+        "INTERNET_PROTOCOLS": {
+            "name": "El Lenguaje de Internet",
+            "description": "Implementa el \"Protocolo TCP/IP\" en tu red.",
+            "reward": { "gems": 50 },
+            "requires": "DIGITAL_SWITCH",
+            "phase": 3
+        },
+        "FIBER_REVOLUTION": {
+            "name": "La Revolución de la Fibra",
+            "description": "Instala tu primera \"Red de Fibra Óptica\".",
+            "reward": { "gems": 80 },
+            "requires": "INTERNET_PROTOCOLS",
+            "phase": 3
+        },
+        
+        "INNOVATE_AND_RESET": {
+            "name": "Innovar y Reiniciar",
+            "description": "Gana al menos 10 Puntos de Innovación y Relanza tu imperio.",
+            "reward": { "gems": 100 },
+            "requires": "FIBER_REVOLUTION",
+            "phase": 4
+        }
+    }
+}

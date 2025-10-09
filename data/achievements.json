@@ -1,0 +1,74 @@
+{
+    "era1": {
+        "TOTAL_CLICKS_100": {
+            "name": "Dedo Ágil",
+            "description": "Realiza 100 conexiones manuales.",
+            "reward": { "gems": 5 }
+        },
+        "TOTAL_CLICKS_1000": {
+            "name": "Tendinitis Incipiente",
+            "description": "Realiza 1,000 conexiones manuales.",
+            "reward": { "gems": 10 }
+        },
+        "TOTAL_CLICKS_5000": {
+            "name": "Maestro del Clic",
+            "description": "Realiza 5,000 conexiones manuales.",
+            "reward": { "gems": 25 }
+        },
+        "TOTAL_MONEY_10000": {
+            "name": "Pequeño Magnate",
+            "description": "Acumula un total de $10,000.",
+            "reward": { "gems": 10 }
+        },
+        "TOTAL_MONEY_1M": {
+            "name": "Millonario Analógico",
+            "description": "Acumula un total de $1,000,000.",
+            "reward": { "gems": 50 }
+        },
+        "TOTAL_MONEY_100M": {
+            "name": "Barón de las Telecomunicaciones",
+            "description": "Acumula un total de $100,000,000.",
+            "reward": { "gems": 100 }
+        },
+        "DPS_100": {
+            "name": "Flujo Constante",
+            "description": "Alcanza un Flujo de Red de +$100/s.",
+            "reward": { "gems": 20 }
+        },
+        "DPS_1000": {
+            "name": "Autopista de Datos",
+            "description": "Alcanza un Flujo de Red de +$1,000/s.",
+            "reward": { "gems": 40 }
+        },
+        "UPGRADE_LEVEL_25_COBRE": {
+            "name": "Rey del Cobre",
+            "description": "Alcanza el nivel 25 en \"Instalar Línea de Cobre\".",
+            "reward": { "gems": 15 }
+        },
+        "UPGRADE_LEVEL_50_COBRE": {
+            "name": "Emperador del Cobre",
+            "description": "Alcanza el nivel 50 en \"Instalar Línea de Cobre\".",
+            "reward": { "gems": 30 }
+        },
+        "OWN_CENTRALITA_DIGITAL": {
+            "name": "El Futuro es Digital",
+            "description": "Construye tu primera Centralita Digital.",
+            "reward": { "gems": 35 }
+        },
+        "OWN_FIBRA_OPTICA": {
+            "name": "Velocidad de la Luz",
+            "description": "Instala tu primera Red de Fibra Óptica.",
+            "reward": { "gems": 75 }
+        },
+        "FIRST_PRESTIGE": {
+            "name": "Salto Cuántico",
+            "description": "Relanza tu imperio por primera vez.",
+            "reward": { "gems": 50 }
+        },
+        "TOTAL_PRESTIGE_POINTS_100": {
+            "name": "Arquitecto de la Innovación",
+            "description": "Acumula un total de 100 Puntos de Innovación.",
+            "reward": { "gems": 120 }
+        }
+    }
+}

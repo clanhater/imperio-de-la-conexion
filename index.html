@@ -16,11 +16,28 @@
 <body>
     <!-- PANTALLA DE CARGA -->
     <div id="loading-screen" class="full-screen">
-        <div class="loading-content">
-            <p>ClanHater presenta...</p>
-            <div class="loader"></div>
-        </div>
-    </div>
+		<div class="loading-content">
+			<!-- Título del juego para reforzar la marca -->
+			<h1 class="loading-title">Imperio de la Conexión</h1>
+        
+			<!-- Contenedor de la barra de progreso -->
+			<div class="progress-bar-container">
+				<div id="progress-bar" class="progress-bar-inner"></div>
+			</div>
+        
+			<!-- Texto que cambiará dinámicamente -->
+			<p id="loading-status-text" class="loading-status">Inicializando sistema...</p>
+		</div>
+	</div>
+	
+	<!-- PANTALLA DE ANIMACIÓN DE INTRODUCCIÓN -->
+	<div id="intro-animation-screen" class="full-screen hidden">
+		<div id="intro-year-container"></div>
+		<div id="intro-text-container">
+			<!-- El texto de la animación se generará aquí con JS -->
+		</div>
+		<button id="skip-intro-button" class="hidden">Omitir &gt;&gt;</button>
+	</div>
 
     <!-- PANTALLA "TOCA PARA EMPEZAR" -->
     <div id="tap-to-start-screen" class="full-screen menu-background hidden">
@@ -41,47 +58,71 @@
     </div>
 
     <!-- PANTALLA DE HISTORIA -->
-    <div id="story-screen" class="full-screen menu-background hidden">
-        <div class="panel">
-            <h2>El Amanecer de la Conexión</h2>
-            <p>Es la década de los 80. Los teléfonos son de disco y las conexiones, un lujo. En un garaje lleno de sueños y circuitos, fundas una pequeña empresa con una visión audaz: conectar al mundo. Empiezas con una simple línea de cobre, pero tu ambición es tejer una red que abarque el planeta, evolucionando con cada nueva generación tecnológica.</p>
-            <button class="back-button">Volver</button>
-        </div>
-    </div>
+	<div id="story-screen" class="full-screen menu-background hidden">
+		<div class="panel story-panel">
+			<!-- Contenido dinámico de la tarjeta de historia -->
+			<div id="story-card-container">
+				<h2 id="story-era-display"></h2>
+				<h3 id="story-title-display"></h3>
+				<p id="story-text-display"></p>
+			</div>
+
+			<!-- Navegación -->
+			<div class="story-navigation">
+				<button id="story-prev-button" class="story-nav-button">&lt;</button>
+				<span id="story-card-indicator">1 / 4</span>
+				<button id="story-next-button" class="story-nav-button">&gt;</button>
+			</div>
+
+			<button class="back-button story-back-button">Volver</button>
+		</div>
+	</div>
     
     <!-- PANTALLA DE OPCIONES -->
-    <div id="options-screen" class="full-screen menu-background hidden">
-        <div class="panel">
-            <h2>Opciones</h2>
-            <div class="option-item">
-                <label for="master-volume">Volumen General</label>
-                <input type="range" id="master-volume" min="0" max="1" step="0.05">
-            </div>
-            <div class="option-item">
-                <label>Borrar Progreso</label>
-                <button id="reset-save-button" class="danger-button">Borrar Guardado</button>
-            </div>
-            <button class="back-button">Volver</button>
-        </div>
-    </div>
+	<div id="options-screen" class="full-screen menu-background hidden">
+		<div class="panel options-panel">
+			<h2>Opciones</h2>
+
+			<h3 class="options-header">Sonido</h3>
+			<div class="option-item">
+				<label for="music-volume">Música</label>
+				<input type="range" id="music-volume" min="0" max="1" step="0.05">
+			</div>
+			<div class="option-item">
+				<label for="sfx-volume">Efectos</label>
+				<input type="range" id="sfx-volume" min="0" max="1" step="0.05">
+			</div>
+
+			<h3 class="options-header">Jugabilidad</h3>
+			<div class="option-item">
+				<label for="prestige-confirmation-toggle">Confirmar Relanzamiento</label>
+				<label class="toggle-switch">
+					<input type="checkbox" id="prestige-confirmation-toggle">
+					<span class="slider"></span>
+				</label>
+			</div>
+        
+			<h3 class="options-header">Datos de Partida</h3>
+			<div class="option-item data-buttons">
+				<button id="export-save-button" class="data-button">Exportar</button>
+				<button id="import-save-button" class="data-button">Importar</button>
+			</div>
+			<div class="option-item">
+				<button id="reset-save-button" class="danger-button">Borrar Progreso</button>
+			</div>
+        
+			<button class="back-button options-back-button">Volver</button>
+		</div>
+	</div>
 
     <!-- PANTALLA DE CRÉDITOS -->
     <div id="credits-screen" class="full-screen menu-background hidden">
-        <div class="credits-container">
-            <div class="credits-content">
-                <h3>Imperio de la Conexión</h3>
-                <p>Un Juego de ClanHater</p><br>
-                <h4>-- Desarrollo Principal --</h4><p>ClanHater</p><br>
-                <h4>-- Control de Calidad y Depuración --</h4><p>ClanHater</p><br>
-                <h4>-- Activos de Sonido --</h4><p>Pixabay</p><br>
-                <h4>-- Activos Visuales --</h4><p>Nanobanana & Google Fonts</p><br>
-                <p>Gracias por jugar y por ayudar a conectar este pequeño mundo digital.</p><br>
-                <p>...Se han transmitido 0 terabytes de datos de gatitos durante la creación de este juego...</p><br>
-                <p>...Ningún teclado fue dañado en el proceso...</p>
-            </div>
-        </div>
-        <button class="back-button credits-back-button">Volver</button>
-    </div>
+		<div class="panel credits-panel">
+			<!-- El contenido se generará aquí con JS -->
+			<div id="credits-content-container"></div>
+		</div>
+		<button id="credits-back-button" class="back-button credits-back-button">Volver</button>
+	</div>
 
     <!-- ===== ESTA ES LA PARTE RESTAURADA ===== -->
     <div id="game-container" class="game-container hidden">
@@ -94,9 +135,9 @@
 			</div>
 			<div id="top-shortcut-bar" class="top-shortcut-bar"> <!-- ID y Clase Nuevos -->
 				<button id="menu-button-shortcut" class="shortcut-btn"><i class="icon-menu-back"></i></button> 
-				<button class="shortcut-btn"><i class="icon-store"></i></button> <!-- Clase Nueva -->
-				<button class="shortcut-btn"><i class="icon-achievements"></i></button> <!-- Clase Nueva -->
-				<button class="shortcut-btn"><i class="icon-missions"></i></button> <!-- Clase Nueva -->
+				<button class="shortcut-btn tab-btn" data-tab="shop-tab"><i class="icon-store"></i></button>
+				<button class="shortcut-btn tab-btn" data-tab="achievements-tab"><i class="icon-achievements"></i></button>
+				<button class="shortcut-btn tab-btn" data-tab="missions-tab"><i class="icon-missions"></i></button>
 			</div>
 		</header>
 
@@ -140,6 +181,31 @@
 					<button id="relaunch-button" class="relaunch-button-styled">Relanzar</button>
 				</div>
 			</div>
+			
+			<!-- Pestaña Logros -->
+			<div id="achievements-tab" class="tab-panel">
+				<h2>Logros Desbloqueados</h2>
+				<div id="achievements-container" class="scrollable-content">
+					<!-- Los logros se generarán aquí con JS -->
+				</div>
+			</div>
+
+			<!-- Pestaña Misiones -->
+			<div id="missions-tab" class="tab-panel">
+				<h2>Misiones Activas</h2>
+				<div id="missions-container" class="scrollable-content">
+					<!-- Las misiones se generarán aquí con JS -->
+				</div>
+			</div>
+
+			<!-- Pestaña Tienda -->
+			<div id="shop-tab" class="tab-panel">
+				<h2>Tienda de Innovación</h2>
+				<p class="gem-display">Gemas de Innovación: <span id="shop-gems-display">0</span> 💎</p>
+				<div id="shop-container" class="scrollable-content">
+					<!-- Los ítems de la tienda se generarán aquí con JS -->
+				</div>
+			</div>
 
 		</main>
     
@@ -153,21 +219,24 @@
 
 		<!-- (3) BARRA DE NAVEGACIÓN INFERIOR (Nueva) -->
 		<nav id="game-tab-bar" class="game-tab-bar"> <!-- ID y Clase Nuevos -->
-			<button class="tab-btn" data-tab="upgrades-tab"> <!-- Clase Nueva -->
+			<button id="upgrades-tab-button" class="tab-btn" data-tab="upgrades-tab"> <!-- Clase Nueva -->
 				<i class="icon-upgrades"></i><span>Mejoras</span>
 			</button>
 			<button class="tab-btn main-nav-button active" data-tab="main-tab"> <!-- Clase Nueva -->
 				<i class="icon-main"></i>
 			</button>
-			<button class="tab-btn" data-tab="evolution-tab"> <!-- Clase Nueva -->
+			<button id="evolution-tab-button" class="tab-btn" data-tab="evolution-tab"> <!-- Clase Nueva -->
 				<i class="icon-evolution"></i><span>Evolución</span>
 			</button>
 		</nav>
     
 	</div>
+	
+	<div id="notification-container"></div>
 
 	<script src="js/audio.js"></script>
-	<script src="js/ui.js"></script>
+	<script src="js/dataLogic.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/ui.js"></script>
 </body>
 </html>

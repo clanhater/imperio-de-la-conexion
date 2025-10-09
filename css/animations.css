@@ -22,23 +22,3 @@
     pointer-events: none; /* Asegura que el número no interfiera con los clics */
     animation: float-up 1s ease-out forwards;
 }
-
-/* ---- ANIMACIÓN DE BOTÓN DISPONIBLE ---- */
-
-/* Define la animación: un pulso de brillo sutil */
-@keyframes glow {
-    0% {
-        box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset;
-    }
-    50% {
-        box-shadow: 0 0 15px #00F5D4, 0 0 20px #00F5D4 inset;
-    }
-    100% {
-        box-shadow: 0 0 5px #00F5D4, 0 0 10px #00F5D4 inset;
-    }
-}
-
-/* Clase que aplicaremos con JavaScript a los botones de compra */
-.can-afford-glow {
-    animation: glow 2s infinite;
-}

@@ -19,7 +19,13 @@ body {
 */
 .full-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0D0221; z-index: 200; display: flex; justify-content: center; align-items: center; text-align: center; color: #F2E9F4; }
 .hidden { display: none !important; }
-.loading-content { animation: fadeIn 1.5s ease-in-out; }
+.loading-content {
+    animation: fadeIn 1.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Asegura que el contenedor tenga espacio para centrar */
+}
 .loading-content.fade-out { animation: fadeOut 1.5s ease-in-out forwards; }
 .loading-content p { font-size: 1.5rem; color: #00F5D4; margin-bottom: 20px; text-shadow: 0 0 5px #00F5D4; }
 .loader { border: 8px solid #2A1B3D; border-top: 8px solid #00F5D4; border-radius: 50%; width: 60px; height: 60px; animation: spin 1.5s linear infinite; margin: 0 auto; }
@@ -32,6 +38,48 @@ body {
 .main-menu { display: flex; flex-direction: column; gap: 20px; width: 250px; }
 .menu-button { padding: 15px; background-color: transparent; color: #00F5D4; border: 3px solid #00F5D4; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', cursive; font-size: 1.5rem; text-shadow: 0 0 5px #00F5D4; transition: all 0.2s ease; }
 .menu-button:hover { background-color: #00F5D4; color: #0D0221; box-shadow: 0 0 15px #00F5D4; }
+#intro-animation-screen {
+    background-color: #020A02; /* Fondo de terminal oscuro, igual que en la era 1G */
+    color: #00FF00; /* Verde Fósforo Puro */
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem; /* Tamaño de letra grande y legible para la intro */
+    padding: 20px;
+    display: flex; /* Usamos flex para centrar y alinear */
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Alineamos el texto de la historia a la izquierda */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+}
+#intro-text-container p {
+    margin-bottom: 1.2rem; /* Espacio entre párrafos */
+}
+/* Estilo para el cursor parpadeante que animaremos con JS */
+#intro-text-container .cursor {
+    display: inline-block;
+    background-color: #00FF00;
+    width: 10px; /* Ancho del cursor */
+    height: 1.5rem; /* Altura igual al tamaño de la fuente */
+    animation: blink 1s linear infinite; /* Reutilizamos la animación de parpadeo */
+    vertical-align: middle; /* Alinea el cursor con el texto */
+    margin-left: 2px; /* Pequeño espacio del texto */
+}
+#skip-intro-button {
+    position: fixed; /* Lo fija en la esquina de la pantalla */
+    bottom: 20px;
+    right: 20px;
+    background: transparent;
+    border: 1px solid #00FF00;
+    color: #00FF00;
+    padding: 8px 15px;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7; /* Ligeramente transparente para no distraer */
+    transition: opacity 0.3s;
+}
+#skip-intro-button:hover {
+    opacity: 1; /* Totalmente opaco al pasar el cursor */
+}
 .panel { width: 90%; max-width: 420px; background-color: rgba(13, 2, 33, 0.85); border: 3px solid #FF00A8; padding: 25px; text-align: center; }
 .panel h2 { font-family: 'Press Start 2P', cursive; color: #00F5D4; margin-bottom: 30px; }
 .panel p { font-size: 1.2rem; line-height: 1.5; margin-bottom: 30px; }
@@ -46,11 +94,107 @@ input[type="range"] { width: 50%; }
     cursor: pointer;
 }
 .danger-button { background-color: #D32F2F; color: white; border: none; padding: 10px 15px; font-size: 1.1rem; cursor: pointer; }
-.credits-container { width: 100%; height: 80%; overflow: hidden; }
-.credits-content { position: absolute; width: 100%; text-align: center; font-size: 1.2rem; animation: scroll-credits 20s linear infinite; }
-.credits-content h3 { font-family: 'Press Start 2P'; font-size: 1.5rem; color: #00F5D4; margin-bottom: 20px;}
-.credits-content h4 { color: #FF00A8; margin-top: 20px; margin-bottom: 5px; }
-.credits-back-button { position: absolute; bottom: 20px; z-index: 5; }
+/* ---- ESTILOS PARA LA NUEVA PANTALLA DE CRÉDITOS ---- */
+
+.credits-panel {
+    width: 90%;
+    max-width: 600px; /* Un poco más ancho para el texto de terminal */
+    height: 80%;
+    padding: 20px;
+    border-color: #00F5D4; /* Cambiamos el color del borde para diferenciarlo */
+}
+
+/* El contenedor de nuestra "pantalla" de terminal */
+#credits-content-container {
+    width: 100%;
+    height: 100%;
+    font-family: 'VT323', monospace;
+    color: #00FF00; /* Texto verde fósforo */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    text-align: left; /* Alineamos a la izquierda como una terminal real */
+    overflow-y: auto; /* Scroll si el contenido es muy largo */
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    white-space: pre-wrap; /* Respeta los espacios y saltos de línea */
+}
+
+/* Reutilizamos el estilo del cursor de la intro */
+#credits-content-container .cursor {
+    display: inline-block;
+    background-color: #00FF00;
+    width: 10px;
+    height: 1.5rem;
+    animation: blink 1s linear infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+/* Posicionamos el botón de volver de forma fija */
+#credits-back-button {
+    position: fixed; /* Lo fijamos en la pantalla */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 205; /* Asegura que esté por encima del fondo oscuro */
+}
+/* ---- ESTILOS PARA LA NUEVA PANTALLA DE HISTORIA ---- */
+
+.story-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70%;
+    max-height: 500px;
+}
+
+#story-card-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 10px; /* Espacio para la barra de scroll si es necesaria */
+    transition: opacity 0.3s ease-in-out;
+}
+
+#story-card-container h3 {
+    font-family: 'Press Start 2P', cursive;
+    color: #FFFF00; /* Amarillo para el título, como en la era 1G */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.story-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    flex-shrink: 0;
+}
+
+.story-nav-button {
+    background: transparent;
+    border: 2px solid #00F5D4;
+    color: #00F5D4;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0 15px;
+    transition: all 0.2s ease;
+}
+
+.story-nav-button:hover {
+    background: #00F5D4;
+    color: #0D0221;
+}
+
+#story-card-indicator {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.story-back-button {
+    margin-top: 25px;
+    width: 100%;
+}
 
 /* 
 ==================================================================
@@ -414,15 +558,28 @@ input[type="range"] { width: 50%; }
 
 /* ---- CORRECCIÓN DE USABILIDAD Y ESTÉTICA (Elimina el molesto recuadro de enfoque) ---- */
 
-/* 1. Elimina el 'outline' que aparece al hacer focus/click en desktop/touch */
-button:focus, 
+/* 1. Elimina el outline solo si el navegador soporta :focus-visible, 
+      para reemplazarlo con un estilo personalizado. */
+button:focus,
 .buy-button:focus,
 .tab-btn:focus,
 .menu-button:focus {
-    outline: none !important;
+    outline: none;
 }
 
-/* 2. Elimina el molesto 'highlight' azul/gris que aparece al tocar en móviles (iOS/Android) */
+/* 2. [LA SOLUCIÓN] Aplica un indicador de foco personalizado y visible 
+      SOLO cuando se navega con el teclado (o cuando el navegador lo determina necesario). */
+button:focus-visible,
+.buy-button:focus-visible,
+.tab-btn:focus-visible,
+.menu-button:focus-visible {
+    /* Este brillo amarillo es visible y temático, pero puedes cambiarlo a tu gusto */
+    box-shadow: 0 0 8px 2px #FFFF00;
+    /* Opcional: añade una transición suave */
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+/* 3. Elimina el molesto 'highlight' azul/gris que aparece al tocar en móviles (iOS/Android) */
 button,
 .main-click-button,
 .tab-btn,
@@ -432,4 +589,495 @@ button,
     /* Para navegadores viejos o específicos, aunque -webkit es el más común */
     -moz-user-focus: none;
     -moz-user-select: none;
+}
+
+/* Nuevos contenedores de la intro */
+#intro-year-container {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3rem;
+    color: #00FF00;
+    text-shadow: 0 0 10px #00FF00;
+    position: absolute;
+    opacity: 0; /* Empieza invisible */
+}
+
+/* Animaciones */
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+.fade-out {
+    animation: fadeOut 1s ease-in-out forwards;
+}
+
+.flicker {
+    animation: flicker 0.5s linear 3; /* Parpadea 3 veces */
+}
+
+#intro-text-container {
+	position: absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Ancho máximo para el texto */
+    max-width: 600px;
+    text-align: center; /* Centra el texto dentro del contenedor */
+    font-size: 1.8rem; /* Hacemos el texto un poco más grande e impactante */
+}
+
+/* ---- ESTILOS DEL SISTEMA DE TUTORIAL INTERACTIVO (V2) ---- */
+
+/* El contenedor principal para los paneles del overlay */
+#tutorial-overlay-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    pointer-events: none; /* No bloquea clics por sí mismo */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#tutorial-overlay-container.visible {
+    opacity: 1;
+}
+
+/* Estilo para cada uno de los 4 paneles que forman el overlay */
+.tutorial-overlay-panel {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8); /* Un poco más oscuro */
+    transition: all 0.3s ease-in-out; /* Animación suave al cambiar de posición */
+}
+
+/* El elemento resaltado tendrá este brillo */
+.tutorial-glow-effect {
+    position: relative; /* Asegura que el z-index funcione */
+    z-index: 9999;
+    /* Aplicamos la animación de brillo */
+    animation: glow-tutorial 2s infinite;
+    border-radius: 8px; /* Redondea las esquinas para que el brillo se vea mejor */
+}
+
+/* Definición de la animación de brillo para el tutorial */
+@keyframes glow-tutorial {
+    0% {
+        box-shadow: 0 0 8px 3px rgba(255, 255, 255, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 16px 5px rgba(255, 255, 255, 0.9);
+    }
+    100% {
+        box-shadow: 0 0 8px 3px rgba(255, 255, 255, 0.7);
+    }
+}
+
+/* El cuadro de texto no necesita muchos cambios */
+#tutorial-tooltip {
+    position: absolute;
+    background-color: #020A02;
+    border: 2px solid #00FF00;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 300px;
+    z-index: 10000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transform: translateY(20px);
+    
+    /* [LA SOLUCIÓN] Por defecto, el tooltip es un "fantasma" que no puede ser clickeado. */
+    pointer-events: none;
+}
+
+#tutorial-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+
+    /* [LA SOLUCIÓN] Solo cuando está VISIBLE, se vuelve "sólido" y puede ser clickeado. */
+    pointer-events: auto;
+}
+
+#tutorial-tooltip p {
+    margin: 0 0 15px 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+#tutorial-tooltip button {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    background-color: #00FF00;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    text-shadow: none;
+}
+
+/* ---- ESTILOS PARA NUEVAS PESTAÑAS (Logros, Misiones, Tienda) ---- */
+
+.tab-panel h2 {
+    /* Estilo para los títulos de las nuevas pestañas */
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    flex-shrink: 0; /* Evita que el título se encoja */
+}
+
+.scrollable-content {
+    /*
+     * Esta es la clase clave para el contenido.
+     * flex: 1; -> Hace que el div ocupe todo el espacio vertical restante en la pestaña.
+     * overflow-y: auto; -> Muestra una barra de scroll vertical SÓLO si el contenido es más alto que el contenedor.
+     */
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; /* Truco de Flexbox para asegurar que el scroll funcione en todos los navegadores */
+    padding: 5px;
+}
+
+.gem-display {
+    /* Estilo base para el contador de gemas en la tienda */
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 10px;
+    margin: 0 10px 20px 10px;
+    font-family: 'Press Start 2P', cursive;
+    flex-shrink: 0;
+}
+
+/* --- Estilos para Logros y Misiones (Estructura) --- */
+.achievement, .mission {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    margin-bottom: 8px;
+    opacity: 0.5; /* Los logros/misiones no completados se verán atenuados */
+    transition: all 0.3s ease;
+}
+
+.achievement.unlocked, .mission.completed {
+    opacity: 1; /* Los completados serán totalmente visibles */
+}
+
+.achievement-icon, .mission-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.achievement-info, .mission-info {
+    flex-grow: 1;
+}
+
+.achievement-info h4, .mission-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+}
+
+.achievement-info p, .mission-info p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.achievement-reward, .mission-reward {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+/* --- Estilos para Fases de Misiones (Estructura) --- */
+.mission-phase-title {
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+/* --- Estilos para la Tienda (Estructura) --- */
+.shop-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.shop-item.purchased {
+    opacity: 0.6;
+}
+.shop-item h4 {
+    font-size: 1.1rem;
+    margin: 0 0 8px 0;
+}
+.shop-item p {
+    font-size: 0.9rem;
+    margin: 0 0 12px 0;
+    flex-grow: 1; /* Para que ocupe el espacio si los ítems tienen alturas distintas */
+}
+.buy-shop-item-button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-family: 'Press Start 2P', cursive;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+.buy-shop-item-button:disabled {
+    cursor: not-allowed;
+}
+
+/* ---- ESTILOS DEL SISTEMA DE NOTIFICACIONES ---- */
+#notification-container {
+    position: fixed; /* Fijo en la pantalla */
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* Centrado horizontalmente */
+    z-index: 10001; /* Por encima de todo, incluso del tutorial */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none; /* No bloquea los clics en el juego que está debajo */
+}
+
+.notification {
+    padding: 12px 20px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 280px; /* Ancho mínimo para que se vea bien */
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+/* Animaciones de entrada y salida */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+.slide-in-down {
+    animation-name: slideInDown;
+}
+
+.fade-out-up {
+    animation-name: fadeOutUp;
+}
+
+/*
+==================================================================
+   REGLAS DE DISEÑO RESPONSIVO (PARA MÓVILES)
+==================================================================
+*/
+
+/* Aplica estos estilos solo si el ancho de la pantalla es de 480px o menos */
+@media (max-width: 480px) {
+    
+    /* ---- AJUSTES PARA LA PANTALLA DE CRÉDITOS ---- */
+    
+    .credits-panel {
+        /* Reducimos el padding para dar más espacio al texto */
+        padding: 10px;
+    }
+
+    #credits-content-container {
+        /* Reducimos el tamaño de la fuente para mejor lectura en móvil */
+        font-size: 16px; 
+        padding: 10px;
+    }
+
+    /* También debemos ajustar la altura del cursor para que coincida con la nueva fuente */
+    #credits-content-container .cursor {
+        height: 1rem; /* 1rem ahora se adaptará al nuevo font-size de 16px */
+    }
+}
+
+/* ---- ESTILOS PARA LA NUEVA PANTALLA DE OPCIONES ---- */
+.options-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre grupos de opciones */
+}
+
+.options-header {
+    font-family: 'Press Start 2P', cursive;
+    color: #FF00FF; /* Fucsia */
+    text-shadow: 0 0 5px #FF00FF;
+    border-bottom: 2px solid #00AA00;
+    padding-bottom: 8px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    text-align: left;
+}
+.options-panel > h3:first-of-type {
+    margin-top: 0;
+}
+
+.option-item {
+    font-size: 1.2rem;
+}
+
+/* Estilo para el interruptor (toggle switch) */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #555;
+    transition: .4s;
+    border-radius: 34px;
+    border: 1px solid #aaa;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #00F5D4;
+}
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Estilos para botones de Exportar/Importar */
+.data-buttons {
+    display: flex;
+    gap: 15px;
+}
+.data-button {
+    flex: 1;
+    padding: 10px;
+    font-size: 1.1rem;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #888;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.data-button:hover {
+    background-color: #555;
+    border-color: #fff;
+}
+
+.options-panel .danger-button {
+    width: 100%;
+}
+
+.options-back-button {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* ==================================================================
+   NUEVOS ESTILOS PARA LA PANTALLA DE CARGA TEMÁTICA
+================================================================== */
+
+/* Hacemos que la pantalla de carga se parezca a la terminal del juego */
+#loading-screen {
+    background-color: #020A02; /* Mismo fondo que la era 1G */
+    color: #00FF00; /* Mismo color de texto fósforo */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    flex-direction: column; /* Alineamos los elementos verticalmente */
+    font-family: 'VT323', monospace;
+}
+
+.loading-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2rem;
+    color: #FF00A8; /* Color fucsia icónico */
+    text-shadow: 0 0 10px #FF00A8, 0 0 5px #fff;
+    margin-bottom: 40px;
+}
+
+.progress-bar-container {
+    width: 80%;
+    max-width: 400px;
+    height: 30px;
+    border: 2px solid #00AA00; /* Borde verde oscuro */
+    background-color: #000;
+    padding: 4px;
+    margin-bottom: 20px;
+}
+
+.progress-bar-inner {
+    width: 0%; /* Empezamos con la barra vacía */
+    height: 100%;
+    background-color: #00FF00; /* La barra se llena de color fósforo */
+    box-shadow: 0 0 10px #00FF00;
+    transition: width 0.3s ease-in-out; /* Animación suave al llenarse */
+}
+
+.loading-status {
+    font-size: 1.2rem;
+    color: #FFFF00; /* Amarillo para el texto de estado */
+    text-shadow: 0 0 5px #FFFF00;
+}
+
+/* Reutilizamos la animación del cursor para el texto de estado */
+.loading-status::after {
+    content: '_';
+    animation: blink 1s linear infinite;
+    margin-left: 5px;
 }

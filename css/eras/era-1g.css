@@ -280,14 +280,10 @@
 /* 8. ESTILOS DE ATAJO (SHORTCUTS) - MOVIDOS DE icons.css */
 
 .top-shortcut-bar .shortcut-btn i {
-    width: 30px; /* Tamaño más pequeño y compacto */
-    height: 30px;
     background: #1A1A1A; /* Fondo de panel oscuro */
     border: 1px solid #00AA00; /* Borde de verde intermedio */
-    border-radius: 2px; /* Ligeramente cuadrado para la terminal */
     color: #FFFF00; /* Color de icono: Amarillo Fósforo para acción */
     text-shadow: 0 0 5px #FFFF00;
-    transition: all 0.2s ease;
 }
 
 .top-shortcut-bar .shortcut-btn:hover i {
@@ -295,4 +291,139 @@
     color: #000; /* Texto oscuro en fondo brillante */
     box-shadow: 0 0 10px #00FF00;
     text-shadow: none;
+}
+
+/* ---- ESTILOS DE ERA PARA NUEVAS PESTAÑAS ---- */
+
+.tab-panel h2 {
+    color: #FF00FF; /* Fucsia, igual que los títulos de Evolución y categorías */
+    text-shadow: 0 0 5px #FF00FF;
+    border-bottom: 2px solid #00AA00; /* Línea separadora verde */
+}
+
+/* Para darle un borde temático al contador de gemas */
+.gem-display {
+    color: #FFFF00; /* Amarillo para destacar, como el DPS */
+    text-shadow: 0 0 5px #FFFF00;
+    border: 1px dashed #FFFF00;
+    background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro semitransparente */
+}
+
+/* Ocultar la barra de scroll por defecto y darle un estilo retro si aparece */
+.scrollable-content::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollable-content::-webkit-scrollbar-track {
+  background: #000;
+}
+.scrollable-content::-webkit-scrollbar-thumb {
+  background-color: #00FF00;
+  border: 1px solid #000;
+}
+
+/* --- Estilos de Era para Logros y Misiones --- */
+.achievement, .mission {
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid #003300; /* Borde verde muy oscuro */
+}
+
+.achievement.unlocked {
+    background-color: rgba(0, 100, 0, 0.2);
+    border-color: #00AA00; /* Borde verde más brillante */
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+}
+
+.achievement-info h4, .mission-info h4 {
+    color: #00FF00; /* Verde fósforo */
+}
+
+.achievement-info p, .mission-info p {
+    color: #99FF99; /* Verde más suave para la descripción */
+}
+
+.achievement-reward, .mission-reward {
+    color: #FFFF00; /* Amarillo para la recompensa, igual que el DPS */
+    text-shadow: 0 0 5px #FFFF00;
+}
+
+/* --- Estilos de Era para Fases de Misiones --- */
+.mission-phase-title {
+    color: #FF00FF; /* Fucsia, como otros títulos importantes */
+    text-shadow: 0 0 5px #FF00FF;
+    border: 1px dashed #FF00FF;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Pequeño ajuste para que las misiones completadas se vean diferentes */
+.mission.completed {
+    opacity: 0.5;
+    border-style: dashed;
+    border-color: #00AA00;
+}
+
+/* --- Estilos de Era para la Tienda --- */
+.shop-item {
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid #00AA00;
+}
+.shop-item.purchased {
+    border-style: dashed;
+    border-color: #444;
+}
+.shop-item h4 {
+    color: #00FF00;
+}
+.shop-item p {
+    color: #99FF99;
+}
+.buy-shop-item-button {
+    background-color: transparent;
+    border: 2px solid #FFFF00;
+    color: #FFFF00;
+    text-shadow: 0 0 5px #FFFF00;
+}
+.buy-shop-item-button:not(:disabled):hover {
+    background-color: #FFFF00;
+    color: #000;
+    text-shadow: none;
+    box-shadow: 0 0 15px #FFFF00;
+}
+.buy-shop-item-button:disabled {
+    border-color: #666;
+    color: #666;
+    text-shadow: none;
+    opacity: 0.7;
+}
+.shop-item.purchased .buy-shop-item-button {
+    border-color: #00FF00;
+    color: #00FF00;
+    text-shadow: 0 0 5px #00FF00;
+}
+
+/* --- Estilos de Era para Notificaciones --- */
+.notification {
+    background-color: rgba(0, 0, 0, 0.85);
+    border: 2px solid #FFFF00; /* Borde amarillo para llamar la atención */
+    box-shadow: 0 0 10px #FFFF00;
+    color: #fff;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+}
+
+.notification-icon {
+    font-size: 1.5rem;
+}
+
+.notification-text h5 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9rem;
+    color: #00FF00; /* Verde para el título */
+    margin: 0 0 5px 0;
+    text-shadow: 0 0 3px #00FF00;
+}
+
+.notification-text p {
+    margin: 0;
+    color: #FFFF00; /* Amarillo para la recompensa */
+    text-shadow: 0 0 5px #FFFF00;
 }

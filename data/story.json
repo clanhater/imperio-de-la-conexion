@@ -1,0 +1,27 @@
+[
+    {
+        "era": "1980s - El Amanecer de la Conexión",
+        "title": "La Red de Cobre y el 1G",
+        "text": "La década de 1980 está dominada por la Red Telefónica Pública Conmutada (PSTN), una inmensa red de cables de cobre. En este entorno, das tus primeros pasos. A la vez, una revolución silenciosa comienza: el despliegue de la primera generación de telefonía móvil (1G). Esta tecnología analógica, aunque rudimentaria y costosa, permite por primera vez la comunicación de voz sin cables, sentando las bases de un futuro inimaginable."
+    },
+    {
+        "era": "1990s - La Era Digital y la Web",
+        "title": "2G/GSM y el Nacimiento de la Web",
+        "text": "Los noventa traen dos transformaciones cruciales. Primero, la telefonía móvil se vuelve digital con el estándar 2G (GSM), mejorando drásticamente la calidad y seguridad, y dando a luz a una tecnología revolucionaria: el SMS. Segundo, la World Wide Web se hace pública. El sonido de los módems dial-up se convierte en la puerta de entrada a un nuevo universo de información, y la 'Autopista de la Información' deja de ser un concepto para convertirse en una realidad tangible."
+    },
+    {
+        "era": "2000s - La Revolución de la Banda Ancha",
+        "title": "3G y el Internet 'Siempre Activo'",
+        "text": "El nuevo milenio acaba con la tiranía del dial-up. La llegada de la banda ancha a los hogares a través de DSL y Cable cambia las reglas del juego, ofreciendo una conexión a internet 'siempre activa'. En paralelo, la tecnología 3G lleva por primera vez una conexión de datos funcional a los teléfonos móviles, permitiendo navegar por la web y usar el correo electrónico en movimiento. Este es el verdadero catalizador de la era del smartphone que está por venir."
+    },
+    {
+        "era": "2010s - El Ecosistema Móvil",
+        "title": "4G LTE y la Nube",
+        "text": "La década de 2010 pertenece al smartphone. El lanzamiento de las redes 4G LTE proporciona velocidades de banda ancha móvil reales, haciendo posible el streaming de video en alta definición, las videollamadas y un ecosistema de aplicaciones que redefine la vida diaria. Al mismo tiempo, el concepto de 'la Nube' se masifica, permitiendo que nuestros datos y servicios nos sigan a cualquier dispositivo, en cualquier lugar. Tu red ya no es un servicio, es el pilar de la vida digital moderna."
+    },
+    {
+        "era": "2020s - La Era de la Hiperconectividad",
+        "title": "5G y la Latencia Cero",
+        "text": "La tecnología 5G representa un salto cuántico. Más allá de una mayor velocidad, su característica definitoria es la latencia ultra-baja, permitiendo una comunicación casi instantánea entre dispositivos. Esto abre las puertas al Internet de las Cosas (IoT) a escala masiva, los vehículos autónomos, la telemedicina y la realidad aumentada. Tu imperio ya no solo conecta personas, sino que se convierte en el sistema nervioso de un mundo inteligente y conectado."
+    }
+]

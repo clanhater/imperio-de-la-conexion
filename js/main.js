@@ -1,182 +1,43 @@
 // ---- DEFINICIONES Y ESTADO DEL JUEGO (ESTRUCTURA BALANCEADA Y SINEÉRGICA) ----
-const upgrades = {
-    'infraestructura': {
-        name: 'Infraestructura y Expansión',
-        items: {
-            'lineaCobre': {
-                name: 'Instalar Línea de Cobre',
-                description: 'El primer paso. Conecta clientes y genera ingresos pasivos.',
-                type: 'dps',
-                baseCost: 20,
-                baseEffect: 0.5,
-                requirements: [
-                    // CORREGIDO: Ahora requiere marketing para crecer, pero el marketing no lo requiere a él en un bucle.
-                    { level: 10, reqs: { 'kitHerramientas': 5, 'marketingLocal': 1 } },
-                    { level: 30, reqs: { 'tecladoTonos': 15 } },
-                    { level: 75, reqs: { 'centralitaAnaloga': 10, 'softwareTerminal': 40 } }
-                ]
-            },
-            'antenaRepetidora': {
-                name: 'Instalar Antena Repetidora',
-                description: 'Amplifica la señal para llegar a las afueras de la ciudad.',
-                type: 'dps',
-                baseCost: 180,
-                baseEffect: 5,
-                requirements: [
-                    { level: 1, reqs: { 'lineaCobre': 25 } },
-                    { level: 15, reqs: { 'softwareTerminal': 10 } },
-                    { level: 35, reqs: { 'centralitaAnaloga': 5 } }
-                ]
-            },
-            'centralitaAnaloga': {
-                name: 'Construir Centralita Analógica',
-                description: 'Un conmutador que gestiona docenas de líneas automáticamente.',
-                type: 'dps',
-                baseCost: 1800,
-                baseEffect: 30,
-                requirements: [
-                    { level: 1, reqs: { 'lineaCobre': 50, 'softwareTerminal': 20 } },
-                    { level: 15, reqs: { 'servidorBBS': 5 } },
-                    { level: 40, reqs: { 'antenaRepetidora': 25, 'modem2400': 15 } }
-                ]
-            },
-            'centralitaDigital': {
-                name: 'Actualizar a Centralita Digital',
-                description: 'Reemplaza relés por microchips para una eficiencia sin precedentes.',
-                type: 'dps',
-                baseCost: 50000,
-                baseEffect: 220,
-                requirements: [
-                    { level: 1, reqs: { 'centralitaAnaloga': 35, 'servidorBBS': 15 } },
-                    { level: 25, reqs: { 'modem2400': 50 } }
-                ]
-            },
-            'fibraOptica': {
-                name: 'Red de Fibra Óptica',
-                description: 'Tecnología experimental que usa pulsos de luz. Un salto cuántico.',
-                type: 'dps',
-                baseCost: 250000,
-                baseEffect: 500,
-                requirements: [
-                    { level: 1, reqs: { 'centralitaDigital': 15, 'protocoloTCPIP': 20 } },
-                    { level: 20, reqs: { 'tarjetaRed': 100 } }
-                ]
-            }
-        }
-    },
-    'equipamiento': {
-        name: 'Equipamiento y Terminales',
-        items: {
-            'kitHerramientas': {
-                name: 'Kit de Herramientas Básico',
-                description: 'Un buen soldador y alicates. Cada conexión manual es más limpia.',
-                type: 'dpc',
-                baseCost: 15,
-                baseEffect: 1,
-                requirements: []
-            },
-            'tecladoTonos': {
-                name: 'Teclado de Tonos DTMF',
-                description: 'Reemplaza el dial rotatorio, optimizando cada clic.',
-                type: 'dpc',
-                baseCost: 100,
-                baseEffect: 3,
-                requirements: [
-                    { level: 5, reqs: { 'kitHerramientas': 10, 'lineaCobre': 5 } },
-                    { level: 25, reqs: { 'centralitaAnaloga': 1, 'softwareTerminal': 10 } }
-                ]
-            },
-            'modem2400': {
-                name: 'Módem 2400 baudios',
-                description: 'Permite a los ordenadores comunicarse por vía telefónica.',
-                type: 'dps',
-                baseCost: 800,
-                baseEffect: 12,
-                requirements: [
-                    { level: 1, reqs: { 'antenaRepetidora': 10 } },
-                    { level: 20, reqs: { 'softwareTerminal': 25 } },
-                    { level: 40, reqs: { 'centralitaAnaloga': 10 } }
-                ]
-            },
-            'tarjetaRed': {
-                name: 'Tarjeta de Red ISA',
-                description: 'Una placa para PCs que permite conexiones directas y eficientes.',
-                type: 'dpc',
-                baseCost: 15000,
-                baseEffect: 25,
-                requirements: [
-                    { level: 1, reqs: { 'protocoloTCPIP': 1, 'softwareTerminal': 50 } },
-                    { level: 15, reqs: { 'centralitaDigital': 5 } }
-                ]
-            }
-        }
-    },
-    'software': {
-        name: 'Software y Protocolos',
-        items: {
-            'marketingLocal': {
-                name: 'Campaña de Marketing Local',
-                description: 'Anuncios en periódicos. Atrae demanda para tu red de cobre.',
-                type: 'dps',
-                baseCost: 300,
-                baseEffect: 3,
-                requirements: [
-                    // CORREGIDO: Ahora solo requiere una PEQUEÑA base de cobre para empezar. Esto rompe el deadlock.
-                    { level: 1, reqs: { 'lineaCobre': 5 } },
-                    { level: 15, reqs: { 'tecladoTonos': 10 } }
-                ]
-            },
-            'softwareTerminal': {
-                name: 'Software de Terminal',
-                description: 'Un código más limpio para procesar datos más rápido en cada clic.',
-                type: 'dpc',
-                baseCost: 180,
-                baseEffect: 5,
-                requirements: [
-                    { level: 1, reqs: { 'tecladoTonos': 5 } },
-                    { level: 20, reqs: { 'lineaCobre': 30 } },
-                    { level: 40, reqs: { 'modem2400': 10, 'centralitaAnaloga': 5 } }
-                ]
-            },
-            'servidorBBS': {
-                name: 'Servidor BBS "El Eco Digital"',
-                description: 'Crea una comunidad online. Los usuarios pagan una cuota por acceso.',
-                type: 'dps',
-                baseCost: 9000,
-                baseEffect: 80,
-                requirements: [
-                    { level: 1, reqs: { 'centralitaAnaloga': 5 } },
-                    { level: 10, reqs: { 'softwareTerminal': 30 } },
-                    // LÓGICA CORREGIDA: Para escalar, un BBS necesita una base masiva de usuarios con módems, no una tecnología futura.
-                    { level: 25, reqs: { 'modem2400': 30 } }
-                ]
-            },
-            'protocoloTCPIP': {
-                name: 'Implementar Protocolo TCP/IP',
-                description: 'Estandariza tu red para un tráfico masivo. La base de Internet.',
-                type: 'dpc',
-                baseCost: 65000,
-                baseEffect: 60,
-                requirements: [
-                    { level: 1, reqs: { 'centralitaDigital': 1, 'servidorBBS': 10 } },
-                    { level: 10, reqs: { 'centralitaAnaloga': 50 } }
-                ]
-            }
-        }
-    }
-};
+let upgrades = {};
+let achievements = {};
+let missions = {};
+let shopItems = {};
+let storyData = [];
+let currentStoryIndex = 0;
 
-const GAME_VERSION = "1.1"; // Puedes usar el número que quieras. Súbelo cada vez que cambies la estructura de guardado.
+const GAME_VERSION = "1.4"; // Puedes usar el número que quieras. Súbelo cada vez que cambies la estructura de guardado.
 const SAVE_KEY = 'imperioConexionSave_v2'; // Cambiamos el nombre para invalidar guardados muy antiguos y evitar errores complejos.
+
+// ==================================================================
+// CONSTANTES DE BALANCEO DEL JUEGO
+// ==================================================================
+// Aquí puedes ajustar fácilmente la dificultad y progresión del juego.
+
+const UPGRADE_COST_GROWTH_RATE = 1.12;  // Factor de encarecimiento de las mejoras (1.12 = +12% por nivel)
+const PRESTIGE_MONEY_FACTOR    = 100000; // Dinero necesario para empezar a generar puntos de prestigio
+const PRESTIGE_POWER_FACTOR    = 0.4;    // Exponente que suaviza la ganancia de puntos de prestigio (menor = más difícil)
+const PRESTIGE_BONUS_PER_POINT = 0.02;    // Bonus de ingresos por cada punto de prestigio (0.02 = +2%)
 
 // AHORA, REEMPLAZA EL OBJETO "gameState" CON ESTE, NOTA LA NUEVA LISTA EN "upgradeLevels"
 let gameState = {
 	version: GAME_VERSION,
     money: 0,
+	totalClicks: 0,
     moneyPerClick: 1,
     moneyPerSecond: 0,
     totalMoneyEver: 0,
     prestigePoints: 0,
+	gems: 0,
+	currentEra: 'era1',
+    unlockedAchievements: [],
+    completedMissions: [],
+    shopUpgrades: [],
+	settings: {
+        musicVolume: 0.4,
+        sfxVolume: 0.7,
+        prestigeConfirmation: true
+    },
     upgradeLevels: {
         // Infraestructura
         'lineaCobre': 0,
@@ -196,6 +57,62 @@ let gameState = {
         'protocoloTCPIP': 0
     },
 };
+
+// ---- CARGA Y PROCESAMIENTO DE DATOS DEL JUEGO ----
+
+async function loadGameData(progressCallback) {
+    try {
+        const dataFiles = [
+            { key: 'upgrades', path: 'data/upgrades.json', message: 'Cargando esquemas de mejoras...' },
+            { key: 'achievements', path: 'data/achievements.json', message: 'Compilando registros de logros...' },
+            { key: 'missions', path: 'data/missions.json', message: 'Descargando directivas de misión...' },
+            { key: 'shopItems', path: 'data/shopItems.json', message: 'Accediendo a la tienda de innovación...' },
+            { key: 'story', path: 'data/story.json', message: 'Recuperando archivos de la historia...' }
+        ];
+
+        const totalFiles = dataFiles.length;
+        let loadedFiles = 0;
+        const loadedData = {};
+
+        for (const file of dataFiles) {
+            const response = await fetch(file.path);
+            loadedData[file.key] = await response.json();
+            loadedFiles++;
+            // Llama al callback para actualizar la UI
+            if (progressCallback) {
+                progressCallback(loadedFiles / totalFiles, file.message);
+            }
+        }
+
+        // "Hidratamos" los datos con su lógica
+        for (const id in loadedData.achievements.era1) {
+            if (dataLogic.achievements[id]) loadedData.achievements.era1[id].check = dataLogic.achievements[id];
+        }
+        for (const id in loadedData.missions.era1) {
+            if (dataLogic.missions[id]) loadedData.missions.era1[id].check = dataLogic.missions[id];
+        }
+        for (const id in loadedData.shopItems) {
+            if (dataLogic.shopItems[id]) loadedData.shopItems[id].isPurchased = dataLogic.shopItems[id];
+        }
+        
+        // Asignamos los datos procesados a nuestras variables globales
+        upgrades = loadedData.upgrades;
+        achievements = loadedData.achievements;
+        missions = loadedData.missions;
+        shopItems = loadedData.shopItems;
+        storyData = loadedData.story;
+
+        console.log("Todos los datos del juego han sido cargados y procesados.");
+        return true;
+
+    } catch (error) {
+        console.error("Error fatal al cargar los datos del juego:", error);
+        if (progressCallback) {
+            progressCallback(-1, 'ERROR: Fallo en la conexión con el servidor.'); // -1 indica error
+        }
+        return false;
+    }
+}
 
 // ---- LÓGICA DE GUARDADO, CÁLCULO Y PRINCIPAL (SIN CAMBIOS) ----
 let isResetting = false; 
@@ -218,7 +135,8 @@ function loadGame() {
 
         // Si la versión es la misma, simplemente cargamos el estado y listo.
         if (savedState.version === GAME_VERSION) {
-            gameState = savedState;
+            gameState = Object.assign({}, gameState, savedState);
+			gameState.settings = Object.assign({}, gameState.settings, savedState.settings);
             return;
         }
 
@@ -233,6 +151,10 @@ function loadGame() {
         migratedState.money = savedState.money || 0;
         migratedState.totalMoneyEver = savedState.totalMoneyEver || 0;
         migratedState.prestigePoints = savedState.prestigePoints || 0;
+		
+		if (savedState.settings) {
+			migratedState.settings = Object.assign({}, migratedState.settings, savedState.settings);
+		}
 
         // 3. Fusionamos los niveles de las mejoras de forma segura.
         //    Iteramos sobre las mejoras de la NUEVA versión del juego.
@@ -258,12 +180,56 @@ function loadGame() {
         // resetSave(); 
     }
 }
-function resetSave() { 
-	if (confirm("¿Borrar progreso?")) { 
-		isResetting = true; 
-		localStorage.removeItem(SAVE_KEY); 
-		window.location.reload(); 
-	} 
+function resetSave() {
+    // El mensaje de confirmación sigue siendo una buena práctica.
+    const confirmationMessage = "¿Estás seguro de que quieres borrar TODO tu progreso? " +
+                              "Esta acción es irreversible y reiniciará el juego a su estado inicial, " +
+                              "incluyendo la introducción y el tutorial.";
+
+    if (confirm(confirmationMessage)) {
+        isResetting = true; // Previene un posible auto-guardado antes de recargar.
+
+        localStorage.clear();
+
+        // Recarga la página para aplicar los cambios y empezar de cero.
+        window.location.reload();
+    }
+}
+
+function exportSave() {
+    try {
+        const saveData = btoa(JSON.stringify(gameState));
+        navigator.clipboard.writeText(saveData).then(() => {
+            showNotification('¡Exportado!', 'Código de guardado copiado al portapapeles.', '💾');
+        }, () => {
+            alert('No se pudo copiar al portapapeles. Por favor, cópialo manualmente desde la consola.');
+            console.log(saveData);
+        });
+    } catch (error) {
+        alert('Error al exportar la partida.');
+        console.error("Error exportando:", error);
+    }
+}
+
+function importSave() {
+    const importString = prompt("Pega tu código de guardado aquí:");
+    if (!importString) return;
+
+    try {
+        const newState = JSON.parse(atob(importString));
+        // Validación básica
+        if (newState && newState.hasOwnProperty('money') && newState.hasOwnProperty('upgradeLevels')) {
+            // Guardamos el nuevo estado en localStorage y recargamos
+            localStorage.setItem(SAVE_KEY, JSON.stringify(newState));
+            showNotification('¡Importado!', 'La partida se cargará en un momento...', '💾');
+            setTimeout(() => window.location.reload(), 2000);
+        } else {
+            alert('El código de guardado parece ser inválido.');
+        }
+    } catch (error) {
+        alert('Error al importar la partida. El código puede estar corrupto.');
+        console.error("Error importando:", error);
+    }
 }
 
 function findUpgradeById(upgradeId) {
@@ -337,13 +303,26 @@ function areRequirementsMet(upgradeId) {
 function calculateUpgradeCost(upgradeId) {
     const upgrade = findUpgradeById(upgradeId);
     const level = gameState.upgradeLevels[upgradeId] || 0;
-    return Math.floor(upgrade.baseCost * Math.pow(1.12, level));
+    return Math.floor(upgrade.baseCost * Math.pow(UPGRADE_COST_GROWTH_RATE, level));
 }
 
 function calculatePrestigePointsToGain() {
-    const f = 100000;
-    const p = Math.floor(Math.pow(gameState.totalMoneyEver / f, 0.4));
-    return p > 0 ? p : 0;
+    let basePoints = Math.floor(Math.pow(gameState.totalMoneyEver / PRESTIGE_MONEY_FACTOR, PRESTIGE_POWER_FACTOR));
+    
+    // Aplicamos el bonus de la tienda
+    let prestigeMultiplier = 1;
+    gameState.shopUpgrades.forEach(itemId => {
+        const item = shopItems[itemId];
+        if (item && item.type === 'prestige_multiplier') {
+            prestigeMultiplier += item.value;
+        }
+        if (item && item.type === 'all_multiplier') {
+            prestigeMultiplier += item.value;
+        }
+    });
+
+    const totalPoints = Math.floor(basePoints * prestigeMultiplier);
+    return totalPoints > 0 ? totalPoints : 0;
 }
 
 function recalculateGains() {
@@ -376,11 +355,26 @@ function recalculateGains() {
             }
         }
     }
+	
+	// Aplicamos los multiplicadores PERMANENTES de la tienda
+    let permanentDpsMultiplier = 1;
+    let permanentDpcMultiplier = 1;
+    let allMultiplier = 1; // Nuevo multiplicador global
 
-    const prestigeMultiplier = 1 + (gameState.prestigePoints * 0.02);
+    gameState.shopUpgrades.forEach(itemId => {
+        const item = shopItems[itemId];
+        if (item) {
+            if (item.type === 'dps_multiplier_permanent') permanentDpsMultiplier += item.value;
+            if (item.type === 'dpc_multiplier_permanent') permanentDpcMultiplier += item.value;
+            if (item.type === 'all_multiplier') allMultiplier += item.value;
+        }
+    });
+
+    const prestigeMultiplier = 1 + (gameState.prestigePoints * PRESTIGE_BONUS_PER_POINT);
     
-    gameState.moneyPerClick = (baseDpc * dpcMultiplier) * prestigeMultiplier;
-    gameState.moneyPerSecond = (baseDps * dpsMultiplier) * prestigeMultiplier;
+    // Aplicamos todos los multiplicadores, incluyendo el nuevo 'allMultiplier'
+    gameState.moneyPerClick = (baseDpc * dpcMultiplier * permanentDpcMultiplier * allMultiplier) * prestigeMultiplier;
+    gameState.moneyPerSecond = (baseDps * dpsMultiplier * permanentDpsMultiplier * allMultiplier) * prestigeMultiplier;
 }
 
 function buyUpgrade(upgradeId) {
@@ -403,6 +397,19 @@ function buyUpgrade(upgradeId) {
         playSound('buyFail'); // No tiene suficiente dinero.
     }
 }
+function buyShopItem(itemId) {
+    const item = shopItems[itemId];
+    // Verificamos que el ítem exista, que se tengan gemas suficientes y que no haya sido comprado ya
+    if (item && gameState.gems >= item.cost && !item.isPurchased(gameState)) {
+        gameState.gems -= item.cost;
+        gameState.shopUpgrades.push(itemId);
+        recalculateGains(); // Recalculamos para aplicar el bonus al instante
+        updateUI();
+        playSound('buySuccess');
+    } else {
+        playSound('buyFail');
+    }
+}
 function addMoney(amount) { 
 	if(typeof amount === 'number' && !isNaN(amount)) { 
 		gameState.money += amount; 
@@ -410,26 +417,93 @@ function addMoney(amount) {
 	} 
 } 
 function generateMoneyOnClick() { 
+	gameState.totalClicks++;
 	addMoney(gameState.moneyPerClick); 
 } 
 function prestigeReset() {
     const points = calculatePrestigePointsToGain();
     if (points > 0) {
-        if (confirm(`¿Relanzar para ganar ${points} Puntos?`)) {
+		const shouldConfirm = gameState.settings.prestigeConfirmation !== false;
+        if (!shouldConfirm || confirm(`¿Relanzar para ganar ${points} Puntos de Innovación?`)) {
             gameState.prestigePoints += points;
             gameState.money = 0;
-            gameState.totalMoneyEver = 0;
             
-            // --- CAMBIO AQUÍ ---
-            // En lugar de una lista manual, resetea todos los niveles a 0.
+            // Resetea los niveles de las mejoras a 0 ANTES de aplicar los bonus
             for (const key in gameState.upgradeLevels) {
                 gameState.upgradeLevels[key] = 0;
             }
-            // --- FIN DEL CAMBIO ---
 
-            recalculateGains();
+            // Aplicamos los bonus de la tienda para el nuevo inicio
+            gameState.shopUpgrades.forEach(itemId => {
+                const item = shopItems[itemId];
+                if (item) {
+                    if (item.type === 'starting_money') {
+                        gameState.money += item.value;
+                    }
+                    if (item.type === 'keep_upgrades') {
+                        gameState.upgradeLevels[item.value.id] = item.value.levels;
+                    }
+                }
+            });
+
+            gameState.totalMoneyEver = gameState.money;
+            recalculateGains(); // Recalculamos con las mejoras que se mantuvieron
             saveGame();
-            updateUI(); // Actualiza la UI para reflejar el reseteo
+            updateUI();
+        }
+    }
+}
+
+function checkAchievements() {
+    // Itera sobre las eras definidas en el objeto 'achievements' (por ahora, solo 'era1')
+    for (const era in achievements) {
+        // Itera sobre cada logro dentro de la era actual
+        for (const achievementId in achievements[era]) {
+            // Primero, comprueba si el logro NO ha sido desbloqueado todavía
+            if (!gameState.unlockedAchievements.includes(achievementId)) {
+                const achievement = achievements[era][achievementId];
+                
+                // Si la condición del logro ('check') se cumple...
+                if (achievement.check(gameState)) {
+                    console.log(`Logro desbloqueado: ${achievement.name}`);
+                    
+                    // 1. Añade el ID a la lista de logros desbloqueados para no volver a comprobarlo
+                    gameState.unlockedAchievements.push(achievementId);
+                    
+                    // 2. Otorga la recompensa en Gemas
+                    gameState.gems += achievement.reward.gems;
+                    
+                    playSound('buySuccess'); // Un sonido gratificante
+                    showNotification(`¡Logro Desbloqueado!`, `${achievement.name}`, '🏆');
+                }
+            }
+        }
+    }
+}
+
+function checkMissions() {
+    for (const era in missions) {
+        for (const missionId in missions[era]) {
+            // Condición 1: La misión no debe estar ya completada.
+            if (!gameState.completedMissions.includes(missionId)) {
+                const mission = missions[era][missionId];
+
+                // Condición 2: Comprobar si la misión está "desbloqueada".
+                // Una misión está desbloqueada si no tiene pre-requisitos,
+                // O si el pre-requisito ya está en la lista de misiones completadas.
+                const isUnlocked = !mission.requires || gameState.completedMissions.includes(mission.requires);
+
+                if (isUnlocked) {
+                    // Si la misión está desbloqueada y su condición se cumple...
+                    if (mission.check(gameState)) {
+                        console.log(`Misión completada: ${mission.name}`);
+                        gameState.completedMissions.push(missionId);
+                        gameState.gems += mission.reward.gems;
+                        playSound('buySuccess');
+                        showNotification(`¡Misión Completada!`, `+${mission.reward.gems} 💎 por "${mission.name}"`, '📋');
+                    }
+                }
+            }
         }
     }
 }
@@ -437,24 +511,26 @@ function prestigeReset() {
 // ---- BUCLE DEL JUEGO ----
 let gameLoopInterval = null; 
 function gameLoop() { 
-	addMoney(gameState.moneyPerSecond / 10); 
-	updateUI(); 
-	
-	randomClipTimer += 100; // El bucle se ejecuta cada 100ms
-    if (randomClipTimer >= nextClipTime) {
-        playRandomSoundClip(); // ¡Llamamos a nuestra nueva función de audio.js!
-        randomClipTimer = 0; // Reseteamos el contador
-        nextClipTime = calculateNextClipTime(); // Calculamos el próximo intervalo aleatorio
+    // Auto-clicker
+    let clicksPerSecond = 0;
+    gameState.shopUpgrades.forEach(itemId => {
+        const item = shopItems[itemId];
+        if (item && item.type === 'auto_clicker') {
+            clicksPerSecond += item.value;
+        }
+    });
+
+    if (clicksPerSecond > 0) {
+        // Dividimos entre 10 porque el bucle corre 10 veces por segundo
+        addMoney(gameState.moneyPerClick * (clicksPerSecond / 10));
     }
-}
 
-// --- NUEVAS VARIABLES PARA EL TEMPORIZADOR DE CLIPS ---
-let randomClipTimer = 0; // Acumula el tiempo transcurrido.
-let nextClipTime = calculateNextClipTime(); // Almacena el tiempo aleatorio para el siguiente clip.
+    // Ingresos pasivos
+    addMoney(gameState.moneyPerSecond / 10); 
 
-// Función para calcular un intervalo aleatorio (ej. entre 15 y 35 segundos)
-function calculateNextClipTime() {
-    return 15000 + (Math.random() * 20000); // 15s de base + hasta 20s aleatorios
+    checkAchievements();
+    checkMissions();
+    updateUI(); 
 }
 
 // ---- GESTOR DE PANTALLAS Y PESTAÑAS ----
@@ -477,15 +553,45 @@ function returnToMainMenu() {
     
     // 2. Guardar el progreso
     saveGame();
+	document.getElementById('game-container').classList.remove('popup-visible');
     
     // 3. Mostrar la pantalla principal del menú
     showScreen('main-menu-screen');
     
     // 4. Reiniciar la música (subir volumen si se bajó antes)
-    sounds.titleMusic.fade(GAME_MUSIC_VOLUME, TITLE_MUSIC_VOLUME, 1000);
+	if (!sounds.titleMusic.howl.playing()) {
+        sounds.titleMusic.play();
+    }
+    sounds.titleMusic.howl.fade(0, gameState.settings.musicVolume, 1500);
+}
+
+function transitionToIntro() {
+    const introScreen = document.getElementById('intro-animation-screen');
     
-    // Opcional: Pausar la música si quieres que se reanude en el menú, 
-    // pero si está en bucle, solo nos aseguramos del volumen.
+    // 1. Creamos un nuevo elemento <p> para el mensaje final
+    const promptMessage = document.createElement('p');
+    promptMessage.textContent = 'TOCA PARA CONTINUAR...';
+    
+    // 2. Le añadimos la clase 'blink' que ya existe en nuestro CSS
+    //    para que el texto parpadee, invitando al jugador a hacer clic.
+    promptMessage.className = 'blink';
+    promptMessage.style.marginTop = '40px'; // Añadimos un espacio superior
+    promptMessage.style.fontSize = '1.8rem'; // Lo hacemos un poco más grande
+
+    // 3. Añadimos el mensaje a la pantalla de introducción
+    introScreen.appendChild(promptMessage);
+
+    // 4. Definimos la acción que ocurrirá cuando el jugador haga clic
+    function proceedToGame() {
+        // Mostramos la pantalla de "Toca para empezar" y arrancamos la música
+        showScreen('tap-to-start-screen');
+        sounds.titleMusic.play();
+        sounds.titleMusic.fade(0, TITLE_MUSIC_VOLUME, 2000); // Suave fundido de entrada
+    }
+    
+    // 5. Añadimos un listener a toda la pantalla de introducción que espera un solo clic.
+    //    Una vez que se hace clic, ejecuta 'proceedToGame' y se elimina a sí mismo.
+    introScreen.addEventListener('click', proceedToGame, { once: true });
 }
 
 // ---- LÓGICA DE INICIALIZACIÓN ----
@@ -502,15 +608,6 @@ function initializeInGameEventListeners() {
 
     // Listener para la BARRA DE ATAJOS SUPERIOR
     const gameContainer = document.getElementById('game-container'); // Referencia al contenedor principal
-
-	// Listener para la BARRA DE ATAJOS SUPERIOR
-	document.getElementById('top-shortcut-bar').addEventListener('click', (event) => {
-		const shortcutButton = event.target.closest('.shortcut-btn');
-		if (shortcutButton) {
-			// Añadimos la clase al contenedor principal para mostrar el pop-up y el fondo
-			gameContainer.classList.add('popup-visible');
-		}
-	});
 
 	// Listener para el BOTÓN DE CERRAR
 	document.getElementById('close-popup-button').addEventListener('click', (event) => {
@@ -537,20 +634,27 @@ function initializeInGameEventListeners() {
         if (button.classList.contains('is-disabled')) { playSound('buyFail'); } else { prestigeReset(); }
     });
 	
-	document.getElementById('top-shortcut-bar').addEventListener('click', (event) => {
-        const shortcutButton = event.target.closest('.shortcut-btn');
-        const shortcutId = shortcutButton ? shortcutButton.id : null;
-
-        if (shortcutId === 'menu-button-shortcut') {
-            returnToMainMenu(); // Llama a la nueva función
-            return; // Sale de la función para no activar el pop-up de "Próximamente"
-        }
-        
-        if (shortcutButton) {
-            // Añadimos la clase al contenedor principal para mostrar el pop-up y el fondo
-            gameContainer.classList.add('popup-visible');
+	document.getElementById('shop-tab').addEventListener('click', (event) => {
+        const button = event.target.closest('.buy-shop-item-button');
+        // Si se hizo clic en un botón de compra y NO está deshabilitado...
+        if (button && !button.disabled) {
+            buyShopItem(button.dataset.itemId);
         }
     });
+	
+	document.getElementById('top-shortcut-bar').addEventListener('click', (event) => {
+		const shortcutButton = event.target.closest('.shortcut-btn');
+		if (!shortcutButton) return; // Si no se hizo clic en un botón, no hace nada
+
+		// Si el botón es el de volver al menú, ejecuta la función correspondiente
+		if (shortcutButton.id === 'menu-button-shortcut') {
+			returnToMainMenu();
+		} 
+		// Si el botón tiene un atributo 'data-tab', muestra esa pestaña
+		else if (shortcutButton.dataset.tab) {
+			showTab(shortcutButton.dataset.tab);
+		}
+	});
 
     inGameListenersInitialized = true; // Marca como inicializado
 }
@@ -567,29 +671,199 @@ function startGame() {
     loadGame();
     recalculateGains();
     renderUpgrades();
+	renderAchievements();
+	renderMissions();
+	initializeShop();
     if(gameLoopInterval) clearInterval(gameLoopInterval);
     gameLoopInterval = setInterval(gameLoop, 100);
+	
+	// 4. Comprobamos si debemos mostrar el tutorial.
+    // Usamos otra marca en localStorage para asegurar que el tutorial solo se muestre una vez.
+    const tutorialShown = localStorage.getItem('tutorialShown');
+
+    // Si 'tutorialShown' no existe, significa que el jugador nunca lo ha visto.
+    if (!tutorialShown) {
+        // Ejecutamos el tutorial.
+        startInteractiveTutorial();
+        // Creamos la marca para que no se vuelva a mostrar en el futuro.
+        localStorage.setItem('tutorialShown', 'true');
+    }
 }
 
 // ---- SECUENCIA DE ARRANQUE GENERAL ----
-window.addEventListener('load', () => {
-    // ---- Listeners para Menús y Navegación General (Fuera del juego) ----
+window.addEventListener('load', async () => {
+    // Referencias a los elementos de la UI
     const loadingScreen = document.getElementById('loading-screen');
-    const tapToStartScreen = document.getElementById('tap-to-start-screen');
-    const volumeSlider = document.getElementById('master-volume');
+    const loadingContent = loadingScreen.querySelector('.loading-content');
+    const progressBar = document.getElementById('progress-bar');
+    const statusText = document.getElementById('loading-status-text');
     showScreen('loading-screen');
-    setTimeout(() => { showScreen('tap-to-start-screen'); }, 2500);
-    tapToStartScreen.addEventListener('click', () => { showScreen('main-menu-screen'); sounds.titleMusic.play(); sounds.titleMusic.fade(0, 0.4, 2000); }, { once: true });
-    document.getElementById('play-button').addEventListener('click', () => { sounds.titleMusic.fade(TITLE_MUSIC_VOLUME, GAME_MUSIC_VOLUME, 1000); startGame(); });
-    document.getElementById('story-button').addEventListener('click', () => showScreen('story-screen'));
-    document.getElementById('options-button-menu').addEventListener('click', () => showScreen('options-screen'));
-    document.getElementById('credits-button').addEventListener('click', () => showScreen('credits-screen'));
-    document.querySelectorAll('.back-button').forEach(button => button.addEventListener('click', () => showScreen('main-menu-screen')));
-    document.getElementById('reset-save-button').addEventListener('click', resetSave);
-    volumeSlider.addEventListener('input', (event) => { setMasterVolume(event.target.value); localStorage.setItem('masterVolume', event.target.value); });
-    const savedVolume = localStorage.getItem('masterVolume');
-    if (savedVolume !== null) { volumeSlider.value = savedVolume; setMasterVolume(savedVolume); } else { volumeSlider.value = 1; }
-    
-    // Listener para el guardado al cerrar la página
-    window.addEventListener('beforeunload', saveGame);
+
+    const MIN_LOADING_TIME_MS = 2500; // 2.5 segundos de tiempo mínimo visible
+
+    // [NUEVA LÓGICA DE CARGA VISUAL]
+    // 1. Inicia la carga de datos real en segundo plano.
+    //    Ya no necesitamos su "progressCallback" para la barra, así que lo eliminamos.
+    const loadDataPromise = loadGameData();
+    const minimumTimePromise = new Promise(resolve => setTimeout(resolve, MIN_LOADING_TIME_MS));
+
+    // 2. Inicia un bucle de animación para la barra de progreso.
+    let visualProgress = 0;
+    const progressInterval = setInterval(() => {
+        // Incrementa el progreso visual suavemente, pero lo detenemos en 99%
+        // para dar el golpe final al 100% solo cuando todo esté realmente listo.
+        if (visualProgress < 99) {
+            visualProgress++;
+            progressBar.style.width = `${visualProgress}%`;
+        }
+    }, MIN_LOADING_TIME_MS / 100); // Se actualiza 100 veces durante el tiempo mínimo.
+
+    // 3. Espera a que AMBAS promesas (carga real y tiempo mínimo) se completen.
+    const [dataLoadedResult] = await Promise.all([
+        loadDataPromise,
+        minimumTimePromise
+    ]);
+
+    // 4. Detiene el bucle de animación visual.
+    clearInterval(progressInterval);
+
+    // 5. Procesa el resultado.
+    if (!dataLoadedResult) {
+        // Si hubo un error en la carga de datos
+        statusText.textContent = 'ERROR: Fallo en la conexión.';
+        progressBar.style.backgroundColor = '#D32F2F'; // Barra roja
+        progressBar.style.width = '100%'; // Llena la barra de error
+        return;
+    }
+
+    // Si todo fue exitoso, da el salto final al 100%
+    progressBar.style.width = '100%';
+    statusText.textContent = '¡Conexión establecida! Sistema listo.';
+
+    // Carga la partida guardada y los volúmenes
+    loadGame();
+    initializeVolumes(gameState.settings.musicVolume, gameState.settings.sfxVolume);
+
+    // El resto de la secuencia de transición
+    setTimeout(() => {
+        loadingContent.classList.add('fade-out');
+        setTimeout(() => {
+            const tapToStartScreen = document.getElementById('tap-to-start-screen');
+            showScreen('tap-to-start-screen');
+            tapToStartScreen.addEventListener('click', () => {
+                showScreen('main-menu-screen');
+                sounds.titleMusic.howl.play();
+                sounds.titleMusic.howl.fade(0, gameState.settings.musicVolume, 2000);
+            }, { once: true });
+        }, 1000);
+    }, 800);
+
+    // ---- Pega el resto de tus listeners de menú aquí (play-button, story-button, etc.) ----
+	
+	document.getElementById('play-button').addEventListener('click', () => {
+		sounds.titleMusic.howl.fade(gameState.settings.musicVolume, 0, 1000);
+		const introHasBeenShown = localStorage.getItem('introShown');
+		if (!introHasBeenShown) {
+			localStorage.setItem('introShown', 'true');
+			showScreen('intro-animation-screen');
+			startIntroAnimation(startGame); 
+		} else {
+			startGame();
+		}
+	});
+
+	// ---- Listeners para la pantalla de HISTORIA ----
+	document.getElementById('story-button').addEventListener('click', () => {
+		showScreen('story-screen');
+		currentStoryIndex = 0;
+		renderStoryCard(currentStoryIndex);
+	});
+	document.getElementById('story-next-button').addEventListener('click', () => {
+		currentStoryIndex++;
+		if (currentStoryIndex >= storyData.length) {
+			currentStoryIndex = 0;
+		}
+		renderStoryCard(currentStoryIndex);
+		playSound('menuHover');
+	});
+	document.getElementById('story-prev-button').addEventListener('click', () => {
+		currentStoryIndex--;
+		if (currentStoryIndex < 0) {
+			currentStoryIndex = storyData.length - 1;
+		}
+		renderStoryCard(currentStoryIndex);
+		playSound('menuHover');
+	});
+
+	// ---- Listeners para la pantalla de CRÉDITOS ----
+	document.getElementById('credits-button').addEventListener('click', () => {
+		showScreen('credits-screen');
+		startCreditsSequence();
+	});
+	document.getElementById('credits-back-button').addEventListener('click', () => {
+		stopCreditsSequence();
+		showScreen('main-menu-screen');
+	});
+
+	// ---- Listeners para la nueva pantalla de OPCIONES ----
+	const musicSlider = document.getElementById('music-volume');
+	const sfxSlider = document.getElementById('sfx-volume');
+	const prestigeToggle = document.getElementById('prestige-confirmation-toggle');
+
+	document.getElementById('options-button-menu').addEventListener('click', () => {
+		// Sincroniza la UI con el estado actual cada vez que se abre
+		musicSlider.value = gameState.settings.musicVolume;
+		sfxSlider.value = gameState.settings.sfxVolume;
+		prestigeToggle.checked = gameState.settings.prestigeConfirmation;
+		showScreen('options-screen');
+	});
+
+	musicSlider.addEventListener('input', (event) => {
+		const newVolume = parseFloat(event.target.value);
+		gameState.settings.musicVolume = newVolume;
+		setMusicVolume(newVolume);
+	});
+
+	sfxSlider.addEventListener('input', (event) => {
+		const newVolume = parseFloat(event.target.value);
+		gameState.settings.sfxVolume = newVolume;
+		setSfxVolume(newVolume);
+	});
+
+	prestigeToggle.addEventListener('change', (event) => {
+		gameState.settings.prestigeConfirmation = event.target.checked;
+	});
+
+	document.getElementById('export-save-button').addEventListener('click', exportSave);
+	document.getElementById('import-save-button').addEventListener('click', importSave);
+	document.getElementById('reset-save-button').addEventListener('click', resetSave);
+
+	// ---- Listeners generales de la aplicación ----
+
+	// Listener para todos los botones "Volver" genéricos (excluyendo el de créditos)
+	document.querySelectorAll('.back-button:not(#credits-back-button)').forEach(button => {
+		button.addEventListener('click', () => showScreen('main-menu-screen'));
+	});
+	
+	// Listener para los efectos de sonido al pasar el ratón
+	const hoverSoundSelectors = [
+		'.menu-button',
+		'.back-button',
+		'.danger-button',
+		'.shortcut-btn',
+		'.tab-btn',
+		'#close-popup-button',
+		'.data-button',
+		'.story-nav-button'
+	].join(',');
+
+	document.body.addEventListener('mouseover', (event) => {
+		const targetButton = event.target.closest(hoverSoundSelectors);
+		if (targetButton) {
+			playSound('menuHover');
+		}
+	});
+	
+	// Listener para el guardado al cerrar la página
+	window.addEventListener('beforeunload', saveGame);
 });

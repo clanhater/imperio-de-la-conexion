@@ -1,0 +1,65 @@
+{
+    "PERMANENT_DPC_BOOST_1": {
+        "name": "Algoritmos de Conexión Mejorados",
+        "description": "Aumenta permanentemente los ingresos por clic (+10%). Persiste tras Relanzar.",
+        "cost": 30,
+        "type": "dpc_multiplier_permanent",
+        "value": 0.1
+    },
+    "PERMANENT_DPS_BOOST_1": {
+        "name": "Optimización de Protocolos",
+        "description": "Aumenta permanentemente todos los ingresos pasivos (+5%). Persiste tras Relanzar.",
+        "cost": 50,
+        "type": "dps_multiplier_permanent",
+        "value": 0.05
+    },
+    "PERMANENT_DPC_BOOST_2": {
+        "name": "Hardware de Clic Dedicado",
+        "description": "Aumenta permanentemente los ingresos por clic en un +25% adicional.",
+        "cost": 150,
+        "type": "dpc_multiplier_permanent",
+        "value": 0.25
+    },
+    "PERMANENT_DPS_BOOST_2": {
+        "name": "Arquitectura de Red Optimizada",
+        "description": "Aumenta permanentemente los ingresos pasivos en un +15% adicional.",
+        "cost": 250,
+        "type": "dps_multiplier_permanent",
+        "value": 0.15
+    },
+    "STARTING_MONEY_1": {
+        "name": "Inversión Ángel",
+        "description": "Comienzas con $100 después de cada Relanzamiento.",
+        "cost": 75,
+        "type": "starting_money",
+        "value": 100
+    },
+    "PRESTIGE_BOOST_1": {
+        "name": "Mente Innovadora",
+        "description": "Ganas un 10% más de Puntos de Innovación al Relanzar.",
+        "cost": 200,
+        "type": "prestige_multiplier",
+        "value": 0.1
+    },
+    "AUTO_CLICKER_1": {
+        "name": "Script de Marcado Automático",
+        "description": "Realiza automáticamente 1 clic por segundo.",
+        "cost": 400,
+        "type": "auto_clicker",
+        "value": 1
+    },
+    "ALL_MULTIPLIER_1": {
+        "name": "El Protocolo Génesis",
+        "description": "Un avance legendario. Aumenta TODOS los ingresos de dinero (clics, pasivos y prestigio) en un 20%.",
+        "cost": 800,
+        "type": "all_multiplier",
+        "value": 0.2
+    },
+    "KEEP_UPGRADES_1": {
+        "name": "Legado de Cobre",
+        "description": "Comienzas cada Relanzamiento con las primeras 10 mejoras de \"Línea de Cobre\" ya compradas.",
+        "cost": 500,
+        "type": "keep_upgrades",
+        "value": { "id": "lineaCobre", "levels": 10 }
+    }
+}
