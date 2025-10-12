@@ -70,5 +70,72 @@
             "description": "Acumula un total de 100 Puntos de Innovación.",
             "reward": { "gems": 120 }
         }
+    },
+	"era2": {
+        "POPUP_HUNTER": {
+            "name": "Cazador de Ofertas",
+            "description": "Haz clic en un total de 50 pop-ups.",
+            "reward": { "gems": 40 }
+        },
+        "FRENZY_MASTER": {
+            "name": "Maestro del Frenesí",
+            "description": "Activa el beneficio 'Frenesí de Clics' 25 veces.",
+            "reward": { "gems": 60 }
+        },
+        "DATA_HOARDER": {
+            "name": "Acumulador de Datos",
+            "description": "Llena la Bóveda de Datos hasta su máxima capacidad por primera vez.",
+            "reward": { "gems": 80 }
+        },
+        "TOTAL_MONEY_1T": {
+            "name": "Magnate del Terabyte",
+            "description": "Acumula un total de $1 billón (Trillion).",
+            "reward": { "gems": 80 }
+        },
+        "TOTAL_MONEY_100T": {
+            "name": "Burbuja.com",
+            "description": "Acumula un total de $100 billones (Trillion).",
+            "reward": { "gems": 150 }
+        },
+        "DPS_100K": {
+            "name": "Ancho de Banda de Fibra",
+            "description": "Alcanza un Flujo de Red de +$100,000/s.",
+            "reward": { "gems": 50 }
+        },
+        "DPS_1M": {
+            "name": "Autopista de la Información",
+            "description": "Alcanza un Flujo de Red de +$1,000,000/s.",
+            "reward": { "gems": 100 }
+        },
+        "UPGRADE_LEVEL_50_MODEM": {
+            "name": "Rey del Dial-Up",
+            "description": "Maximiza al nivel 50 la 'Batería de Módems 56k'.",
+            "reward": { "gems": 60 }
+        },
+        "UPGRADE_LEVEL_50_GSM": {
+            "name": "Barón Celular",
+            "description": "Maximiza al nivel 50 la 'Torre Celular GSM'.",
+            "reward": { "gems": 75 }
+        },
+        "OWN_PORTAL": {
+            "name": "Mi Propia Homepage",
+            "description": "Lanza tu primer 'Portal Web ConexiónTotal'.",
+            "reward": { "gems": 90 }
+        },
+        "MAX_ISP_DATACENTER": {
+            "name": "Proveedor de Servicios Global",
+            "description": "Maximiza al nivel 10 el 'Centro de Datos ISP'.",
+            "reward": { "gems": 120 }
+        },
+        "MAX_PREPAID_SYSTEM": {
+            "name": "Mercado Masivo",
+            "description": "Maximiza al nivel 10 el 'Sistema de Tarjetas Prepago'.",
+            "reward": { "gems": 120 }
+        },
+        "PRESTIGE_POINTS_1K": {
+            "name": "Genio Innovador",
+            "description": "Acumula un total de 1,000 Puntos de Innovación.",
+            "reward": { "gems": 200 }
+        }
     }
 }

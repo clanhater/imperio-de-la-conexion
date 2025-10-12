@@ -31,12 +31,11 @@
 	</div>
 	
 	<!-- PANTALLA DE ANIMACIÓN DE INTRODUCCIÓN -->
-	<div id="intro-animation-screen" class="full-screen hidden">
-		<div id="intro-year-container"></div>
-		<div id="intro-text-container">
-			<!-- El texto de la animación se generará aquí con JS -->
+	<div id="intro-terminal-screen" class="full-screen hidden">
+		<div id="intro-terminal-content">
+			<!-- El contenido de la terminal se generará aquí con JS -->
 		</div>
-		<button id="skip-intro-button" class="hidden">Omitir &gt;&gt;</button>
+		<button id="skip-intro-button" class="hidden">Omitir >></button>
 	</div>
 
     <!-- PANTALLA "TOCA PARA EMPEZAR" -->
@@ -123,6 +122,22 @@
 		</div>
 		<button id="credits-back-button" class="back-button credits-back-button">Volver</button>
 	</div>
+	
+	<!-- PANTALLA DE CINEMÁTICA DE ERA -->
+    <div id="era-cinematic-screen" class="full-screen hidden">
+		<!-- Acto 1: Terminal de la Era 1 -->
+		<div id="cinematic-era1-shutdown" class="cinematic-phase"></div>
+
+		<!-- Acto 2: Pantalla de BIOS -->
+		<div id="cinematic-bios" class="cinematic-phase hidden"></div>
+
+		<!-- Acto 3: Escritorio de la Era 2 -->
+		<div id="cinematic-desktop" class="cinematic-phase hidden">
+			<div id="cinematic-welcome-box">
+				<!-- Contenido generado por JS -->
+			</div>
+		</div>
+	</div>
 
     <!-- ===== ESTA ES LA PARTE RESTAURADA ===== -->
     <div id="game-container" class="game-container hidden">
@@ -146,6 +161,9 @@
 
 			<!-- Pestaña Principal (Juego) -->
 			<div id="main-tab" class="tab-panel active">
+				<div id="active-buffs-container">
+					<!-- JavaScript insertará los buffs activos aquí -->
+				</div>
 				<div id="main-tab-background"></div>
 				<div class="terminal-header">
 					<p>IDC_OS v1.0 - [Imperio de la Conexión]</p>
@@ -154,7 +172,18 @@
 				<div class="prestige-info-top">
 					<p id="prestige-points-display">Puntos de Innovación: 0 (+0%)</p>
 				</div>
+				<div id="data-vault-container" class="hidden"> <!-- Empieza oculto -->
+					<h4>🏦 Bóveda de Datos</h4>
+					<div class="vault-progress-bar">
+						<div id="vault-progress-fill"></div>
+					</div>
+					<p id="vault-status-display">Contenido: $0 / $0</p>
+					<button id="vault-collect-button" disabled>Recoger</button>
+				</div>
 				<div class="main-click-area">
+					<div id="popup-container">
+						<!-- JavaScript pondrá el pop-up activo aquí -->
+					</div>
 					<button id="main-click-button" class="main-click-button">
 						<div class="icon">🌐</div>
 						<span>Establecer<br>Conexión</span>
@@ -175,8 +204,19 @@
 				<div class="evolution-content">
 					<h2>Evolución Tecnológica</h2>
 					<div class="current-era">
-						<h3>ERA ACTUAL: 1G - Los Inicios</h3>
-						<p>La era de la telefonía analógica y las conexiones conmutadas. ¡El primer paso hacia un mundo conectado!</p>
+						<h3>ERA ACTUAL: <span id="current-era-name"></span></h3>
+						<p id="current-era-description"></p>
+					</div>
+					<div id="era-evolution-container">
+						<button id="evolve-era-button" class="relaunch-button-styled hidden">
+							<!-- El contenido se llenará con JS -->
+						</button>
+						<div id="era-evolution-requirements" class="requirements-list hidden">
+							<!-- Los requisitos se generarán aquí con JS -->
+						</div>
+						<p id="era-evolution-status" class="hidden">
+							<!-- El mensaje final también estará aquí -->
+						</p>
 					</div>
 					<button id="relaunch-button" class="relaunch-button-styled">Relanzar</button>
 				</div>
@@ -208,14 +248,26 @@
 			</div>
 
 		</main>
-    
-		<!-- PANTALLA "PRÓXIMAMENTE" (Nueva y oculta) -->
-		<div id="coming-soon-popup" class="panel coming-soon-panel">
-			<h2>Próximamente</h2>
-			<p>¡Esta función está en desarrollo! Vuelve más tarde para descubrir nuevas formas de expandir tu imperio.</p>
-			<button id="close-popup-button">Cerrar</button>
-		</div>
 
+        <div id="popup-templates" style="display: none;">
+            <!-- Plantilla 1: Jackpot (Simplificada) -->
+			<div id="popup-template-jackpot" class="popup-banner">
+    			<span class="popup-icon">💰</span>
+    			<span class="popup-text">¡Botín!</span>
+			</div>
+
+			<!-- Plantilla 2: Frenesí de Clics (Simplificada) -->
+			<div id="popup-template-clickFrenzy" class="popup-banner">
+    			<span class="popup-icon">🖱️💨</span>
+    			<span class="popup-text">¡Frenesí!</span>
+			</div>
+
+			<!-- Plantilla 3: Sobrecarga de Red (Simplificada) -->
+			<div id="popup-template-dpsOverload" class="popup-banner">
+    			<span class="popup-icon">📈</span>
+    			<span class="popup-text">¡Sobrecarga!</span>
+			</div>
+        </div>
 
 		<!-- (3) BARRA DE NAVEGACIÓN INFERIOR (Nueva) -->
 		<nav id="game-tab-bar" class="game-tab-bar"> <!-- ID y Clase Nuevos -->
@@ -236,7 +288,9 @@
 
 	<script src="js/audio.js"></script>
 	<script src="js/dataLogic.js"></script>
+	<script src="js/ui.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/ui.js"></script>
+	
+	<div id="transition-overlay" class="transition-overlay"></div>
 </body>
 </html>

@@ -38,48 +38,6 @@ body {
 .main-menu { display: flex; flex-direction: column; gap: 20px; width: 250px; }
 .menu-button { padding: 15px; background-color: transparent; color: #00F5D4; border: 3px solid #00F5D4; border-radius: 5px; cursor: pointer; font-family: 'Press Start 2P', cursive; font-size: 1.5rem; text-shadow: 0 0 5px #00F5D4; transition: all 0.2s ease; }
 .menu-button:hover { background-color: #00F5D4; color: #0D0221; box-shadow: 0 0 15px #00F5D4; }
-#intro-animation-screen {
-    background-color: #020A02; /* Fondo de terminal oscuro, igual que en la era 1G */
-    color: #00FF00; /* Verde Fósforo Puro */
-    font-family: 'VT323', monospace;
-    font-size: 1.5rem; /* Tamaño de letra grande y legible para la intro */
-    padding: 20px;
-    display: flex; /* Usamos flex para centrar y alinear */
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start; /* Alineamos el texto de la historia a la izquierda */
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-}
-#intro-text-container p {
-    margin-bottom: 1.2rem; /* Espacio entre párrafos */
-}
-/* Estilo para el cursor parpadeante que animaremos con JS */
-#intro-text-container .cursor {
-    display: inline-block;
-    background-color: #00FF00;
-    width: 10px; /* Ancho del cursor */
-    height: 1.5rem; /* Altura igual al tamaño de la fuente */
-    animation: blink 1s linear infinite; /* Reutilizamos la animación de parpadeo */
-    vertical-align: middle; /* Alinea el cursor con el texto */
-    margin-left: 2px; /* Pequeño espacio del texto */
-}
-#skip-intro-button {
-    position: fixed; /* Lo fija en la esquina de la pantalla */
-    bottom: 20px;
-    right: 20px;
-    background: transparent;
-    border: 1px solid #00FF00;
-    color: #00FF00;
-    padding: 8px 15px;
-    font-family: 'VT323', monospace;
-    font-size: 1rem;
-    cursor: pointer;
-    opacity: 0.7; /* Ligeramente transparente para no distraer */
-    transition: opacity 0.3s;
-}
-#skip-intro-button:hover {
-    opacity: 1; /* Totalmente opaco al pasar el cursor */
-}
 .panel { width: 90%; max-width: 420px; background-color: rgba(13, 2, 33, 0.85); border: 3px solid #FF00A8; padding: 25px; text-align: center; }
 .panel h2 { font-family: 'Press Start 2P', cursive; color: #00F5D4; margin-bottom: 30px; }
 .panel p { font-size: 1.2rem; line-height: 1.5; margin-bottom: 30px; }
@@ -591,16 +549,6 @@ button,
     -moz-user-select: none;
 }
 
-/* Nuevos contenedores de la intro */
-#intro-year-container {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 3rem;
-    color: #00FF00;
-    text-shadow: 0 0 10px #00FF00;
-    position: absolute;
-    opacity: 0; /* Empieza invisible */
-}
-
 /* Animaciones */
 @keyframes flicker {
     0%, 100% { opacity: 1; }
@@ -627,17 +575,6 @@ button,
 
 .flicker {
     animation: flicker 0.5s linear 3; /* Parpadea 3 veces */
-}
-
-#intro-text-container {
-	position: absolute;
-	top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%; /* Ancho máximo para el texto */
-    max-width: 600px;
-    text-align: center; /* Centra el texto dentro del contenedor */
-    font-size: 1.8rem; /* Hacemos el texto un poco más grande e impactante */
 }
 
 /* ---- ESTILOS DEL SISTEMA DE TUTORIAL INTERACTIVO (V2) ---- */
@@ -1080,4 +1017,214 @@ input:checked + .slider:before {
     content: '_';
     animation: blink 1s linear infinite;
     margin-left: 5px;
+}
+
+#era-evolution-container {
+    margin-bottom: 25px; /* Añade un espacio debajo del botón de evolución */
+}
+
+#era-evolution-container p {
+    color: #00FF00; /* Asegura que el texto final sea legible en la Era 1 */
+    text-shadow: 0 0 5px #00FF00;
+}
+
+/* ==================================================================
+   ESTILOS PARA LA TRANSICIÓN DE ERA
+================================================================== */
+
+.transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Fondo negro */
+    opacity: 0;
+    z-index: 9999; /* Por encima de todo */
+    pointer-events: none; /* No debe interferir con los clics */
+    transition: opacity 0.5s ease-in-out; /* Animación suave */
+}
+
+.transition-overlay.active {
+    opacity: 1;
+    pointer-events: auto; /* Bloquea clics durante la transición */
+}
+
+/* ==================================================================
+   ESTILOS PARA LA CINEMÁTICA DE TRANSICIÓN DE ERA (V2)
+================================================================== */
+
+#era-cinematic-screen {
+    background-color: #000;
+    justify-content: flex-start; /* Alineamos arriba para la terminal */
+    align-items: flex-start;
+    padding: 20px;
+    font-family: 'VT323', monospace;
+}
+
+.cinematic-phase {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Estilos para el Acto 1: Apagado CRT --- */
+#cinematic-era1-shutdown {
+    background-color: #020A02; /* Fondo de terminal Era 1 */
+    color: #00FF00;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    font-size: 1.5rem;
+    white-space: pre;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+#cinematic-era1-shutdown .cursor {
+    display: inline-block;
+    background-color: #00FF00;
+    width: 10px;
+    height: 1.5rem;
+    animation: blink 1s linear infinite;
+    vertical-align: middle;
+}
+
+/* --- Estilos para el Acto 2: BIOS --- */
+#cinematic-bios {
+    background-color: #000;
+    color: #FFF;
+    font-size: 1.3rem;
+    white-space: pre;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+/* --- Estilos para el Acto 3: Escritorio Win95 --- */
+#cinematic-desktop {
+    background-size: cover;
+    background-position: center;
+}
+
+#cinematic-welcome-box {
+    background-color: #C0C0C0;
+    color: #000;
+    border: 2px solid;
+    border-top-color: #FFFFFF;
+    border-left-color: #FFFFFF;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    padding: 25px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+#cinematic-welcome-box.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#cinematic-welcome-box h2 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5rem;
+    color: #000080;
+    margin-bottom: 20px;
+}
+
+#cinematic-welcome-box p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+/* ==================================================================
+   ESTILOS PARA LA CINEMÁTICA DE INTRODUCCIÓN (TERMINAL V2)
+================================================================== */
+
+#intro-terminal-screen {
+    background-color: #020A02; /* Fondo de terminal oscuro */
+    color: #00FF00; /* Verde Fósforo Puro */
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+    padding: 20px;
+    justify-content: flex-start; /* Alinea el contenido arriba */
+    align-items: flex-start; /* y a la izquierda */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    overflow: hidden; /* Oculta cualquier desbordamiento */
+}
+
+#intro-terminal-content {
+    width: 100%;
+    white-space: pre-wrap; /* Respeta los espacios y saltos de línea */
+}
+
+/* Estilo para la línea del prompt (ej. C:\>) */
+#intro-terminal-content .prompt {
+    color: #FFFF00; /* Amarillo para destacar */
+}
+
+/* Estilo para el ASCII art */
+#intro-terminal-content .ascii-art {
+    color: #00F5D4; /* Un cian brillante */
+    text-shadow: 0 0 8px #00F5D4;
+}
+
+/* Estilo para los mensajes de estado */
+#intro-terminal-content .status-fail {
+    color: #FF4136; /* Rojo para fallos */
+}
+#intro-terminal-content .status-success {
+    color: #39CCCC; /* Cian para éxito */
+    font-weight: bold;
+}
+
+/* Reutilizamos el cursor que ya teníamos */
+#intro-terminal-content .cursor {
+    display: inline-block;
+    background-color: #00FF00;
+    width: 10px;
+    height: 1.5rem;
+    animation: blink 1s linear infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+/* Clase para el mensaje final interactivo */
+.final-prompt {
+    margin-top: 40px;
+    font-size: 1.8rem;
+    text-align: center;
+    width: 100%;
+    animation: blink 1.5s linear infinite;
+    cursor: pointer;
+}
+
+/* Estilos para el botón de omitir (re-añadidos) */
+#skip-intro-button {
+    position: fixed; /* Lo fija en la esquina de la pantalla */
+    bottom: 20px;
+    right: 20px;
+    background: transparent;
+    border: 1px solid #00FF00;
+    color: #00FF00;
+    padding: 8px 15px;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 201; /* Asegura que esté por encima de la pantalla de intro */
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+#skip-intro-button:hover {
+    opacity: 1;
 }

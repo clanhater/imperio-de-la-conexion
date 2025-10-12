@@ -1,162 +1,408 @@
 {
-    "infraestructura": {
-        "name": "Infraestructura y Expansión",
-        "items": {
-            "lineaCobre": {
-                "name": "Instalar Línea de Cobre",
-                "description": "El primer paso. Conecta clientes y genera ingresos pasivos.",
-                "type": "dps",
-                "baseCost": 20,
-                "baseEffect": 0.5,
-                "requirements": [
-                    { "level": 10, "reqs": { "kitHerramientas": 5, "marketingLocal": 1 } },
-                    { "level": 30, "reqs": { "tecladoTonos": 15 } },
-                    { "level": 75, "reqs": { "centralitaAnaloga": 10, "softwareTerminal": 40 } }
-                ]
-            },
-            "antenaRepetidora": {
-                "name": "Instalar Antena Repetidora",
-                "description": "Amplifica la señal para llegar a las afueras de la ciudad.",
-                "type": "dps",
-                "baseCost": 180,
-                "baseEffect": 5,
-                "requirements": [
-                    { "level": 1, "reqs": { "lineaCobre": 25 } },
-                    { "level": 15, "reqs": { "softwareTerminal": 10 } },
-                    { "level": 35, "reqs": { "centralitaAnaloga": 5 } }
-                ]
-            },
-            "centralitaAnaloga": {
-                "name": "Construir Centralita Analógica",
-                "description": "Un conmutador que gestiona docenas de líneas automáticamente.",
-                "type": "dps",
-                "baseCost": 1800,
-                "baseEffect": 30,
-                "requirements": [
-                    { "level": 1, "reqs": { "lineaCobre": 50, "softwareTerminal": 20 } },
-                    { "level": 15, "reqs": { "servidorBBS": 5 } },
-                    { "level": 40, "reqs": { "antenaRepetidora": 25, "modem2400": 15 } }
-                ]
-            },
-            "centralitaDigital": {
-                "name": "Actualizar a Centralita Digital",
-                "description": "Reemplaza relés por microchips para una eficiencia sin precedentes.",
-                "type": "dps",
-                "baseCost": 50000,
-                "baseEffect": 220,
-                "requirements": [
-                    { "level": 1, "reqs": { "centralitaAnaloga": 35, "servidorBBS": 15 } },
-                    { "level": 25, "reqs": { "modem2400": 50 } }
-                ]
-            },
-            "fibraOptica": {
-                "name": "Red de Fibra Óptica",
-                "description": "Tecnología experimental que usa pulsos de luz. Un salto cuántico.",
-                "type": "dps",
-                "baseCost": 250000,
-                "baseEffect": 500,
-                "requirements": [
-                    { "level": 1, "reqs": { "centralitaDigital": 15, "protocoloTCPIP": 20 } },
-                    { "level": 20, "reqs": { "tarjetaRed": 100 } }
-                ]
+	"era1": {
+		"infraestructura": {
+			"name": "Infraestructura y Expansión",
+			"items": {
+				"lineaCobre": {
+					"name": "Instalar Línea de Cobre",
+					"description": "El primer paso. Conecta clientes y genera ingresos pasivos.",
+					"type": "dps",
+					"baseCost": 15,
+					"baseEffect": 0.5,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 10, "reqs": { "kitHerramientas": 10, "marketingLocal": 1 } },
+						{ "level": 25, "reqs": { "antenaRepetidora": 5 } },
+						{ "level": 40, "reqs": { "centralitaAnaloga": 5, "softwareTerminal": 35 } }
+					]
+				},
+				"antenaRepetidora": {
+					"name": "Instalar Antena Repetidora",
+					"description": "Amplifica la señal para llegar a las afueras de la ciudad.",
+					"type": "dps",
+					"baseCost": 180,
+					"baseEffect": 5,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "lineaCobre": 15 } },
+						{ "level": 15, "reqs": { "softwareTerminal": 10, "marketingLocal": 10 } },
+						{ "level": 35, "reqs": { "centralitaAnaloga": 5 } }
+					]
+				},
+				"centralitaAnaloga": {
+					"name": "Construir Centralita Analógica",
+					"description": "Un conmutador que gestiona docenas de líneas automáticamente.",
+					"type": "dps",
+					"baseCost": 1800,
+					"baseEffect": 30,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "lineaCobre": 35, "antenaRepetidora": 10 } },
+						{ "level": 15, "reqs": { "modem2400": 5, "tecladoTonos": 25 } },
+						{ "level": 30, "reqs": { "nodoRegional": 1 } },
+						{ "level": 45, "reqs": { "servidorBBS": 10 } }
+					]
+				},
+				"nodoRegional": {
+					"name": "Establecer Nodo Regional",
+    				"description": "Un centro de conexión que gestiona el tráfico de varios barrios, mejorando la eficiencia de la red.",
+    				"type": "dps",
+    				"baseCost": 9500,  
+    				"baseEffect": 150,  
+    				"maxLevel": 50,
+    				"requirements": [
+        				{ "level": 1, "reqs": { "centralitaAnaloga": 10, "modem2400": 15 } },
+						{ "level": 20, "reqs": { "servidorBBS": 5 } },
+						{ "level": 40, "reqs": { "centralitaDigital": 1 } }
+    				]
+				},
+				"centralitaDigital": {
+					"name": "Actualizar a Centralita Digital",
+					"description": "Reemplaza relés por microchips para una eficiencia sin precedentes.",
+					"type": "dps",
+					"baseCost": 50000,
+					"baseEffect": 500,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "nodoRegional": 10, "centralitaAnaloga": 40 } },
+						{ "level": 15, "reqs": { "protocoloTCPIP": 5, "tarjetaRed": 1 } },
+						{ "level": 35, "reqs": { "fibraOptica": 1 } }
+					]
+				},
+				"fibraOptica": {
+					"name": "Red de Fibra Óptica",
+					"description": "Tecnología experimental que usa pulsos de luz. Un salto cuántico.",
+					"type": "dps",
+					"baseCost": 250000,
+					"baseEffect": 1200,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "centralitaDigital": 10, "protocoloTCPIP": 15 } },
+						{ "level": 25, "reqs": { "tarjetaRed": 30 } }
+					]
+				}
+			}
+		},
+		"equipamiento": {
+			"name": "Equipamiento y Terminales",
+			"items": {
+				"kitHerramientas": {
+					"name": "Kit de Herramientas Básico",
+					"description": "Un buen soldador y alicates. Cada conexión manual es más limpia.",
+					"type": "dpc",
+					"baseCost": 10,
+					"baseEffect": 1,
+					"maxLevel": 50,
+					"requirements": []
+				},
+				"tecladoTonos": {
+					"name": "Teclado de Tonos DTMF",
+					"description": "Reemplaza el dial rotatorio, optimizando cada clic.",
+					"type": "dpc",
+					"baseCost": 100,
+					"baseEffect": 3,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 5, "reqs": { "kitHerramientas": 10, "lineaCobre": 5 } },
+						{ "level": 20, "reqs": { "softwareTerminal": 15 } },
+						{ "level": 40, "reqs": { "centralitaAnaloga": 1, "modem2400": 1 } }
+					]
+				},
+				"modem2400": {
+					"name": "Módem 2400 baudios",
+					"description": "Permite a los ordenadores comunicarse por vía telefónica.",
+					"type": "dps",
+					"baseCost": 800,
+					"baseEffect": 12,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "antenaRepetidora": 5, "softwareTerminal": 5 } },
+						{ "level": 25, "reqs": { "centralitaAnaloga": 1 } },
+						{ "level": 40, "reqs": { "servidorBBS": 1 } }
+					]
+				},
+				"tarjetaRed": {
+					"name": "Tarjeta de Red ISA",
+					"description": "Una placa para PCs que permite conexiones directas y eficientes.",
+					"type": "dpc",
+					"baseCost": 15000,
+					"baseEffect": 25,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "protocoloTCPIP": 1 } },
+						{ "level": 15, "reqs": { "centralitaDigital": 5 } },
+						{ "level": 30, "reqs": { "fibraOptica": 1 } }
+					]
+				}
+			}
+		},
+		"software": {
+			"name": "Software y Protocolos",
+			"items": {
+				"marketingLocal": {
+					"name": "Campaña de Marketing Local",
+					"description": "Anuncios en periódicos. Atrae demanda para tu red de cobre.",
+					"type": "dps",
+					"baseCost": 300,
+					"baseEffect": 3,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "lineaCobre": 5 } },
+						{ "level": 20, "reqs": { "antenaRepetidora": 10 } },
+						{ "level": 35, "reqs": { "servidorBBS": 1 } }
+					]
+				},
+				"softwareTerminal": {
+					"name": "Software de Terminal",
+					"description": "Un código más limpio para procesar datos más rápido en cada clic.",
+					"type": "dpc",
+					"baseCost": 180,
+					"baseEffect": 5,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "kitHerramientas": 5, "tecladoTonos": 1 } },
+						{ "level": 20, "reqs": { "lineaCobre": 25 } },
+						{ "level": 35, "reqs": { "modem2400": 10, "centralitaAnaloga": 5 } }
+					]
+				},
+				"servidorBBS": {
+					"name": "Servidor BBS \"El Eco Digital\"",
+					"description": "Crea una comunidad online. Los usuarios pagan una cuota por acceso.",
+					"type": "dps",
+					"baseCost": 9000,
+					"baseEffect": 80,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "centralitaAnaloga": 5, "modem2400": 10 } },
+						{ "level": 15, "reqs": { "softwareTerminal": 30 } },
+						{ "level": 30, "reqs": { "nodoRegional": 5 } }
+					]
+				},
+				"protocoloTCPIP": {
+					"name": "Implementar Protocolo TCP/IP",
+					"description": "Estandariza tu red para un tráfico masivo. La base de Internet.",
+					"type": "dpc",
+					"baseCost": 65000,
+					"baseEffect": 60,
+					"maxLevel": 50,
+					"requirements": [
+						{ "level": 1, "reqs": { "centralitaDigital": 1, "servidorBBS": 20 } },
+						{ "level": 10, "reqs": { "tarjetaRed": 5 } },
+						{ "level": 25, "reqs": { "centralitaDigital": 10 } }
+					]
+				}
+			}
+		}
+	},
+	"era2": {
+        "infraestructuraWeb": {
+            "name": "Infraestructura de Red",
+            "items": {
+                "modem56k": {
+                    "name": "Instalar Batería de Módems 56k",
+                    "description": "Ofrece acceso a internet 'de alta velocidad' a tus clientes. El sonido del futuro.",
+                    "type": "dps",
+                    "baseCost": 1000000,
+                    "baseEffect": 350,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 15, "reqs": { "htmlBasico": 10 } },
+                        { "level": 30, "reqs": { "algoritmoCompresion": 10 } },
+                        { "level": 45, "reqs": { "cgiScripts": 5 } }
+                    ]
+                },
+                "torreGSM": {
+                    "name": "Erigir Torre Celular GSM",
+                    "description": "Despliega la red 2G para ofrecer servicios de voz digital y SMS. Una nueva frontera.",
+                    "type": "dps",
+                    "baseCost": 8500000,
+                    "baseEffect": 3000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "modem56k": 15 } },
+                        { "level": 20, "reqs": { "htmlBasico": 20 } },
+                        { "level": 35, "reqs": { "servidorEmail": 1 } }
+                    ]
+                },
+                "ispDatacenter": {
+                    "name": "Construir Centro de Datos ISP",
+                    "description": "Centraliza tus servidores y conexiones, multiplicando la eficiencia de toda tu red.",
+                    "type": "dps_multiplier",
+                    "baseCost": 150000000,
+                    "baseEffect": 0.05,
+                    "maxLevel": 10,
+                    "requirements": [
+                        { "level": 1, "reqs": { "modem56k": 40, "servidorEmail": 15 } },
+                        { "level": 5, "reqs": { "torreGSM": 25, "centroSMS": 1 } },
+                        { "level": 9, "reqs": { "redISDN": 10 } }
+                    ]
+                },
+                "redISDN": {
+                    "name": "Implementar Líneas RDSI (ISDN)",
+                    "description": "Una conexión digital premium para empresas. Mucho más rápida y rentable que el dial-up.",
+                    "type": "dps",
+                    "baseCost": 600000000,
+                    "baseEffect": 25000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "modem56k": 50, "ispDatacenter": 2 } },
+                        { "level": 20, "reqs": { "portalWeb": 1 } },
+                        { "level": 40, "reqs": { "roamingAcuerdo": 5 } }
+                    ]
+                },
+                "backboneFibra": {
+                    "name": "Conexión al Backbone de Fibra",
+                    "description": "Conecta tu ISP a las grandes autopistas de internet para un ancho de banda masivo.",
+                    "type": "dps",
+                    "baseCost": 40000000000,
+                    "baseEffect": 600000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "redISDN": 35, "ispDatacenter": 7 } },
+                        { "level": 20, "reqs": { "bannerPublicitario": 5, "portalWeb": 30 } },
+                        { "level": 40, "reqs": { "tarjetaPrepago": 5 } }
+                    ]
+                }
             }
-        }
-    },
-    "equipamiento": {
-        "name": "Equipamiento y Terminales",
-        "items": {
-            "kitHerramientas": {
-                "name": "Kit de Herramientas Básico",
-                "description": "Un buen soldador y alicates. Cada conexión manual es más limpia.",
-                "type": "dpc",
-                "baseCost": 15,
-                "baseEffect": 1,
-                "requirements": []
-            },
-            "tecladoTonos": {
-                "name": "Teclado de Tonos DTMF",
-                "description": "Reemplaza el dial rotatorio, optimizando cada clic.",
-                "type": "dpc",
-                "baseCost": 100,
-                "baseEffect": 3,
-                "requirements": [
-                    { "level": 5, "reqs": { "kitHerramientas": 10, "lineaCobre": 5 } },
-                    { "level": 25, "reqs": { "centralitaAnaloga": 1, "softwareTerminal": 10 } }
-                ]
-            },
-            "modem2400": {
-                "name": "Módem 2400 baudios",
-                "description": "Permite a los ordenadores comunicarse por vía telefónica.",
-                "type": "dps",
-                "baseCost": 800,
-                "baseEffect": 12,
-                "requirements": [
-                    { "level": 1, "reqs": { "antenaRepetidora": 10 } },
-                    { "level": 20, "reqs": { "softwareTerminal": 25 } },
-                    { "level": 40, "reqs": { "centralitaAnaloga": 10 } }
-                ]
-            },
-            "tarjetaRed": {
-                "name": "Tarjeta de Red ISA",
-                "description": "Una placa para PCs que permite conexiones directas y eficientes.",
-                "type": "dpc",
-                "baseCost": 15000,
-                "baseEffect": 25,
-                "requirements": [
-                    { "level": 1, "reqs": { "protocoloTCPIP": 1, "softwareTerminal": 50 } },
-                    { "level": 15, "reqs": { "centralitaDigital": 5 } }
-                ]
+        },
+        "worldWideWeb": {
+            "name": "La World Wide Web",
+            "items": {
+                "htmlBasico": {
+                    "name": "Aprender HTML Básico",
+                    "description": "Etiquetas <blink> y GIFs animados. Mejora la eficiencia de tus clics al crear páginas web.",
+                    "type": "dpc",
+                    "baseCost": 800000,
+                    "baseEffect": 250,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 10, "reqs": { "modem56k": 5 } },
+                        { "level": 25, "reqs": { "modem56k": 20 } },
+                        { "level": 40, "reqs": { "algoritmoCompresion": 15 } }
+                    ]
+                },
+                "algoritmoCompresion": {
+                    "name": "Algoritmos de Compresión de Datos",
+                    "description": "Optimiza la transferencia de datos en cada conexión manual, haciéndola más rentable.",
+                    "type": "dpc",
+                    "baseCost": 6000000,
+                    "baseEffect": 1500,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "htmlBasico": 10 } },
+                        { "level": 20, "reqs": { "modem56k": 15 } },
+                        { "level": 40, "reqs": { "torreGSM": 5 } }
+                    ]
+                },
+                "cgiScripts": {
+                    "name": "Desarrollar Scripts CGI",
+                    "description": "Contadores de visitas y libros de firmas. Cada interacción con tus páginas es un clic más valioso.",
+                    "type": "dpc",
+                    "baseCost": 15000000,
+                    "baseEffect": 4000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "htmlBasico": 25, "algoritmoCompresion": 10 } },
+                        { "level": 20, "reqs": { "torreGSM": 10 } },
+                        { "level": 40, "reqs": { "servidorEmail": 10 } }
+                    ]
+                },
+                "servidorEmail": {
+                    "name": "Ofrecer Servicio de Correo Electrónico",
+                    "description": "Vende cuentas de email @tuimperio.com. Una fuente de ingresos estable.",
+                    "type": "dps",
+                    "baseCost": 50000000,
+                    "baseEffect": 15000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "modem56k": 25, "htmlBasico": 20 } },
+                        { "level": 15, "reqs": { "torreGSM": 10 } },
+                        { "level": 35, "reqs": { "cgiScripts": 15 } }
+                    ]
+                },
+                "portalWeb": {
+                    "name": "Lanzar Portal Web 'ConexiónTotal'",
+                    "description": "Un 'Homepage' con noticias, buscador y chat. Atrae tráfico masivo.",
+                    "type": "dps",
+                    "baseCost": 950000000,
+                    "baseEffect": 110000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "servidorEmail": 30, "cgiScripts": 25 } },
+                        { "level": 15, "reqs": { "ispDatacenter": 3 } },
+                        { "level": 30, "reqs": { "redISDN": 5 } }
+                    ]
+                },
+                "bannerPublicitario": {
+                    "name": "Vender Espacio Publicitario",
+                    "description": "Monetiza el tráfico de tu portal con banners. Aumenta los ingresos de toda tu presencia web.",
+                    "type": "dps_multiplier",
+                    "baseCost": 2500000000,
+                    "baseEffect": 0.10,
+                    "maxLevel": 10,
+                    "requirements": [
+                        { "level": 1, "reqs": { "portalWeb": 10, "cgiScripts": 40 } },
+                        { "level": 5, "reqs": { "roamingAcuerdo": 15 } },
+                        { "level": 8, "reqs": { "tonosPolifonicos": 5 } }
+                    ]
+                }
             }
-        }
-    },
-    "software": {
-        "name": "Software y Protocolos",
-        "items": {
-            "marketingLocal": {
-                "name": "Campaña de Marketing Local",
-                "description": "Anuncios en periódicos. Atrae demanda para tu red de cobre.",
-                "type": "dps",
-                "baseCost": 300,
-                "baseEffect": 3,
-                "requirements": [
-                    { "level": 1, "reqs": { "lineaCobre": 5 } },
-                    { "level": 15, "reqs": { "tecladoTonos": 10 } }
-                ]
-            },
-            "softwareTerminal": {
-                "name": "Software de Terminal",
-                "description": "Un código más limpio para procesar datos más rápido en cada clic.",
-                "type": "dpc",
-                "baseCost": 180,
-                "baseEffect": 5,
-                "requirements": [
-                    { "level": 1, "reqs": { "tecladoTonos": 5 } },
-                    { "level": 20, "reqs": { "lineaCobre": 30 } },
-                    { "level": 40, "reqs": { "modem2400": 10, "centralitaAnaloga": 5 } }
-                ]
-            },
-            "servidorBBS": {
-                "name": "Servidor BBS \"El Eco Digital\"",
-                "description": "Crea una comunidad online. Los usuarios pagan una cuota por acceso.",
-                "type": "dps",
-                "baseCost": 9000,
-                "baseEffect": 80,
-                "requirements": [
-                    { "level": 1, "reqs": { "centralitaAnaloga": 5 } },
-                    { "level": 10, "reqs": { "softwareTerminal": 30 } },
-                    { "level": 25, "reqs": { "modem2400": 30 } }
-                ]
-            },
-            "protocoloTCPIP": {
-                "name": "Implementar Protocolo TCP/IP",
-                "description": "Estandariza tu red para un tráfico masivo. La base de Internet.",
-                "type": "dpc",
-                "baseCost": 65000,
-                "baseEffect": 60,
-                "requirements": [
-                    { "level": 1, "reqs": { "centralitaDigital": 1, "servidorBBS": 10 } },
-                    { "level": 10, "reqs": { "centralitaAnaloga": 50 } }
-                ]
+        },
+        "serviciosMoviles": {
+            "name": "Software y Servicios Móviles",
+            "items": {
+                "centroSMS": {
+                    "name": "Implementar un Centro de SMS",
+                    "description": "Gestiona el tráfico de mensajes de texto en tu red. Cada mensaje es dinero.",
+                    "type": "dps_multiplier",
+                    "baseCost": 300000000,
+                    "baseEffect": 0.15,
+                    "maxLevel": 10,
+                    "requirements": [
+                        { "level": 1, "reqs": { "torreGSM": 20 } },
+                        { "level": 5, "reqs": { "servidorEmail": 10 } },
+                        { "level": 8, "reqs": { "ispDatacenter": 1 } }
+                    ]
+                },
+                "roamingAcuerdo": {
+                    "name": "Firmar Acuerdos de Roaming",
+                    "description": "Genera comisiones permitiendo que tus clientes usen su móvil en otras redes (y viceversa).",
+                    "type": "dps",
+                    "baseCost": 1200000000,
+                    "baseEffect": 150000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "torreGSM": 40, "ispDatacenter": 4 } },
+                        { "level": 15, "reqs": { "centroSMS": 5 } },
+                        { "level": 30, "reqs": { "portalWeb": 10 } }
+                    ]
+                },
+                "tonosPolifonicos": {
+                    "name": "Vender Tonos de Llamada",
+                    "description": "¡La primera gran moda móvil! Vende melodías para móviles y genera ingresos masivos.",
+                    "type": "dps",
+                    "baseCost": 4500000000,
+                    "baseEffect": 400000,
+                    "maxLevel": 50,
+                    "requirements": [
+                        { "level": 1, "reqs": { "centroSMS": 6, "roamingAcuerdo": 10 } },
+                        { "level": 20, "reqs": { "portalWeb": 15 } },
+                        { "level": 40, "reqs": { "tarjetaPrepago": 1 } }
+                    ]
+                },
+                "tarjetaPrepago": {
+                    "name": "Lanzar Sistema de Tarjetas Prepago",
+                    "description": "Abre el mercado móvil a millones. Potencia enormemente todos tus ingresos móviles.",
+                    "type": "dps_multiplier",
+                    "baseCost": 20000000000,
+                    "baseEffect": 0.20,
+                    "maxLevel": 10,
+                    "requirements": [
+                        { "level": 1, "reqs": { "tonosPolifonicos": 15, "roamingAcuerdo": 25 } },
+                        { "level": 5, "reqs": { "bannerPublicitario": 3 } },
+                        { "level": 8, "reqs": { "backboneFibra": 1 } }
+                    ]
+                }
             }
         }
     }

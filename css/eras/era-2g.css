@@ -1,0 +1,575 @@
+/* ==================================================================
+   ESTILOS DE ERA: 2G - Años 90 (Estética Windows 95 / Web 1.0)
+   ================================================================== */
+
+/* 1. ESTILOS GLOBALES DE LA VENTANA DE JUEGO */
+.game-container { 
+    background-color: #C0C0C0; /* Gris clásico de Windows */
+    border: 2px solid;
+    border-top-color: #FFFFFF;
+    border-left-color: #FFFFFF;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    border-radius: 0; 
+    box-shadow: 2px 2px 2px #000;
+    padding: 3px;
+}
+
+/* Aplicamos la fuente y el color de texto base */
+.game-container, .tab-panel {
+    color: #000; /* Texto negro */
+    text-shadow: none; /* Sin sombra de fósforo */
+}
+
+
+/* 2. BARRA SUPERIOR */
+.top-bar { 
+    padding: 4px 8px;
+    border-bottom: 2px solid #808080;
+    background-color: #000080; /* Azul oscuro de barra de título */
+    flex-shrink: 0; 
+    color: #fff; /* Texto blanco */
+    text-shadow: 1px 1px 0 #000;
+    font-family: 'VT323', monospace;
+}
+
+.resource-display {
+	font-family: 'VT323', monospace; 
+	min-width: 0;
+}
+
+#money-display { 
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+}
+
+#dps-display { 
+    font-size: 0.8rem; 
+    margin-top: 2px;
+    color: #C0C0C0; /* Texto gris claro sobre azul */
+    text-shadow: 1px 1px 0 #000;
+}
+
+
+/* 3. PESTAÑA PRINCIPAL */
+/* Fondo de escritorio 'Teal' clásico de Windows */
+#main-tab-background {
+    background-color: #008080;
+    background-image: none; /* Quitamos el grid CRT */
+}
+#main-tab-background::after {
+    background-image: none; /* Quitamos las scanlines */
+}
+.terminal-header {
+    background-color: #E0E0E0;
+    color: #000;
+    border: 1px solid #808080; 
+    text-shadow: none;
+}
+.terminal-header .status-online {
+    color: #008000; /* Verde oscuro */
+    text-shadow: none;
+}
+.prestige-info-top { 
+    color: #800080; /* Púrpura */
+    text-shadow: 1px 1px #fff; 
+}
+/* Botón principal como un icono de escritorio */
+.main-click-button { 
+    width: 180px; 
+    height: 180px;
+    background: #C0C0C0; 
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    box-shadow: none;
+    border-radius: 8px;
+}
+.main-click-button:active { 
+    border-color: #808080;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+}
+.main-click-button small { color: #000080; }
+
+
+/* 4. PESTAÑA MEJORAS */
+.category-header {
+    color: #000080;
+    text-shadow: none;
+    border-bottom: 2px solid #808080;
+}
+/* Estilo de lista de Windows */
+.upgrade {
+    padding: 8px; 
+    grid-template-columns: auto 1fr 105px; 
+    gap: 12px;
+    background-color: #fff; 
+    border: 1px solid #808080;
+    box-shadow: none;
+    border-radius: 0;
+}
+.upgrade:hover {
+    background-color: #000080;
+    color: #fff; /* El texto se vuelve blanco al hacer hover */
+}
+.upgrade.is-locked:hover {
+    background-color: #F0F0F0; /* Mantenemos el color de fondo gris claro de 'is-locked' */
+    color: #000; /* Mantenemos el color de texto negro */
+}
+.upgrade:hover p {
+    color: #C0C0C0; /* La descripción se vuelve gris claro */
+}
+.upgrade:hover .upgrade-gain {
+    color: #FFFF00; /* Mantenemos el amarillo para la ganancia */
+}
+.upgrade-info p {
+    color: #555; 
+    font-size: 0.85rem;
+}
+/* Botón estilo Windows 95 */
+.buy-button {
+    padding: 8px 5px;
+    font-size: 0.9rem;
+    color: #000; 
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    font-family: 'VT323', monospace;
+    text-shadow: none;
+}
+.buy-button:not(.is-disabled):hover {
+    background-color: #DDD;
+}
+.buy-button.is-disabled {
+    color: #808080;
+    text-shadow: 1px 1px #fff; /* Efecto de texto deshabilitado */
+    border-color: #C0C0C0; /* Borde plano */
+}
+.buy-button:active:not(.is-disabled) {
+    border-top-color: #808080;
+    border-left-color: #808080;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+}
+.upgrade-gain {
+    color: #000080;
+    text-shadow: none;
+}
+.upgrade.is-locked {
+    border-color: #DDD; 
+    background-color: #F0F0F0;
+    opacity: 0.6;
+}
+.requirements-list p.unmet {
+    color: #8B0000; /* Rojo oscuro */
+    text-shadow: none;
+}
+.requirements-list p.met {
+    color: #006400; /* Verde oscuro */
+    text-shadow: none;
+}
+
+
+/* 5. PESTAÑA EVOLUCIÓN */
+.evolution-content h2 { 
+    color: #000080; 
+    text-shadow: none; 
+}
+.current-era { 
+    background: #fff; 
+    border: 1px solid #808080; 
+    color: #000;
+    text-shadow: none;
+}
+/* Botón de Prestigio y Evolución */
+.relaunch-button-styled { 
+    color: #000; 
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    border-radius: 0; 
+    text-shadow: none;
+}
+.relaunch-button-styled:not(.is-disabled):hover { 
+    background-color: #DDD; 
+    color: #000; 
+    box-shadow: none; 
+}
+.relaunch-button-styled.is-disabled { 
+    color: #808080;
+    text-shadow: 1px 1px #fff;
+    border-color: #C0C0C0;
+}
+.relaunch-button-styled:active:not(.is-disabled) {
+    border-top-color: #808080;
+    border-left-color: #808080;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+}
+
+
+/* 6. BARRA DE NAVEGACIÓN INFERIOR */
+.game-tab-bar { 
+    border-top: 2px solid #fff; 
+    height: 60px;
+    background-color: #C0C0C0;
+}
+.tab-btn { 
+    background: transparent;
+    border: none;
+    color: #000; 
+    font-family: 'VT323', cursive; 
+    font-size: 0.9rem; 
+    text-shadow: none;
+    border-top: 2px solid transparent; /* Espacio para el borde activo */
+}
+.tab-btn:hover:not(.active) {
+    background: #DDD;
+}
+.tab-btn.active { 
+    font-weight: bold;
+    border-top: 2px solid #000080;
+}
+
+
+/* 7. ANIMACIONES DE RESPLANDOR (ESPECÍFICAS DE LA ERA) */
+/* El brillo ahora es un borde exterior, más sutil */
+@keyframes glow {
+    0%, 100% {
+        outline: 2px solid #000080;
+        outline-offset: 2px;
+    }
+    50% {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+}
+.can-afford-glow:not(.is-disabled) { animation: glow 1.5s infinite; }
+
+@keyframes glow-prestige {
+    0%, 100% {
+        outline: 2px solid #800080;
+        outline-offset: 2px;
+    }
+    50% {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+}
+.relaunch-button-styled.can-afford-glow { animation: glow-prestige 1.5s infinite; }
+
+
+/* 8. ESTILOS DE ATAJO, PESTAÑAS Y NOTIFICACIONES */
+.top-shortcut-bar .shortcut-btn i {
+    background: #C0C0C0;
+    border: 1px solid #808080;
+    color: #000;
+    text-shadow: none;
+}
+.top-shortcut-bar .shortcut-btn:hover i {
+    background-color: #DDD;
+    box-shadow: none;
+}
+.tab-panel h2 {
+    color: #000080;
+    text-shadow: none;
+    border-bottom: 2px solid #808080;
+}
+.gem-display {
+    color: #800080;
+    text-shadow: none;
+    border: 1px solid #808080;
+    background-color: #fff;
+}
+.scrollable-content::-webkit-scrollbar {
+    width: 16px;
+}
+.scrollable-content::-webkit-scrollbar-track {
+    background: #C0C0C0;
+    border: 1px solid #808080;
+}
+.scrollable-content::-webkit-scrollbar-thumb {
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+}
+.achievement, .mission, .shop-item {
+    background-color: #fff;
+    border: 1px solid #808080;
+    box-shadow: 1px 1px 0px #808080;
+}
+.achievement.unlocked, .mission.completed, .shop-item.purchased {
+    opacity: 0.7;
+}
+.achievement-info h4, .mission-info h4, .shop-item h4 {
+    color: #000;
+}
+.achievement-info p, .mission-info p, .shop-item p {
+    color: #333;
+}
+.achievement-reward, .mission-reward {
+    color: #000080;
+    text-shadow: none;
+}
+.mission-phase-title {
+    color: #000080;
+    text-shadow: none;
+    border: 1px dashed #000080;
+    background-color: #fff;
+}
+.buy-shop-item-button,
+.shop-item.purchased .buy-shop-item-button {
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    color: #000;
+    text-shadow: none;
+}
+.buy-shop-item-button:not(:disabled):hover {
+    background-color: #DDD;
+    box-shadow: none;
+}
+.buy-shop-item-button:disabled {
+    color: #808080;
+    text-shadow: 1px 1px #fff;
+    border-color: #C0C0C0;
+}
+.notification {
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    box-shadow: 2px 2px 2px #000;
+    color: #000;
+    font-size: 1.1rem;
+}
+.notification-text h5 {
+    font-size: 0.9rem;
+    color: #000080;
+    margin: 0 0 5px 0;
+    text-shadow: none;
+}
+.notification-text p {
+    margin: 0;
+    color: #000;
+    text-shadow: none;
+}
+
+/* ==================================================================
+   ESTILOS DE ERA 2: POP-UPS INTERACTIVOS (VERSIÓN CON DESLIZAMIENTO)
+   ================================================================== */
+
+#popup-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5; /* Mantenemos el z-index para asegurar que sea clickeable */
+    overflow: hidden; /* Evita que el pop-up se vea antes de animarse */
+}
+
+.popup-banner {
+    position: absolute; /* Es crucial para el posicionamiento dinámico */
+    width: 100px; /* Un poco más grande para que el texto encaje bien */
+    height: 45px;
+    background-color: #FFFF00;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.4);
+    font-family: 'VT33', monospace;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+    transition: transform 0.1s ease;
+}
+
+.popup-banner:hover {
+    transform: scale(1.1);
+}
+
+.popup-icon {
+    font-size: 1.5rem;
+}
+
+.popup-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Clases para aplicar las animaciones */
+.popup-slide-in-left {
+    animation: slide-in-from-left 0.5s ease-out forwards;
+}
+
+.popup-slide-in-right {
+    animation: slide-in-from-right 0.5s ease-out forwards;
+}
+
+/* ==================================================================
+   ESTILOS DE ERA 2: ICONOS DE BUFFS ACTIVOS
+   ================================================================== */
+
+#active-buffs-container {
+    position: absolute; /* Posición absoluta relativa a #main-tab */
+    top: 55px;
+    right: 15px;
+    z-index: 20; /* Asegura que esté por encima del fondo */
+    display: flex;
+    flex-direction: column; /* Apila los íconos verticalmente */
+    gap: 10px;
+}
+
+.buff-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    animation: popup-fade-in 0.3s; /* Reutilizamos la animación */
+}
+
+.buff-icon-emoji {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+}
+
+.buff-icon svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Para que el progreso empiece desde arriba */
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: #808080; /* Gris oscuro para el fondo del círculo */
+    stroke-width: 3.8;
+}
+
+.progress-ring-fg {
+    fill: none;
+    stroke: #000080; /* Azul de Windows para la barra de progreso */
+    stroke-width: 3.8;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.1s linear; /* Animación suave al actualizar */
+}
+
+/* Animación para el pop-up que entra desde la izquierda */
+@keyframes slide-in-from-left {
+    from { transform: translateX(-110%); }
+    to { transform: translateX(0); }
+}
+
+/* Animación para el pop-up que entra desde la derecha */
+@keyframes slide-in-from-right {
+    from { transform: translateX(110%); }
+    to { transform: translateX(0); }
+}
+
+/* ==================================================================
+   ESTILOS DE ERA 2: BÓVEDA DE DATOS
+   ================================================================== */
+
+#data-vault-container {
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #FFFFFF;
+    border-left-color: #FFFFFF;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    padding: 10px;
+    margin: 15px auto;
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 2px 2px 2px #000;
+	positio: relative;
+	z-index: 1;
+}
+
+#data-vault-container h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: #000; 
+}
+
+.vault-progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid;
+    border-top-color: #808080;
+    border-left-color: #808080;
+    border-right-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+    padding: 2px;
+    margin-bottom: 8px;
+}
+
+#vault-progress-fill {
+    width: 0%; /* Empieza vacía */
+    height: 100%;
+    background-color: #000080; /* Azul de Windows */
+    transition: width 0.3s ease-out; /* Animación suave al llenarse */
+}
+
+#vault-status-display {
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+	color: #000;
+}
+
+#vault-collect-button {
+    /* Reutilizamos el estilo de los botones de la Era 2 */
+    padding: 8px 15px;
+    font-size: 1rem;
+    color: #000;
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    font-family: 'VT323', monospace;
+    cursor: pointer;
+}
+
+#vault-collect-button:disabled {
+    color: #808080;
+    text-shadow: 1px 1px #fff;
+    cursor: not-allowed;
+}

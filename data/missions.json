@@ -72,5 +72,94 @@
             "requires": "FIBER_REVOLUTION",
             "phase": 4
         }
+    },
+	"era2": {
+        "DIAL_UP_PIONEER": {
+            "name": "Pionero del Dial-Up",
+            "description": "Ofrece acceso a internet comprando 5 'Baterías de Módems 56k'.",
+            "reward": { "gems": 25 },
+            "phase": 1
+        },
+        "BASIC_WEB_PRESENCE": {
+            "name": "Presencia Web Básica",
+            "description": "Aprende el lenguaje de la web alcanzando el nivel 10 en 'Aprender HTML Básico'.",
+            "reward": { "gems": 30 },
+            "requires": "DIAL_UP_PIONEER",
+            "phase": 1
+        },
+        "BECOME_AN_ISP": {
+            "name": "Conviértete en un ISP",
+            "description": "Centraliza tus operaciones construyendo tu primer 'Centro de Datos ISP'.",
+            "reward": { "gems": 50 },
+            "requires": "BASIC_WEB_PRESENCE",
+            "phase": 1
+        },
+        
+        "MASTER_THE_SURGE": {
+            "name": "Maestría del Ancho de Banda",
+            "description": "La red es impredecible. Aprovecha un pop-up de 'Sobrecarga de Red' para maximizar las ganancias.",
+            "reward": { "gems": 40 },
+            "requires": "BECOME_AN_ISP",
+            "phase": 1
+        },
+
+        "GSM_BREAKTHROUGH": {
+            "name": "El Avance del GSM",
+            "description": "Entra en el mercado móvil erigiendo 10 'Torres Celulares GSM'.",
+            "reward": { "gems": 60 },
+            "requires": "MASTER_THE_SURGE",
+            "phase": 2
+        },
+
+        "ADVERTISING_PARTNER": {
+            "name": "Socio Publicitario",
+            "description": "Los anunciantes te buscan. Haz clic en 3 pop-ups de cualquier tipo para cerrar tratos.",
+            "reward": { "gems": 70 },
+            "requires": "GSM_BREAKTHROUGH",
+            "phase": 2
+        },
+        
+        "SMS_MONETIZATION": {
+            "name": "La Mina de Oro del SMS",
+            "description": "Capitaliza la mensajería de texto implementando tu primer 'Centro de SMS'.",
+            "reward": { "gems": 75 },
+            "requires": "ADVERTISING_PARTNER",
+            "phase": 2
+        },
+        "RINGTONE_FEVER": {
+            "name": "Fiebre por los Tonos",
+            "description": "Domina el mercado de la personalización móvil comprando 5 mejoras de 'Vender Tonos de Llamada'.",
+            "reward": { "gems": 100 },
+            "requires": "SMS_MONETIZATION",
+            "phase": 2
+        },
+        "PORTAL_TO_THE_WORLD": {
+            "name": "Un Portal al Mundo",
+            "description": "Conviértete en la página de inicio de todos lanzando tu 'Portal Web ConexiónTotal'.",
+            "reward": { "gems": 120 },
+            "requires": "RINGTONE_FEVER",
+            "phase": 3
+        },
+        "ADVERTISING_EMPIRE": {
+            "name": "Imperio Publicitario",
+            "description": "Monetiza tu tráfico alcanzando el nivel 3 en 'Vender Espacio Publicitario'.",
+            "reward": { "gems": 150 },
+            "requires": "PORTAL_TO_THE_WORLD",
+            "phase": 3
+        },
+        "FIBER_CONNECTION": {
+            "name": "La Conexión de Fibra",
+            "description": "Asegura el futuro de tu red comprando tu primera 'Conexión al Backbone de Fibra'.",
+            "reward": { "gems": 200 },
+            "requires": "ADVERTISING_EMPIRE",
+            "phase": 3
+        },
+        "PREPARING_FOR_BROADBAND": {
+            "name": "Preparando la Banda Ancha",
+            "description": "Acumula 500 Puntos de Innovación para financiar la investigación de la próxima era.",
+            "reward": { "gems": 250 },
+            "requires": "FIBER_CONNECTION",
+            "phase": 4
+        }
     }
 }

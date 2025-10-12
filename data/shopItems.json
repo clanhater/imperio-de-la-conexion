@@ -27,27 +27,6 @@
         "type": "dps_multiplier_permanent",
         "value": 0.15
     },
-    "STARTING_MONEY_1": {
-        "name": "Inversión Ángel",
-        "description": "Comienzas con $100 después de cada Relanzamiento.",
-        "cost": 75,
-        "type": "starting_money",
-        "value": 100
-    },
-    "PRESTIGE_BOOST_1": {
-        "name": "Mente Innovadora",
-        "description": "Ganas un 10% más de Puntos de Innovación al Relanzar.",
-        "cost": 200,
-        "type": "prestige_multiplier",
-        "value": 0.1
-    },
-    "AUTO_CLICKER_1": {
-        "name": "Script de Marcado Automático",
-        "description": "Realiza automáticamente 1 clic por segundo.",
-        "cost": 400,
-        "type": "auto_clicker",
-        "value": 1
-    },
     "ALL_MULTIPLIER_1": {
         "name": "El Protocolo Génesis",
         "description": "Un avance legendario. Aumenta TODOS los ingresos de dinero (clics, pasivos y prestigio) en un 20%.",
@@ -55,11 +34,32 @@
         "type": "all_multiplier",
         "value": 0.2
     },
-    "KEEP_UPGRADES_1": {
-        "name": "Legado de Cobre",
-        "description": "Comienzas cada Relanzamiento con las primeras 10 mejoras de \"Línea de Cobre\" ya compradas.",
-        "cost": 500,
-        "type": "keep_upgrades",
-        "value": { "id": "lineaCobre", "levels": 10 }
+	"POPUP_FREQUENCY_1": {
+        "name": "Algoritmo de Marketing Viral",
+        "description": "Aumenta permanentemente la frecuencia de aparición de pop-ups en un 10%.",
+        "cost": 250,
+        "type": "popup_frequency",
+        "value": 0.1
+    },
+    "CLICK_FRENZY_DURATION_1": {
+        "name": "Software de Overclocking",
+        "description": "Aumenta permanentemente la duración del 'Frenesí de Clics' en 2 segundos.",
+        "cost": 350,
+        "type": "buff_duration",
+        "value": { "buff": "clickFrenzy", "seconds": 2 }
+    },
+    "VAULT_CAPACITY_1": {
+        "name": "Servidores de Caché Dedicados",
+        "description": "Aumenta permanentemente la capacidad máxima de la Bóveda de Datos como si tuvieras 600 segundos extra de DPS.",
+        "cost": 400,
+        "type": "vault_capacity",
+        "value": 600
+    },
+    "VAULT_FILLER_1": {
+        "name": "Protocolos de Compresión Mejorados",
+        "description": "Aumenta permanentemente el dinero que se añade a la bóveda en cada depósito en un 20%.",
+        "cost": 450,
+        "type": "vault_filler",
+        "value": 0.2
     }
 }

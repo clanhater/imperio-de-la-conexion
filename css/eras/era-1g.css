@@ -159,6 +159,14 @@
     font-family: 'Press Start 2P', cursive;
     text-shadow: 0 0 5px #FFFF00; 
 }
+/* Estilo para el texto de la ganancia */
+.upgrade-gain {
+    display: block; /* Lo coloca en una nueva línea para mayor claridad */
+    margin-top: 5px; /* Añade un pequeño espacio sobre él */
+    color: #FFFF00; /* Color amarillo, como el del DPS, para indicar ganancia */
+    text-shadow: 0 0 4px #FFFF00;
+    font-size: 0.9rem;
+}
 .buy-button:not(.is-disabled):hover {
     background-color: #FFFF00;
     color: #000;
@@ -187,6 +195,15 @@
 }
 .requirements-list p.met {
     color: #00FF00; 
+    text-shadow: 0 0 3px #00FF00;
+}
+
+#evolution-tab .requirements-list p.unmet {
+    color: #FF0000; /* Rojo */
+    text-shadow: 0 0 3px #FF0000;
+}
+#evolution-tab .requirements-list p.met {
+    color: #00FF00; /* Verde */
     text-shadow: 0 0 3px #00FF00;
 }
 
